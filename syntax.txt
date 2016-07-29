@@ -1,0 +1,7 @@
+syntax.txt
+Created Sun Jun 12 00:13:00 AKDT 2016
+Copyright (C) 2016 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Syntax for xmlstarlet
+
