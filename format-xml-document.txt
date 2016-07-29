@@ -1,0 +1,39 @@
+format-xml-document.txt
+Created Sun Jun 12 00:15:03 AKDT 2016
+Copyright (C) 2016 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Format xml document
+
+
+fo (or format)     Format XML document(s).
+
+
+Example
+=======
+$ xmlstarlet fo chunk-01-0001.xml 
+<?xml version="1.0" encoding="utf-8"?>
+<TvBusMarshalledStruct:TvBusEnvelope xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+...
+  <recordedDuration>PT1H59M58S</recordedDuration>
+  <vActualShowing>
+    <element>
+      <showingBits value="1">CLOSE_CAPTION</showingBits>
+      <time>2015-08-21T17:00:00Z</time>
+      <duration>PT2H</duration>
+      <program>
+        <vActor>
+          <element>Hepburn|Audrey</element>
+          <element>Arkin|Alan</element>
+          <element>Crenna|Richard</element>
+          <element>Zimbalist Jr.|Efrem</element>
+          <element>Weston|Jack</element>
+          <element>Jones|Samantha</element>
+          <element>Herrod|Julie</element>
+          <element>Benson|Robby</element>
+        </vActor>
+...
+  <expirationTime>2015-08-23T17:00:00Z</expirationTime>
+</TvBusMarshalledStruct:TvBusEnvelope>
+$
+
