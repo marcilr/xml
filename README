@@ -1,0 +1,21 @@
+README
+Created Sun Jun 12 00:06:31 AKDT 2016
+Copyright (C) 2016 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+links.txt
+  xmlstarlet related links
+
+xmlstarlet.txt
+  xmlstarlet - command line XML/XSLT toolkit
+
+  XMLStarlet is a set of command line utilities (tools) which can be used to transform,
+  query, validate, and edit XML documents and files using simple set of shell commands in
+  similar way it is done for plain text files using UNIX grep, sed, awk, diff, patch, join,
+  etc commands. This set of command line utilities can be used by those who deal with many
+  XML documents on UNIX shell command prompt as well as for automated XML processing with
+  shell scripts.
+  http://xmlstar.sourceforge.net/
+
