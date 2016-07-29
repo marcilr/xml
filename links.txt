@@ -1,0 +1,13 @@
+links.txt
+Created Mon Jun 13 17:52:58 AKDT 2016
+Copyright (C) 2016 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+xmlstarlet related links
+
+
+Links
+=====
+Formatting XML documents
+XmlStarlet Reference
+http://xmlstar.sourceforge.net/doc/UG/ch04s05.html
