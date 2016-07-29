@@ -1,0 +1,12 @@
+links.txt
+Created Tue Nov 10 15:50:48 AKST 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Syntax related links
+
+
+Links
+=====
+How do I comment out a block of tags in XML?
+http://stackoverflow.com/questions/2757396/how-do-i-comment-out-a-block-of-tags-in-xml
