@@ -1,0 +1,1844 @@
+<html>
+<head>
+  <title>XML Data Binding Resources</title>
+</head>
+<body>
+
+<center>
+<h1>XML Data Binding Resources</h1>
+
+<p>Copyright (c) 2001-2005 by Ronald Bourret<br>
+Last updated: July 26, 2005</p>
+</center>
+
+<p>
+<a href="#intro">1.0 Introduction</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#databinding">1.1 XML Data Binding</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#limitations">1.2 Limitations of XML Data Binding</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#categories">1.3 Categorizing XML Data Binding Products</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#designrun">1.3.1 Run-Time / Design-Time</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#beans">1.3.2 Beans / No-Beans</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#docobjectdata">1.3.3 Document-Centric / Object-Centric / Data-Centric</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#disclaimer">1.4 Disclaimer</a><br>
+<a href="#products">2.0 Products</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#designtime">2.1 Design-Time Products</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#runtime">2.2 Run-Time Products</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#test">2.3 Test Suites and Benchmarks</a><br>
+<a href="#papers">3.0 Articles, Books, etc.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#general">3.1 Articles: General</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#jaxbandcastor">3.2 Articles: JAXB and Castor</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#other">3.3 Articles: Other Products</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#mapping">3.4 Articles: Mapping XML &lt;=&gt; UML, Objects, etc.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#books">3.5 Books</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#specs">3.6 Specifications</a><br>
+<a href="#comments">4.0 Comments and Feedback</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#suggested">4.1 Suggested Products</a>
+</p>
+
+<h2><a name="intro">1.0 Introduction</a></h2>
+
+<p>This is a list of resources about XML data binding.</p>
+
+<p>Special thanks go to Sean Sullivan, who provided the initial list of
+links and who continues to provide valuable input, and to Brendan
+Macmillan, to whose list of links I shamelessly helped myself and who
+also helped me understand and categorize tools for working with XML and
+objects.</p>
+
+<h3><a name="databinding">1.1 XML Data Binding</a></h3>
+
+<p>XML data binding is the binding of XML documents to objects designed
+especially for the data in those documents. This allows applications
+(usually data-centric) to manipulate data that has been serialized as
+XML in a way that is more natural than using the DOM. For example,
+consider the following sales order document:</p>
+
+<pre>   &lt;SalesOrder SONumber="12345"&gt;
+      &lt;Customer CustNumber="543"&gt;
+         &lt;CustName&gt;ABC Industries&lt;/CustName&gt;
+         &lt;Street&gt;123 Main St.&lt;/Street&gt;
+         &lt;City&gt;Chicago&lt;/City&gt;
+         &lt;State&gt;IL&lt;/State&gt;
+         &lt;PostCode&gt;60609&lt;/PostCode&gt;
+      &lt;/Customer&gt;
+      &lt;OrderDate&gt;981215&lt;/OrderDate&gt;
+      &lt;Item ItemNumber="1"&gt;
+         &lt;Part PartNumber="123"&gt;
+            &lt;Description&gt;
+               &lt;p&gt;&lt;b&gt;Turkey wrench:&lt;/b&gt;&lt;br /&gt;
+               Stainless steel, one-piece construction,
+               lifetime guarantee.&lt;/p&gt;
+            &lt;/Description&gt;
+            &lt;Price&gt;9.95&lt;/Price&gt;
+         &lt;/Part&gt;
+         &lt;Quantity&gt;10&lt;/Quantity&gt;
+      &lt;/Item&gt;
+      &lt;Item ItemNumber="2"&gt;
+         &lt;Part PartNumber="456"&gt;
+            &lt;Description&gt;
+               &lt;p&gt;&lt;b&gt;Stuffing separator:&lt;b&gt;&lt;br /&gt;
+               Aluminum, one-year guarantee.&lt;/p&gt;
+            &lt;/Description&gt;
+            &lt;Price&gt;13.27&lt;/Price&gt;
+         &lt;/Part&gt;
+         &lt;Quantity&gt;5&lt;/Quantity&gt;
+      &lt;/Item&gt;
+   &lt;/SalesOrder&gt;
+</pre>
+
+<p>This could be bound to the SalesOrder, Customer, Item, and Part
+classes, so that when data is transferred from the XML document, the
+result is a tree of objects:</p>
+
+<pre>                     SalesOrder
+                    /    |    \
+             Customer   Item   Item
+                         |      |
+                        Part   Part
+</pre>
+
+<p>It is important to note that these objects are not the DOM, which
+models the document itself, rather than the data in the document and
+would result in the following tree:</p>
+
+<pre>                      Element --- Attr
+                    (SalesOrder) (SONumber)
+               ____/   /   \   \_____
+              /       /     \        \
+       Element     Text     Element  Element
+     (Customer) (OrderDate)  (Item)    (Item)
+          |                    |         |
+         etc.                 etc.      etc.
+</pre>
+
+<p>Obviously, a sales order application would find it easier to use
+SalesOrder, Customer, Item, and Part objects rather than Element, Attr,
+Text, etc. objects. This is what XML data binding is used for. In
+particular, XML data binding products support some way to map an XML
+schema (in the form of a DTD or XML Schema document) to an object
+schema (or vice versa). Based on this mapping, the product can then
+create objects from XML documents ("unmarshalling") or serialize
+objects as XML ("marshalling"). For a more complete explanation of XML
+data binding, see the <a href="#papers">papers</a> below.</p>
+
+<h3><a name="limitations">1.2 Limitations of XML Data Binding</a></h3>
+
+<p>XML data binding products have a number of limitations, although
+most of these are not serious in practice. The first set of limitations
+are round-tripping limitations. These are limitations on what is
+preserved if an XML document is round-tripped through an XML data
+binding product -- that is, its contents are transferred from an XML
+document to a set of objects and back again.</p>
+
+<p>All XML data binding products can round-trip elements, attributes,
+and text, as well as the hierarchical relationships among them.
+However, most XML data binding products cannot preserve anything else,
+such as comments or entity references. (A notable exception to this is <a href="#xmlbeans">XMLBeans</a>,
+which is designed to round-trip XML documents.) As a general rule, this
+is not a serious problem, since applications that use XML data binding
+tend to be interested only in the data in an XML document, rather the
+way in which it is represented.</p>
+
+<p>Round-trip limitations include:</p>
+
+<ul>
+<li><p><b>Sibling order.</b> While XML data binding products preserve
+the hierarchical relationships between elements and attributes, most
+are (probably?) limited to the extent in which they preserve sibling
+order -- that is, the order in which sibling elements and text occur.
+For example, products can probably serialize most data-centric XML
+correctly, but probably cannot handle things like repeating
+sub-sequences. This is generally a problem only to the extent that an
+XML data binding product generates documents that are invalid because
+of sibling order.</p></li>
+
+<li><p><b>Physical structure.</b> Most (all?) XML data binding products
+do not preserve physical constructs such as CDATA sections and entity
+references. The reason for this is that such constructs do not have
+corresponding constructs in object languages.</p></li>
+
+<li><p><b>Comments and processing instructions.</b> Most XML data
+binding products do not preserve comments and processing instructions.
+The reason for this is that these do not map easily to object schemas,
+since they can occur anywhere in the document.</p></li>
+
+<li><p><b>DTD.</b> I do not know if XML data binding products preserve DTDs.</p></li>
+
+<li><p><b>XML declaration.</b> I do not know if XML data binding products preserve the XML declaration, including the encoding and standalone declarations.</p></li>
+
+</ul>
+
+<p>The second set of limitations are features. No XML data binding
+product can handle all possible situtations in which XML data binding
+is used. For example, most XML data binding products cannot handle
+wildcards in XML Schemas. Again, this is not a serious limitation for
+most applications -- either they do not need the feature or there is a
+workaround.</p>
+
+<p>Feature limitations include:</p>
+
+<ul>
+
+<li><p><b>Incomplete schema support.</b> Most XML data binding products
+support a subset of XML Schemas. In particular, mixed content, wild
+cards, substitution groups, key/keyref, complex type restriction, and
+some content models(?) are not commonly supported. A notable exception
+to this is <a href="#xmlbeans">XMLBeans</a>, which supports the entire XML Schemas recommendation.</p></li>
+
+<li><p><b>Transformation limitations.</b> Incoming XML documents
+commonly have a structure that differs from the structure of the
+classes used by the application. This is particularly true when XML
+Schemas are defined externally, such as with industry-standard schemas.
+As a result, applications commonly use XSLT to transform incoming
+documents to a format which can be mapped to their classes. Some of the
+mapping languages used by XML data binding products can perform a
+limited set of transformations, which may reduce the use of XSLT. <a href="#jibx">JiBX</a> has a particularly good mapping language in this respect.</p></li>
+
+<li><p><b>Document fragment limitations.</b> It appears that no XML
+data binding products can operate on document fragments. That is, they
+cannot extract data from one or more fragments of an XML document,
+expose that data using schema-specific objects, and re-write those
+fragments to the document, leaving the rest of the document unchanged.
+This is a real problem in workflow scenarios, where a series of
+applications works on a document, each modifying part of the document
+and passing it to the next application. As a workaround, applications
+must extract and re-insert fragments themselves.</p></li>
+
+</ul>
+
+<h3><a name="categories">1.3 Categorizing XML Data Binding Products</a></h3>
+
+<p>There are several ways to categorize XML data binding products.
+
+</p><h4><a name="designrun">1.3.1 Run-Time / Design-Time</a></h4>
+
+<p>This paper divides XML data binding products into the following two categories:</p>
+
+<ul>
+<li><p><a href="#designtime">Design-Time Products</a> These products
+require configuration before they can be used. This usually means
+mapping XML documents to classes with a language or GUI tool provided
+for that purpose. These products usually also include a utility for
+generating classes from an XML schema language, usually DTDs or XML
+Schemas. The advantage of design-time products over run-time products
+is that they are usually more flexible in the mappings they can support.</p></li>
+
+<li><p><a href="#runtime">Run-Time Products</a> These products do not
+require any configuration. Instead, they can be used directly in code
+to serialize and de-serialize objects as XML. In exchange for ease of
+use, the user generally has no control over how classes are mapped to
+XML. For example, some products use Java Reflection to discover
+property names and use these as element type names; other products use
+proprietary XML languages for storing data.</p></li>
+</ul>
+
+<p>Other categorization schemes are also possible and illustrate other
+facets of the products. For example, Brendan Macmillan suggests two
+such schemes.</p>
+
+<h4><a name="beans">1.3.2 Beans / No-Beans</a></h4>
+
+<p>The first scheme that Brendan suggests divides products into two
+categories: products that work only with Java Beans and products that
+(attempt to) work with any Java object. Beans are a natural choice for
+XML serialization because their accessors and mutators (get and set
+methods) provide both a clue to what data is important to an object and
+a public way to access that data.</p>
+
+<h4><a name="docobjectdata">1.3.3 Document-Centric / Object-Centric / Data-Centric</a></h4>
+
+<p>The second scheme that Brendan suggests, which he uses in chapter 6 of the book <a href="http://www.amazon.com/exec/obidos/ASIN/186100401X/qid=997083924/sr=2-3/102-5267606-0386565">Professional Java XML</a>,
+categorizes all products that attempt to bridge the gap between XML and
+objects. (This is a superset of XML data binding products.) It places
+products in three categories: document-centric, object-centric, and
+data-centric.</p>
+
+<p><i>Document-centric</i> products attempt to represent any XML
+document with objects. Because their focus is on XML (as opposed to the
+data in XML documents), most of them use a proprietary set of objects.
+Examples of document-centric products are DOM implementations and JDOM.</p>
+
+<p>At the other end of the XML / object spectrum are <i>object-centric</i>
+products. These products attempt to represent any object in XML -- the
+exact opposite of document-centric products. Because their focus is
+objects (as opposed to the data in objects), most of them use a
+proprietary XML language. Examples of object-centric products are
+XMLConvert and KBML.</p>
+
+<p>The final category is <i>data-centric</i> products. These focus on
+data, rather than how the data is represented. In other words, these
+products do not attempt to model the subtleties of XML documents or
+objects, but rather use XML documents and objects as a way to represent
+data. Examples of data-centric products are Castor and JAXB.</p>
+
+<p>Most XML data binding products are data-centric. That is, they are
+not capable of fully representing XML documents as objects or objects
+as XML documents. In the former case, most cannot handle mixed content
+or the order of child elements and text in their parent, and also
+ignore things like comments, processing instructions, and entities. In
+the latter case, most cannot represent typed references (analogous to
+IDREF attributes that can only point to a particular element type) or
+run-time data types (analogous to the actual type of an element used in
+an ANY content model).</p>
+
+<p>Similarly, most document- and object-centric products do not perform
+what is traditionally considered XML data binding (although the term
+has no precise definition). This is because most document- and
+object-centric products use proprietary objects or XML, rather than
+objects and XML that are specific to the data involved. (Note that
+object-centric products that serialize objects with a proprietary XML
+language are listed below anyway.)</p>
+
+<p>A few document- and object-centric products do perform XML data
+binding. These products use objects and XML that are specific to the
+data involved, then add extra information to help better represent
+documents or objects. For example, xml_objectify can model mixed
+content. Whether the extra information is useful depends largely on the
+application. For example, many applications that use XML data binding
+do not care about the order in which child elements occur in an XML
+document, but others care simply because they want to be able to
+validate that document against a DTD.</p>
+
+<h3><a name="disclaimer">1.4 Disclaimer</a></h3>
+
+<p><b>DISCLAIMER:</b> I have undoubtedly missed some products and am
+not current on others. Because of this, be sure to check your favorite
+vendor's Web site for the latest information. Also, please note that I
+have not used any of these products. I have gathered product
+information from documentation, Web sites, and product reviews and
+therefore encourage you to use this information as an introduction only.</p>
+
+<h2><a name="products">2.0 Products</a></h2>
+
+<h3><a name="designtime">2.1 Design-Time Products</a></h3>
+
+<dl>
+
+<dt><br><b><a name="beanstork">BeanStork</a></b></dt>
+<dd><br><b>Developer:</b> Zenaptix<br>
+<b>URL:</b> <a href="http://www.zenaptix.com/beanstork/">http://www.zenaptix.com/beanstork/</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+BeanStork generates compiled Java Beans -- that is, .class files, not
+.java files -- from XML Schemas. These Beans can then be used to
+transfer data to and from XML documents that match the XML Schemas.
+BeanStork also generates JavaDoc documentation for the generated
+classes and includes "direct support" for <a href="http://www-124.ibm.com/developerworks/projects/bsf">Bean Scripting Framework</a>.
+</dd>
+
+<dt><br><b><a name="breeze">Breeze XML Studio</a></b></dt>
+<dd><br><b>Developer:</b> The Breeze Factor<br>
+<b>URL:</b> <a href="http://www.breezefactor.com/overview.html">http://www.breezefactor.com/overview.html</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+From the Web page:
+<br><br>
+"[Creates] Java classes that encapsulate XML parsing and validation and
+which have methods that map directly to your XML data elements and
+attributes. ... Breeze gives the programmer access to XML elements and
+attributes as properties of JavaBeans. Breeze also generates methods to
+read and write XML objects to and from XML document streams."
+<br><br>Generates Java classes from XML Schemas, DTDs, and relational
+schema. Includes a GUI tool for specifying data types and changing
+names.</dd>
+
+<dt><br><b><a name="c24">C24 Integration Objects for XML</a></b></dt>
+<dd><br><b>Developer:</b> Century 24 Solutions<br>
+<b>URL:</b> <a href="http://www.c24.biz/c24io_xml.htm">http://www.c24.biz/c24io_xml.htm</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> June, 2004<br>
+<br>
+C24 Integration Objects for XML is an optional module for C24
+Integration Objects that performs XML data binding. C24 Integration
+Objects is a general data binding product that supports bindings to a
+variety of data formats, including relational databases, CSV files, and
+RTF.
+<br><br>C24 Integration Objects uses four principal concepts for
+generating code: structure, presentation, transport, and bindings. A
+structure is a model for a particular set of data. This uses a
+proprietary format that has very similar modeling capabilities to those
+found in XML Schemas. A presentation defines an external format for a
+set of data, such as XML, CSV, or a relational database. A transport is
+the way in which data is sent to and from a particular presentation,
+such as a file, JMS, FTP, or JDBC.
+<br><br>A binding binds a structure and input and output
+presentations. It can be used to generate code and JavaDocs for the
+bound items. During code generation, the structure defines what classes
+will be created. The input and output presentations define the source
+and target of the methods used to load and save data. For example, to
+duplicate traditional XML data binding, both the input and output
+presentations would be XML, so the generated classes could be populated
+from XML documents and serialized as XML documents. Other combinations
+are possible as well. For example, data could be loaded from a
+relational database and saved as XML, or loaded from CSV files and
+saved as fixed-length records. Transports generally have no effect on
+code generation, but are instead wrapped in a generic Source class. An
+exception to this is when relational databases are used, where the
+relational database presentation is bound to a particular database and
+transport, although even this can be decoupled to a certain extent.
+<br><br>The generated classes can be used simply as an intermediate
+point in a data conversion, or directly by an application. In addition,
+applications can use XPath to query the objects, regardless of the
+input presentation. This is particularly useful when the input
+presentation is something other than XML.
+<br><br>C24 Integration Objects for XML can create a structure from a
+DTD, an XML Schema, or an XML document instance; the structure can then
+be used to generate code. Users can define restrictions on individual
+fields, such as to a set of enumerated values or a range of numeric
+values, as well as on multiple fields. The latter is done by specifying
+an XPath expression that specifies a condition applying to the
+restricted fields -- for example, if one exists, the other must also
+exist --, a snippet of Java code, or a custom class that implements a
+restriction interface. Further customization is possible through
+user-written presentation and transport classes. Other features include
+a tool for determining the differences between two data models, such as
+two different versions of the same model.
+</dd>
+
+<dt><br><b><a name="castor">Castor</a></b></dt>
+<dd><br><b>Developer:</b> exolab.org<br>
+<b>URL:</b> <a href="http://www.castor.org/">http://www.castor.org/</a>,<br>
+<a href="http://www.wrox.com/books/samplechapters/5059/content.pdf">http://www.wrox.com/books/samplechapters/5059/content.pdf</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+From the Web page:
+<br><br>"[A]n open source data binding framework for Java[tm]. It's
+basically the shortest path between Java objects, XML documents, SQL
+tables and LDAP directories. Castor provides Java to XML binding, Java
+to SQL/LDAP persistence, and then some more."
+<br><br>
+Generates Java classes from XML Schemas. Includes a language for mapping Java classes to XML, RDBMSs, and LDAP.
+<br><br>Castor is also a run-time product, as it, "... supports
+introspection of Beans, and will attempt to match elements and
+attributes to classes and fields of a class."
+<br><br>
+Related to Castor is <a href="#o2xmapper">O2XMapper</a>, a GUI-based tool for creating and editing Castor mapping files.
+</dd>
+
+<dt><br><b><a name="charteris">Charteris Integration Toolkit</a></b></dt>
+<dd><br><b>Developer:</b> Charteris plc<br>
+<b>URL:</b> <a href="http://www.charteris.com/XMLToolkit/Overview.asp">http://www.charteris.com/XMLToolkit/Overview.asp</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated: </b>December, 2002<br>
+<br>Charteris Integration Toolkit is a tool for transferring data
+between multiple systems, including relational databases. To use the
+toolkit, users:
+<br><br>1) Wrap all systems (except relational databases) in XML
+documents. That is, the data exposed by a particular system must be
+made available as an XML document. How this is done is up to the user;
+the toolkit does not provide any tools for this.
+<br><br>
+2) Define a "business object model" in UML (using <a href="http://www.omg.org/technology/documents/formal/xmi.htm">XMI</a>) or <a href="http://www.daml.org/">DAML</a>.
+<br><br>3) Use a proprietary mapping language to map between the
+individual systems (as represented by XML documents or relational
+schema) and the business object model. This language can handle
+relationships between objects, so an object-relational mapping between
+XML documents and relational databases is possible.
+<br><br>Once the mappings are in place, the toolkit can transfer data
+between any two nodes of the system -- XML &lt;=&gt; XML, XML &lt;=&gt;
+relational database, or relational database &lt;=&gt; relational
+database -- using XSLT to perform any necessary transformations. XML
+documents can be represented as text or DOM trees. In addition, the
+toolkit contains a Java API for transferring data between a set of
+objects matching (and presumably generated from) the business object
+model and an XML document or relational database. This serves as both
+an object-relational engine and an XML data binding solution.
+<br><br>The toolkit comes with a number of tools, including a
+GUI-based mapping tool that supports XML Schemas, XML Data Reduced, and
+RELAX NG.
+</dd>
+
+<dt><br><b><a name="dbtoxml">DbToXml</a></b></dt>
+<dd><br><b>Developer:</b> SoftRUs<br>
+<b>URL:</b> <a href="http://www.soft-r-us.com/dbtoxml.asp">http://www.soft-r-us.com/dbtoxml.asp</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated: </b>February, 2003<br>
+<br>DbToXml is an XML data binding product that uses a table-based
+mapping. Unlike most XML data binding products, it generates code from
+a database schema instead of an XML schema. (Connections to the
+database use ODBC.) From a single table it can generate a VB COM object
+or a Java Bean. The table must have a single-column primary key,
+although the generated code is easily modifiable to support
+multi-column keys. DbToXml can also generate XML Schemas, BizTalk
+Schemas, DTDs, sample XML documents, and SQL scripts for inserting,
+updating, and deleting data.
+<br><br>The generated COM or Java object can populate itself from the
+database or an XML document and can store its data in the database or
+an XML document. It can also update or delete data in the database.
+<br><br>
+DbToXml comes with a GUI-based tool for generating code and configuring the product.
+</dd>
+
+<dt><br><b><a name="delphi">Delphi</a></b></dt>
+<dd><br><b>Developer:</b> Borland<br>
+<b>URL:</b> <a href="http://www.borland.com/delphi/del6/featurematrix/bizsnap.html">http://www.borland.com/delphi/del6/featurematrix/bizsnap.html</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>The Data Binding Wizard in Delphi allows you to generate classes
+from DTDs, XML Schemas, sample XML documents, and XML-Data Reduced
+documents. It also generates a wrapper class that can create objects in
+these classes from an XML document and writes a graph of these classes
+to an XML document. (Unlike any other XML data binding products I have
+seen, the classes generated by Delphi inherit from Delphi's
+implementation of the Node interface in DOM. While this does give users
+more flexibility in how to manipulate the data, it seems to confuse two
+separate means of working with the data in an XML document.)
+<br><br>Users should be careful not to confuse the Data Binding Wizard
+with another form of "data binding" offered by Delphi -- that of
+binding the data in an XML document to a client data set, which is
+effectively a materialized SQL result set.
+</dd>
+
+<dt><br><b><a name="dingo">Dingo</a></b></dt>
+<dd><br><b>Developer:</b> Peter Lin<br>
+<b>URL:</b> <a href="http://dingo.sourceforge.net/features.shtml">http://dingo.sourceforge.net/features.shtml</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> September, 2004<br>
+<br>Dingo is an XML data binding utility that generates C# code from
+XML Schemas. It borrows ideas from both the XSD schema compiler in .NET
+and JAXB. Like the XSD compiler, it can support
+System.Xml.Serialization and generate concrete classes from XML
+Schemas. Like JAXB, it can generate interfaces and implementation
+classes from XML Schemas. Other features include the ability to have
+all generated classes implement a particular interface, have all
+generated classes extend a particular base class, and delegate
+generation of fields, methods, and/or properties to user-specified
+code.
+</dd>
+
+<dt><br><b><a name="electricxml">Electric XML+</a></b></dt>
+<dd><br><b>Developer: </b>The Mind Electric<br>
+<b>URL:</b> <a href="http://www.themindelectric.com/products/xml/xml.html">http://www.themindelectric.com/products/xml/xml.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> October, 2001<br>
+<br>
+From the Web page:
+<br><br>
+"Electric XML+TM is a superset of Electric XML that includes the following additional features:
+<br><br>
+o Transparent, bidirectional, Java to XML serialization.<br>
+o Command-line tools for generating Java from XML schema and XML schema from Java.<br>
+o Unique annotated schema system allows default mappings to be overridden without coding.<br>
+o Fast transactional persistence for storing Java objects as XML documents."
+</dd>
+
+<dt><br><b><a name="generateDS">generateDS.py</a></b></dt>
+<dd><br><b>Developer: </b>Dave Kuhlman<br>
+<b>URL:</b> <a href="http://www.rexx.com/%7Edkuhlman/generateDS.html">http://www.rexx.com/~dkuhlman/generateDS.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>
+From the Web page:
+<br><br>"generateDS.py generates Python data structures (for example,
+class definitions) from an XML Schema document. These data structures
+represent the elements in an XML document described by the XML Schema.
+It also generates parsers that load an XML document into those data
+structures. In addition, a separate file containing subclasses (stubs)
+is optionally generated. The user can add methods to the subclasses in
+order to process the contents of an XML document."
+<br><br>
+"The generated Python code contains:<br>
+o A class definition for each element defined in the XML Schema document.<br>
+o A main and driver function that can be used to test the generated code.<br>o
+A parser that will read an XML document which satisfies the XML Schema
+from which the parser was generated. The parser creates and populates a
+tree structure of instances of the generated Python classes."
+<br><br>
+"The generated classes contain the following:<br>
+o A constructor method (__init__), with member variable initializers.<br>o
+Methods with names 'getX' and 'setX' for each member variable 'X' or,
+if the member variable is defined with maxOccurs="unbounded", methods
+with names 'getX', 'setX', and 'addX'.<br>
+o A "build" method that can be used to populate an instance of the class from a node in a minidom tree.<br>
+o An "export" method that will write the instance (and any nested sub-instances) to a file object as an XML document.<br>
+o An 'exportLiteral' method that will write out a text (literal) Python
+data structure that represents the content of the XML document."
+</dd>
+
+<dt><br><b><a name="informix">Informix Object Translator</a></b></dt>
+<dd><br><b>Developer: </b>Informix (now owned by IBM)<br>
+<b>URL:</b> <a href="http://www.informix.com/idn-secure/webtools/ot/">http://www.informix.com/idn-secure/webtools/ot/</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>The Object Translator generates code that can be used to transfer
+data between objects and XML, as well as between objects and the
+database. A GUI tool allows users to create object-relational mappings
+from XML documents to the database, also specifying how to construct
+intermediate objects.
+</dd>
+
+<dt><br><b><a name="interbindxio">interbindXIO</a></b></dt>
+<dd><br><b>Developer: </b>interbind<br>
+<b>URL:</b> <a href="http://www.interbind.com/products/xio.jsp">http://www.interbind.com/products/xio.jsp</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> November, 2001<br>
+<br>
+From the Web page:
+<br><br>"interbindXIO is a Java component library that serializes and
+deserializes Java objects as XML. Application developers describe how
+their Java objects are serialized into XML ... using the interbindXIO
+Template Language. Through these templates, interbindXIO supports a
+wide range of XML formats, making it useful in a variety of application
+contexts, such as XML messaging, XML persistence, or SOAP RPC."
+</dd>
+
+<dt><br><a name="digester"><b>Jakarta Digester</b></a></dt>
+<dd><br><b>Developer:</b> Apache<br>
+<b>URL:</b> <a href="http://jakarta.apache.org/commons/digester/">http://jakarta.apache.org/commons/digester/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>Jakarta Digester is a Java-based XML document processor. It is also
+an XML data binding tool -- sort of. It differs from other data binding
+products in two important ways. First, it can create objects from XML,
+but cannot serialize objects as XML. Second, it does not generate code
+(like other design-time products) or use functionality like Reflection
+to automatically map XML to/from classes (like run-time products). It
+is listed as a design-time product because of the amount of code that
+must be written to use it.
+<br><br>Applications use the Digester by specifying a set of patterns
+and rules. Patterns identify different parts of an XML document, such
+as particular elements and attributes. They are essentially XPath
+expressions without predicates but including wildcards. Rules specify
+what actions to take when a particular pattern is encountered, such as
+creating an object or setting a property. For example, the pattern
+Employees/Employee would specify a second-level Employee element; a
+rule for this element might specify that an Emp object be created. The
+pattern */Name would specify a Name element occurring anywhere in a
+document; a rule for this element might specify that the Name property
+of the object associated with the parent element be set. Jakarta
+Digester comes with a number of predefined rules, such as creating
+objects, setting properties, and calling methods. Users can also write
+their own classes implementing the Rule interface.
+<br><br>As can be seen, the Digester can be configured to perform
+object creation in the same manner as other XML data binding tools.
+However, it can be used for other things as well. For example, it would
+be possible to write a SAX-like dispatcher that performed certain
+operations in response to events derived from an XML document. As a
+general rule, the Digester appears to be a hard way to perform normal
+XML data binding (where the XML document matches the objects to be
+created), but a relatively easy way to perform more complex operations,
+such as dispatching or data binding where the XML document does not
+match the objects to be created.
+</dd>
+
+<dt><br><b><a name="jato">Jato</a></b></dt>
+<dd><br><b>Developer:</b> Andy Krumel<br>
+<b>URL:</b> <a href="http://www.krumel.com/jato/">http://www.krumel.com/jato/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+From the Web page:
+<br><br>"Jato is an open-sourced, XML based non-procedural language for
+transforming any XML document to/from any set of Java objects.
+Non-procedural languages describe the operations to perform, leaving
+the algorithms for implementing the operations to an interpreter. A
+Jato script expresses the relationships between XML elements and Java
+objects and frees the developer from writing iteration loops, recursive
+routines, error checking code, and many other error prone, verbose, and
+monotonous XML parsing chores."
+</dd>
+
+<dt><br><b><a name="javolution">Javolution</a></b></dt>
+<dd><br><b>Developer:</b> Jean-Marie Dautelle<br>
+<b>URL:</b> <a href="http://javolution.org/">http://javolution.org</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> June, 2005<br>
+<br>Javolution is a "real-time framework" that is designed to be used
+when writing real-time Java applications. Java is generally a poor
+choice for writing real-time applications because applications have
+little or no control over when objects are created and recycled, both
+of which are expensive operations. Javolution solves this problem by
+allowing objects to be created in different "object spaces", each of
+which creates and recycles objects at different times. Applications
+decide which space is used for a given object, thus giving them more
+control over the overall speed at which different parts of them run.
+<br><br>Javolution includes classes for serializing objects as XML and
+reconstructing objects from XML. The mapping between XML and the object
+is specified by an instance of the XmlFormat class internal to the
+mapped class. It appears that this instance must be written by hand,
+rather than generated from an object or XML schema. Two side effects of
+doing mapping this way are that the mapping is inherited by all classes
+that extend the mapped class, and that the mapping can be changed at
+run time.
+</dd>
+
+<dt><br><b><a name="jaxb">JAXB (Java Architecture for XML Binding, aka Adelard, aka JSR-31)</a></b></dt>
+<dd><br><b>Developer:</b> Sun Microsystems<br>
+<b>URL:</b> <a href="http://java.sun.com/xml/jaxb/">http://java.sun.com/xml/jaxb/</a><br>
+<a href="http://developer.java.sun.com/developer/technicalArticles/WebServices/jaxb/">http://developer.java.sun.com/developer/technicalArticles/WebServices/jaxb/</a><br>
+<b>License:</b> Evaluation<br>
+<b>Entry last updated:</b> April, 2003<br>
+<br>JAXB is both a specification and an implementation of that
+specification from Sun Microsystems. This entry primarily discusses the
+implementation.
+<br><br>The class generator in JAXB generates both interfaces and
+classes from XML Schemas. The classes implement the interfaces. (Both
+classes and interfaces are generated for portability across different
+implementations of the JAXB specification. While the interfaces must be
+the same across all implementations of JAXB for a given XML Schema, the
+classes may be different.)
+<br><br>Users can control how classes are generated by annotations in
+the XML Schema file or (in the future) in a separate binding
+declaration document. In particular, users can control the names of
+generated classes and properties and whether/how validation is to be
+performed. Without any annotations, a default generation scheme is
+used.
+<br><br>Objects of the generated classes can be instantiated from XML
+documents in the form of an input source, URL, DOM tree, or SAX events.
+During this process, the incoming data can optionally be validated.
+Applications can also create empty objects without populating them from
+any XML document.
+<br><br>Objects of the generated classes can be validated at any time;
+this allows applications to validate their contents before serializing
+them as XML. Objects can be serialized to an output stream or DOM tree,
+or as a set of SAX events.
+</dd>
+
+<dt><br><b><a name="jaxme">JaxMe</a></b></dt>
+<dd><br><b>Developer:</b> Jochen Wiedmann / Apache Software Foundation<br>
+<b>URL:</b> <a href="http://ws.apache.org/jaxme/">http://ws.apache.org/jaxme/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> March, 2004<br>
+<br>
+From the Web page:
+<br><br>
+"JaxMe 2 is an open source implementation of JAXB, the specification for Java/XML binding."
+<br><br>"A Java/XML binding compiler takes as input a schema
+description (in most cases an XML schema, but it may be a DTD, a
+RelaxNG schema, a Java class inspected via reflection, or a database
+schema). The output is a set of Java classes:<br>
+o A Java bean class matching the schema description. (If the schema was
+obtained via Java reflection, the original Java bean class.)<br>
+o Read a conforming XML document and convert it into the equivalent Java bean.<br>
+o Vice versa, marshal the Java bean back into the original XML document."
+<br><br>
+"In the case of JaxMe, the generated classes may also:<br>
+o Store the Java bean into a database. Preferrably an XML database like
+eXist, Xindice, or Tamino, but it may also be a relational database
+like MySQL. (If the schema is sufficiently simple. :-)<br>
+o Query the database for bean instances.<br>
+o Implement an EJB entity or session bean with the same abilities."
+</dd>
+
+<dt><br><b><a name="jbind">JBind</a></b></dt>
+<dd><br><b>Developer:</b> Stefan Wachter<br>
+<b>URL:</b> <a href="http://jbind.sourceforge.net/">http://jbind.sourceforge.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2003<br>
+<br>
+JBind is an XML data binding product that consists of a compiler for
+generating Java code from XML Schemas and a run-time environment. The
+schema compiler generates four different sets of code:
+<br><br>o "Data interfaces" are generated for each complex type and
+have set/get methods for each attribute and child element in the type.
+<br><br>
+o "Behavior interfaces" inherit from data interfaces and contain declarations of user-defined methods (if any).
+<br><br>o "Behavior classes" implement the user-defined methods in
+behavior interfaces. They are always abstract because they do not
+implement the methods in the data interfaces (from which the behavior
+interfaces inherit).
+<br><br>
+o "Data classes" inherit from behavior classes and implement the methods in the data interface.
+<br><br>When an XML Schema is recompiled -- presumably after changes --
+any existing behavior interfaces and classes are not overwritten. That
+is, only the data interfaces and classes are regenerated. In this
+manner, existing "behavior" methods are preserved, but new code is
+generated to reflect changes to the "data", as represented by the XML
+Schema document.
+<br><br>The generated code can check both local constraints (such as
+data types) and global constraints (such as key/keyref pairs). It "uses
+a DOM tree to back the generated classes", which presumably means that
+the generated classes can either directly or indirectly access the XML
+document from which they were generated.
+<br><br>How code is generated can be controlled either by the use of
+special attributes in the XML Schema document, or by the placement of
+these attributes in a separate document, known as a "schema adjunct
+document". Things that can be controlled include the packages in which
+the generated code is placed, additional JavaDoc documentation, how
+method names are constructed, and whether behavior methods are
+generated.
+<br><br>Of interest, JBind supports the entire XML Schemas
+recommendation. This means that, unlike virtually all other XML data
+binding products, it supports things like mixed content and wild cards.
+In addition, it supports XPath-based constraints and XPath-based
+accessors -- that is, methods that constrain or access data according
+to a particular XPath.
+<br><br>JBind also supports something it calls "XML code". There are
+two types of XML code: configuration code and application code.
+Configuration code consists of methods that are called as objects are
+created and destroyed. Application code consists of a single method
+(execute) which can be called to perform a certain action. Presumably,
+this is equivalent to the main method in a class.
+</dd>
+
+<dt><br><b><a name="jibx">JiBX</a></b></dt>
+<dd><br><b>Developer:</b> Dennis Sosnoski<br>
+<b>URL:</b> <a href="http://jibx.sourceforge.net/">http://jibx.sourceforge.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> April, 2003<br>
+<br>
+JiBX is an XML data binding product that differs from most other products in four ways:
+<br><br>o Instead of generating code from an XML schema, it binds
+existing Java classes to XML documents. This is done through an
+XML-based binding language.
+<br><br>o Instead of using generic, Reflection-based marshalling and
+unmarshalling engines, it modifies the byte code of existing Java
+.class files, adding class-specific methods for marshalling and
+unmarshalling data.
+<br><br>o It does not require an exact match between Java class
+structure and XML document structure. Although it does not appear that
+arbitrary transformations are possible, some flexibility is allowed in
+the mapping.
+<br><br>
+o It uses a parser that implements the XmlPull API instead of SAX.
+</dd>
+
+<dt><br><b><a name="leif">LEIF (Lightweight Enterprise Integration Framework)</a></b></dt>
+<dd><br><b>Developer:</b> Rogue Wave<br>
+<b>URL:</b> <a href="http://www.roguewave.com/products/leif/data.cfm">http://www.roguewave.com/products/leif/data.cfm</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> April, 2005<br>
+<br>LEIF is a GUI-based tool for creating C++ Web Services. In addition
+to being able to create Web services and Web services clients, it
+contains an XML data binding tool (XML Object Link) that may be used
+while creating a Web service or as a standalone tool.
+<br><br>XML Object Link (apparently) generates a schema-specific
+validating parser from an XML Schema document. This can be done
+automatically or based on a custom mapping. The marshaling and
+unmarshaling behavior can be customized as well.
+</dd>
+
+<dt><br><b><a name="liquidxml">Liquid XML Data Binding Wizard</a></b></dt>
+<dd><br><b>Developer:</b> Liquid Technologies<br>
+<b>URL:</b> <a href="http://www.liquid-technologies.com/products.htm">http://www.liquid-technologies.com/products.htm</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>The Liquid XML Data Binding Wizard is a data binding utility that
+can generate code from DTDs, XML Schemas, and XML-Data Reduced schemas.
+Code can be generated in C++, C#, Java, or VB (COM objects). In
+addition to the usual methods for serializing objects as XML and
+populating objects from XML, the generated code includes methods to
+validate the objects against the XML schema. Modifications to the code
+are supported in two ways. First, users can override the generated
+names through a GUI-based interface. Second, users can modify the
+generated code in "hand-coded blocks" that are not overwritten when
+code is regenerated, such as when the XML schema changes. HTML
+documentation for the generated classes can be generated as well.
+<br><br>XML Schema support includes the usual support for complex
+types, child elements, and so on. It also includes support for complex
+type extension, complex type restriction, substitution groups, and
+wildcards.
+<br><br>
+The Liquid XML Data Binding Wizard can be run from a GUI-based interface or the command line.
+</dd>
+
+<dt><br><b><a name="lmx">LMX</a></b></dt>
+<dd><br><b>Developer:</b> Tech-Know-Ware<br>
+<b>URL:</b> <a href="http://www.xml2cpp.com/">http://www.xml2cpp.com</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> September, 2004<br>
+<br>LMX is a data binding utility that generates C++ code from XML
+Schemas. The generated classes include code to unmarshall XML to
+objects (using a lightweight pull parser shipped with the product) and
+marshall objects to XML. Before marshalling, each class can be checked
+to see if enough values have been set to produce a valid XML document.
+In addition, a compiler definition specifies whether the generated code
+checks input values against the facets in the schema when mutator (set)
+methods are called.
+<br><br>LMX supports most of XML Schemas, and notably includes support
+for wildcards and mixed content. anyAttribute is supported by methods
+that get or set the name of each wildcard attribute and its value,
+which is a string. any (element) is supported by methods that get or
+set the value of each wildcard element, which is a string that includes
+the start and end tags for the element.
+<br><br>LMX comes with a predefined library of C++ data types to which
+the XML Schema data types are mapped. The user may override these, as
+well as defining classes which convert between strings (in XML
+documents) and C++ data types. The user may also define a library that
+performs pattern matching for pattern matching facets. By default, no
+pattern matching is done.
+<br><br>
+Of note, LMX comes with very complete documentation.
+</dd>
+
+<dt><br><b><a name="mel">mel</a></b></dt>
+<dd><br><b>Developer:</b> Alan Linton<br>
+<b>URL:</b> <a href="http://xmel.sourceforge.net/">http://xmel.sourceforge.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2003<br>
+<br>mel is an XML data binding tool for C. It takes a DTD and creates
+corresponding .c and .h files. These contain structures that can hold
+the data from the XML document, as well as functions to marshall and
+unmarshall data, free the structures, and resolve ID references -- that
+is, return the structure to which the value of an IDREF attribute
+points. These functions call the mel library, which must be linked to
+the user's application.
+<br><br>
+mel also has partial support for XML Schemas.
+</dd>
+
+<dt><br><b><a name="o2xmapper">O2XMapper</a></b></dt>
+<dd><br><b>Developer:</b> Shelly Mujtaba<br>
+<b>URL:</b> <a href="http://o2xmapper.sourceforge.net/">http://o2xmapper.sourceforge.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> October, 2002<br>
+<br>
+O2XMapper is not actually an XML data binding product. Instead, it is a GUI-based tool for creating and editing <a href="#castor">Castor</a>
+mapping files. As input, O2XMapper takes either the classpath for the
+Java classes to be mapped or a Castor mapping file. As output,
+O2XMapper generates a Castor mapping file. When the input is Java
+classes, the tool automatically generates most of the mapping
+information; this can then be edited. The tool also performs various
+checks (such as type checks) to ensure that the specified mapping is
+valid.
+</dd>
+
+<dt><br><b><a name="oracle">Oracle XML Class Generator for Java</a></b></dt>
+<dd><br><b>Developer:</b> Oracle<br>
+<b>URL:</b> <a href="http://technet.oracle.com/tech/xml/xdk_java/content.html">http://technet.oracle.com/tech/xml/xdk_java/content.html</a><br>
+<b>License:</b> Commercial (free with registration)<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Generates a set of Java classes based on a DTD or XML Schema. The
+generated classes can serialize themselves as XML. It is not clear
+whether objects from the generated classes can be created from XML.
+</dd>
+
+<dt><br><b><a name="quick">Quick</a></b></dt>
+<dd><br><b>Developer:</b> JXML<br>
+<b>URL:</b> <a href="http://jxml.com/2001-12/products/quick/index.html">http://jxml.com/2001-12/products/quick/index.html</a><br>
+<b>License:</b> Open source<br>
+<b>Entry last updated:</b> March, 2002<br>
+<br>
+From the Web page:
+<br><br>"Quick is a tool for generating and processing XML. Quick
+converts arbitrary object structures into trees of XML elements.
+Converts Cross-linked XML documents into structures of objects."
+<br><br>"Quick is a data modeling system for transforming XML into
+Java objects and Java objects into XML. Quick builds on QJML, a binding
+schema that connects XML elements to Java classes. Quick fully supports
+Java inheritance, including abstract and interface elements. The
+developer is given fine-grained control over code generation,so the
+generated code can extend and interoperate with pre-existing classes."
+<br><br>"Quick works with Java Beans and Bean Property Editors.
+Developer-provided Bean Property Editors allow the use of custome data
+types (Java classes) when processing XML attributes and simple elements
+with text content. Quick provides a thread-safe framework (the ocm
+package) for simple and complex data transformations."
+<br><br>"Quick provides utlities for transforming DTDs into QJML, QJML
+into marshaling logic, QJML into documentation (HTML), and QJML into
+data classes that are based on its MVC framework."</dd>
+
+<dt><br><b><a name="schema2java">Schema2Java Compiler</a></b></dt>
+<dd><br><b>Developer: </b>Creative Science Systems, Inc.<br>
+<b>URL:</b> <a href="http://www.schema2java.com/">http://www.schema2java.com</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> May, 2002<br>
+<br>
+Generates a set of Java classes based on an XML Schema. (This can be
+done through a command line or a GUI.) The generated classes run within
+a framework that can create objects in these classes from an XML
+document and serialize these objects as an XML document. Of interest,
+the generated classes include code to ensure that all data values are
+valid with respect to the XML Schema.
+</dd>
+
+<dt><br><b><a name="schemacoder">SchemaCoder</a></b></dt>
+<dd><br><b>Developer: </b>Alexander Selkirk<br>
+<b>URL:</b> <a href="http://www.schematoolkit.com/">http://www.schematoolkit.com/</a><br>
+<b>License:</b> Commercial (free evaluation)<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+From the Web page:
+<br><br>"[SchemaCoder] takes a schema using the W3C XML-Schema
+standard, validates it, and if successful, creates C++ code. This C++
+code, once compiled, can validate and process an XML document compliant
+with that schema. The idea is to build on this 'skeleton' code so that
+the XML document will work in accordance to its intended purpose."
+<br><br>"The C++ created is in fact a number of COM components. This
+allows easy integration of the generated code into projects and
+applications."
+</dd>
+
+<dt><br><b><a name="skyron">Skyron</a></b></dt>
+<dd><br><b>Developer: </b>John Wilson<br>
+<b>URL:</b> <a href="http://www.wilson.co.uk/skyron/skyron.html">http://www.wilson.co.uk/skyron/skyron.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>
+Skyron is a Python-based XML document processor. Like <a href="#digester">Jakarta Digester</a>,
+it is also an XML data binding tool -- sort of. It differs from other
+data binding products in two important ways. First, it can create
+objects from XML, but cannot serialize objects as XML. Second, it does
+not generate code (like other design-time products) or use
+functionality like Reflection to automatically map XML to/from classes
+(like run-time products). It is listed as a design-time product because
+of the amount of code that must be written to use it.
+<br><br>Applications use Skyron by specifying a "recipe". A recipe
+identifies individual elements and attributes in a document and
+specifies what to do when they start or end. For example, a recipe
+might instruct Skyron to construct Python objects from the data in an
+document -- in other words, perform traditional XML data binding. It
+might also do something that has nothing to do with data binding, such
+as calling Python functions to store data in a database. In particular,
+Skyron supports the following operations: constructing an object,
+calling a function, executing inline Python code, and storing and
+retrieving values from variables.
+<br><br>As a general rule, Skyron appears to be a hard way to perform
+normal XML data binding (where the XML document matches the objects to
+be created), but a relatively easy way to perform more complex
+operations, such as dispatching or data binding where the XML document
+does not match the objects to be created.
+</dd>
+
+<dt><br><b><a name="totalebusiness">Total-e-Business (formerly Bluestone XML-Server)</a></b></dt>
+<dd><br><b>Developer: </b>HP Bluestone<br>
+<b>URL:</b> <a href="http://www.bluestone.com/products/total-e-server/default.htm">http://www.bluestone.com/products/total-e-server/default.htm</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Total-e-Business is a J2EE (Java 2 Enterprise Edition) application
+server, at the heart of which is an Enterprise Java Beans (EJB) object
+server (the Universal Business Server). Applications are built from
+EJBs and run in the context of the object server, which provides
+resources for handling transactions, persistence, etc. A typical
+Web-based application is constructed of Java Server Pages (JSPs), which
+use EJBs to perform various tasks.
+<br><br>XML data binding is used in Total-e-Business applications in
+two places. First, XML can be used as the interface between EJBs and
+JSPs. That is, a JSP can populate an EJB using data in an XML document.
+Similarly, an EJB can pass data to a JSP as an XML document.
+<br><br>Second, XML can be used to persist EJBs. In this case, the
+EJB's data is persisted to an XML document, which is then passed to the
+Bluestone XML-Server to be stored in a database. The XML document is
+mapped to the database with an object-relational mapping, which allows
+it to contain deeply nested elements that are stored in multiple
+tables.
+</dd>
+
+<dt><br><b><a name="versant">Versant enJin</a></b></dt>
+<dd><br><b>Developer: </b>Versant Corp.<br>
+<b>URL:</b> <a href="http://www.versant.com/products/enjin/datasheet.html">http://www.versant.com/products/enjin/datasheet.html</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Versant enJin is a middle-tier data store that integrates with
+existing Enterprise Java Bean (EJB) servers. It is used to persist Java
+objects and EJBs, as well as "intermediate data", such as the "state of
+ongoing business workflows, data about user sessions and interactions,
+or meta-data."
+<br><br>Versant enJin uses XML data binding in its ability to convert
+graphs of Java objects to and from XML documents. This is useful both
+for using XML as a data transport in distributed applications and as a
+way to more easily manipulate XML documents by first converting them to
+objects.
+</dd>
+
+<dt><br><b><a name="xbinder">XBinder</a></b></dt>
+<dd><br><b>Developer: </b>Objective Systems, Inc.<br>
+<b>URL:</b> <a href="http://www.obj-sys.com/products_xbinder.shtml">http://www.obj-sys.com/products_xbinder.shtml</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> October, 2003<br>
+<br>
+From the Web page:
+<br><br>"The initial version of XBinder is capable of generating C
+source code for a given XML schema specification. The generated code
+uses a common base run-time library consisting of a set of low-level
+primitive C functions for encoding and decoding the base types. The
+code allows [XML documents] to be generated (encoded) by populating a
+structure and calling a common encode function. In other similar
+products, this process is referred to as "marshalling" or
+"serialization". [XML documents] can be parsed or decoded into an
+equivalent generated C structure. This is referred to in other products
+as "unmarshalling" or "deserialization"."
+<br><br>"In addition to C code to encode and decode [XML documents],
+code to print the contents of the generated structures and to populate
+the generated structures with test data can also be generated. The
+print functions assist in debugging as they allow the content of
+structures to be easily examined. The test functions provide a means to
+test the generated code and, perhaps of [XML documents]."
+<br><br>"It is also possible to generate a makefile that is compatible
+with the GNU make utility or the Microsoft Visual C++ name utility to
+build the generated code for a particular project."
+</dd>
+
+<dt><br><b><a name="xchainj">XChainJ</a></b></dt>
+<dd><br><b>Developer: </b>Cogent Logic Corp.<br>
+<b>URL:</b> <a href="http://xchainj.com/">http://XchainJ.com/</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated: </b>February, 2002<br>
+<br>XChainJ is an XML data binding product. It includes methods to
+transfer data from XML documents to Java objects to the database and
+vice versa. It comes with a GUI-based mapping tool that can be used to
+map between DTDs, Java classes, and database schema.
+</dd>
+
+<dt><br><b><a name="xgen">XGen</a></b></dt>
+<dd><br><b>Developer: </b>Commerce One<br>
+<b>URL:</b> <a href="http://www.commerceone.com/developers/docsoapxdk/xgen.html">http://www.commerceone.com/developers/docsoapxdk/xgen.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> September, 2003<br>
+<br>
+XGen is a data binding tool based on <a href="#castor">Castor</a>, to which it makes "numerous modifications to enable a higher degree of stability and feature support".
+<br><br>XGen consists of a schema compiler and a runtime module. The
+schema compiler generates Java Bean classes from an XML Schema. The
+runtime converts between XML documents and instances of the Bean
+classes. Of interest, the runtime can determine which Beans it needs to
+generate. This is different from many data binding tools, which require
+applications to first instantiate Java classes and then load data from
+XML documents into those classes.
+</dd>
+
+<dt><br><b><a name="xjay">XJay</a></b></dt>
+<dd><br><b>Developer: </b>Kevin Burton<br>
+<b>URL:</b> <a href="http://xjay.sourceforge.net/">http://xjay.sourceforge.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> November, 2001<br>
+<br>Uses an XSLT stylesheet to generate Java Beans from an XML Schema
+document. You can modify the stylesheet to change the way the code is
+generated.
+</dd>
+
+<dt><br><b><a name="xml2java">XML2Java</a></b></dt>
+<dd><br><b>Developer: </b>Patrick Ohl<br>
+<b>URL:</b> <a href="http://www.jnerd.de/xml2java.html">http://www.jNerd.de/xml2java.html</a><br>
+<b>License:</b> Free for personal use<br>
+<b>Entry last updated:</b> November, 2001<br>
+<br>Generates Java classes from a DTD, as well as Reader and Writer
+classes to transfer data between those classes and XML documents.
+</dd>
+
+<dt><br><b><a name="xmlbeans">XMLBeans</a></b></dt>
+<dd><br><b>Developer: </b>Apache (donated by BEA)<br>
+<b>URL:</b> <a href="http://xml.apache.org/xmlbeans/">http://xml.apache.org/xmlbeans/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>XMLBeans is an XML data binding tool that provides complete(!)
+support for XML Schemas and XML documents. That is, all XML Schema
+constructs are supported, including wild cards, substitution groups,
+and complex type restriction, and the entire InfoSet is supported,
+including document order, mixed content, white space, comments, and
+processing instructions.
+<br><br>XMLBeans provides a schema compiler that creates a set of
+interfaces from an XML Schema. One interface is generated for each
+complex type, with accessor and mutator methods for attributes and
+child elements. Included in each interface is a static factory class
+for creating objects that implement the interface. These objects may be
+empty (representing an empty document) or may be populated from the
+contents of an XML document. The interfaces also include methods for
+validating the current state of the subtree represented by the object
+against the complex type associated with the object, and for
+serializing its contents as XML.
+<br><br>XMLBeans provides two other capabilities not found in most
+other XML data binding products: cursors and schema objects. Cursors
+provide several different ways to navigate through the objects that
+represent an XML document. The first way is DOM-like, allowing
+applications to move the current position of the cursor through the
+document, such as to the first attribute, the first child, the next
+sibling, or simply the next "token", where a token is the start or end
+of an element, an attribute, a namespace attribute, child text, a
+comment, or a processing instruction. The second way is to execute a
+query and to move from one query result to the next. (Apache's version
+of XMLBeans supports XPath; BEA's version of XMLBeans supports XQuery.)
+The third way is to either bookmark locations in the document or to
+push locations onto a location stack. The cursor can then return to a
+bookmarked location or pop the previous location off the stack. Cursors
+also allow applications to modify documents in DOM-like fashion, such
+as by inserting attributes, deleting elements, or moving the contents
+of an element to a new location.
+<br><br>Schema objects are an object model for XML Schemas -- imagine
+that a set of classes was generated from the XML Schema document that
+defines the XML Schema language -- and allow applications to explore
+the schema associated with a document. A schema object can be retrieved
+from any object. The schema object contains information about the
+complex type associated with the object, such as its content model,
+whether it extends another type, and whether it has mixed content.
+</dd>
+
+<dt><br><b><a name="xmlobjectlink">XML Object Link</a></b></dt>
+<dd><br><b>Developer: </b>Rogue Wave<br>
+<b>URL:</b> <a href="http://www.roguewave.com/products/xol/features.cfm">http://www.roguewave.com/products/xol/features.cfm</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> October, 2002<br>
+<br>Generates a set of C++ classes based on an XML Schema. The
+generated classes can serialize themselves as XML and deserialize
+themselves from XML. They can also validate the data against the
+constraints in the schema. Of interest, the generated classes contain
+parsing code. That is, they can create themselves from XML documents
+without the aid of an external parser.
+</dd>
+
+<dt><br><b><a name="dotnet">XML Schema Definition Tool (.NET Framework)</a></b></dt>
+<dd><br><b>Developer:</b> Microsoft<br>
+<b>URL:</b> <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cptools/html/cpconXMLSchemaDefinitionToolXsdexe.asp">http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cptools/html/cpconXMLSchemaDefinitionToolXsdexe.asp</a><br>
+<a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconserialization.asp">http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconserialization.asp</a>
+<br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> March, 2002<br>
+<br>At design time, the XML Schema Definition Tool allows you to either
+generate a set of C# or Visual Basic classes from an XML Schema or
+generate an XML Schema from a set of classes (DLL or .EXE). <br><br>
+At run time, the XmlSerializer class allows you to serialize graphs of
+objects to XML and deserialize graphs objects from XML. You can control
+which properties are serialized/deserialized, as well as how they are
+represented in XML (as elements, attributes, etc.), through .NET
+"attributes". (.NET attributes are "keyword-like descriptive
+declarations" that you add to your code to "annotate programming
+elements such as types, fields, methods, and properties.") These
+attributes can be overridden at run time, giving additional
+flexibility.
+<br><br>You can also serialize/deserialize object graphs to SOAP
+documents. Again, .NET attributes can be used to control the output
+SOAP document.
+</dd>
+
+<dt><br><b><a name="xmlserializer">XML-Serializer</a></b></dt>
+<dd><br><b>Developer: </b>Adaptinet<br>
+<b>URL:</b> <a href="http://www.adaptinet.com/technology_serializer.html">http://www.adaptinet.com/technology_serializer.html</a><br>
+<b>License:</b> Shareware<br>
+<b>Entry last updated:</b> April, 2002<br>
+<br>XML-Serializer can generate Java classes from XML Schemas and DTDs.
+These classes can validate both data content and structure. At run
+time, they use an XML-Serializer component that populates them from XML
+as well as serializing them to XML. XML-Serializer has built-in support
+for JBuilder, as well as its own GUI design tool.
+</dd>
+
+<dt><br><b><a name="xmlspy">XML Spy</a></b></dt>
+<dd><br><b>Developer: </b>Altova<br>
+<b>URL:</b> <a href="http://www.altova.com/features_code.html">http://www.altova.com/features_code.html</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> April, 2005<br>
+<br>XML Spy is an XML IDE and editor that includes facilities for
+generating Java, C++, and C# classes from an XML Schema. The generated
+code can support Microsoft MSXML, JAXP, or Microsoft System.XML and
+users can "replace the underlying parsing and validating engine". Users
+can also customize the mappings from XML Schema built-in data types to
+primitive data types in the target language. The code generator also
+generates project files for a variety of IDEs.
+</dd>
+
+<dt><br><b><a name="xmlthunder">XML Thunder</a></b></dt>
+<dd><br><b>Developer: </b>Canam Software Labs, Inc.<br>
+<b>URL:</b> <a href="http://www.xmlthunder.com/">http://www.xmlthunder.com/</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> April, 2005<br>
+<br>XML Thunder can generate COBOL or C code to transfer data between
+XML documents and COBOL copybooks or C data structures. The code is
+based on a mapping between the data structures and the XML schema. To
+create the mapping, users use a GUI-based mapping tool. This can be
+used to map existing data structures to an existing XML schema, or to
+automatically generate COBOL or C data structures from an XML Schema or
+sample XML document.
+<br><br>There are two types of generated code: XML Readers populate
+data structures from an XML document and XML Writers create an XML
+document from data structures. Of note, XML Readers can either use
+IBM's COBOL XML parser or can be complete, schema-specific XML parsers.
+</dd>
+
+<dt><br><b><a name="xsd">xsd</a></b></dt>
+<dd><br><b>Developer: </b>Code Synthesis Tools CC<br>
+<b>URL:</b> <a href="http://codesynthesis.com/products/xsd/">http://codesynthesis.com/products/xsd/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2005<br>
+<br>
+From the company:
+<br><br>"xsd is a W3C XML Schema to C++ translator. It generates
+vocabulary-specific, statically-typed C++ mappings from XML Schema
+definitions. It features C++ standard library -based language mapping,
+configurable base character type (char/wchar_t), support for all XML
+Schema built-in types, custom Schema to C++ namespace mapping, and
+platform-independent generated code."
+<br><br>"xsd also supports some of the more advanced features of XML
+Schema, including anonymous types, element and attribute groups,
+ID/IDREF cross-referencing, schema importing/inclusion, and mapping of
+xsd:enumerations to C++ enums."</dd>
+
+<dt><br><b><a name="xsdobjectcodegenerator">XSD Object Code Generator</a></b></dt>
+<dd><br><b>Developer: </b>Microsoft XML Tools Team<br>
+<b>URL:</b> <a href="http://apps.gotdotnet.com/xmltools/xsdobjgen/">http://apps.gotdotnet.com/xmltools/xsdobjgen/</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> September, 2004<br>
+<br>
+From the Web page:
+<br><br>
+"The utility builds C# and VB.NET data structures from an XSD schema
+that can serialize and de-serialize to XML and other formats. The code
+generated is an enhanced .NET object library that greatly simplifies
+working with XSD data structures and XML."
+<br><br>"XSDObjectGen is similar to the XSD.exe tool that comes with
+the .NET framework. The difference is that XSDObjectGen builds an
+enhanced class structure from an XSD schema and handles many more of
+the common schema types than the original tool. The classes generated
+are suitable for both creating and consuming XML and for use as
+parameters and return values in web service implementations. This is an
+ideal tool for developers who need to implement support for XML based
+on an existing schema, such as schemas published by industry standards
+groups."
+</dd>
+
+<dt><br><b><a name="websphere">WebSphere Studio Application Developer</a></b></dt>
+<dd><br><b>Developer: </b>IBM<br>
+<b>URL:</b> <a href="http://www-4.ibm.com/software/ad/studioappdev/">http://www-4.ibm.com/software/ad/studioappdev/</a><br>
+<b>License:</b> Commercial<br>
+<b>Entry last updated:</b> December, 2001<br>
+<br>WebSphere Studio Application Developer is an integrated development
+environment for building J2EE applications. It has a number of XML
+features, including generating Java Beans from XML Schemas or DTDs. The
+generated Beans can populate themselves from XML documents and
+serialize themselves to XML. They can also transfer data to and from a
+number of relational databases, including DB2, Oracle, Sybase, MySQL,
+Informix, and SQL Server.
+</dd>
+
+<dt><br><b><a name="zeus">Zeus</a></b></dt>
+<dd><br><b>Developer:</b> Enhydra.org<br>
+<b>URL:</b> <a href="http://zeus.enhydra.org/project/aboutProject/index.html">http://zeus.enhydra.org/project/aboutProject/index.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+From the Web page:
+<br><br>"... includes complete code generation from any legal XML DTD,
+marshalling and unmarshalling of XML documents and Java objects, and an
+extensible means of plugging in your own classes for conversion to
+Java."
+<br><br>Zeus is designed so that its code generation facilities can be
+easily extended in the future to include XML Schemas, RELAX, and other
+XML schema languages.
+</dd>
+
+<dt><br><b><a name="zope">Zope</a></b></dt>
+<dd><br><b>Developer: </b>Digital Creations<br>
+<b>URL:</b> <a href="http://www.zope.org/">http://www.zope.org/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Zope is an Open Source Web application server. Unlike most Web
+application servers, Zope is really an object-oriented programming
+system, based on the Zope Object Database (ZODB). Developers can create
+and manipulate objects both through Python and through Document
+Template Markup Language (DTML). Each DTML document is therefore a
+separate object and DTML itself is closer to a programming language
+than it is to a simple tag set. It provides control-of-flow tags
+(if-the-else, loops, etc.) and allows users to create their own
+methods.
+<br><br>Zope uses XML data binding in two places. First, XML documents
+can be mapped to a tree of Zope objects according to an XSLT
+stylesheet. Second, ZDOM apparently allows any tree of objects in ZODB
+to be viewed/manipulated with a subset of the DOM.
+</dd>
+
+</dl>
+
+<h3><a name="runtime">2.2 Run-Time Products</a></h3>
+
+<dl>
+
+<dt><br><b><a name="amara">Amara Bindery</a></b> (formerly Anobind)</dt>
+<dd><br><b>Developer:</b> Uche Ogbuji<br>
+<b>URL:</b> <a href="http://uche.ogbuji.net/uche.ogbuji.net/tech/4Suite/amara/">http://uche.ogbuji.net/uche.ogbuji.net/tech/4Suite/amara/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> April, 2005<br>
+<br>Amara Bindery provides XML data binding capabilities for the Amara
+XML Toolkit, a set of tools for working with XML in Python. Amara
+Bindery generates Python objects directly from XML documents, not XML
+schemas.
+<br><br>Amara Bindery generates separate Python objects for each
+element in a document. The generated elements have properties for each
+of the element's attributes, as well as the element's child elements.
+The latter are list-valued properties when multiple child elements have
+the same name. In addition, a predefined property (xml_children) can be
+used to access all of the element's children (elements, text,
+processing instructions, and comments) as a list; this can be used to
+access mixed content. Finally, a predefined method can be used to
+access the text content of an element.
+<br><br>Bindings can be customized through a set of rules, which
+correspond to classes executed by the Bindery. Amara Bindery comes with
+predefined rules (classes) for creating properties (instead of objects)
+from simple elements, ignoring elements, and stripping insignificant
+whitespace from the document. These rules use a user-specified XPattern
+expression to determine where they should be applied. Users can also
+create their own rule classes to further customize bindings.
+<br><br>Finally, Amara Bindery supports XPath-based navigation through
+a document. That is, users can execute an XPath expression on a node to
+retrieve other nodes relative to that node.
+</dd>
+
+<dt><br><b><a name="betwixt">Betwixt</a></b></dt>
+<dd><br><b>Developer:</b> James Strachan<br>
+<b>URL:</b> <a href="http://jakarta.apache.org/commons/betwixt.html">http://jakarta.apache.org/commons/betwixt.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> April, 2002<br>
+<br>
+From the Web page:
+<br><br>"Betwixt is a library which maps Java Beans to XML. It provides
+an XMLIntrospector in a similar manner to the Introspector in the
+java.beans package which defines how a bean appears as XML. There are
+many ways of encoding beans as XML. Betwixt provides a default
+representation based on introspection which can be customized to taste
+to get nicer looking XML or to map your beans to some external XML
+schema. In addition to the mapping API Betwixt also provides objects to
+turn beans into XML and to parse XML and turn it into beans. Namely
+BeanReader and BeanWriter."
+</dd>
+
+<!--<dt><br /><b><a name="freejsx">freeJSX (Java Serialization to XML)</a></b></dt>
+<dd><br /><b>Developer:</b> JSX Enterprises<br />
+<b>URL:</b> <a href="http://www.csse.monash.edu.au/~bren/JSX/">http://www.csse.monash.edu.au/~bren/JSX/</a><br />
+<b>License:</b> Open Source<br />
+<b>Entry last updated:</b> August, 2004<br />
+<br />
+This is a lighter-weight, Open Source version of <a href="#jsx">JSX</a>.
+</dd>-->
+
+<dt><br><b><a name="hermit">Hermit (HTTP Enhanced Remote Method Invocation Technique)</a></b></dt>
+<dd><br><b>Developer:</b> Eric M. Dashofy<br>
+<b>URL:</b> <a href="http://www.ics.uci.edu/%7Eedashofy/index-research.html">http://www.ics.uci.edu/~edashofy/index-research.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Performs interprocess communication with SOAP. Includes a class
+that serializes/deserializes Java objects as DOM nodes. Technically,
+Hermit is not a run-time product, as it requires users to add several
+boilerplate methods to any object to be serialized. However, it is
+closer in flavor to run-time products than it is to design-time
+products.
+</dd>
+
+<dt><br><b><a name="jox">JOX</a></b></dt>
+<dd><br><b>Developer:</b> Wutka Consulting, Inc.<br>
+<b>URL:</b> <a href="http://www.wutka.com/jox.html">http://www.wutka.com/jox.html</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+From the Web page:
+<br><br>"JOX is a set of Java libraries that make it easy to transfer
+data between XML documents and Java Beans. You can think of JOX as a
+special form of Java Object Serialization, using XML as the
+serialization format."
+<br><br>JOX attempts to use a modest amount of intelligence to match
+element type and attribute names to property names, giving it some
+flexibility. It can also use a DTD to help format the XML and in some
+cases requires it.
+</dd>
+
+<!--<dt><br /><b><a name="jsx">JSX (Java Serialization to XML)</a></b></dt>
+<dd><br /><b>Developer:</b> JSX Enterprises<br />
+<b>URL:</b> <a href="http://jsx.org">http://jsx.org</a><br />
+<b>License:</b> Commercial<br />
+<b>Entry last updated:</b> June, 2004<br />
+<br />
+JSX uses a proprietary XML language to serialize graphs of Java objects as XML. It can also populate graphs of Java objects from XML documents that use this language. JSX can handle any graph, including those that include cyclic references, and can handle any Java object, including those that contain multi-dimensional arrays, final fields, and private fields. It does not require no-argument constructors. If a class implements the Serializable interface, JSX uses this interface, converting between the serialized form of the objects and XML. If a class does not implement Serializable, JSX serializes and deserializes it directly.
+<br /><br />
+<a href="#freejsx">freeJSX</a> is an Open Source version of JSX.
+</dd>-->
+
+<dt><br><b><a name="kbml">KBML (Koala Bean Markup Language), KOML (Koala Object Markup Language)</a></b></dt>
+<dd><br><b>Developer:</b> Koala<br>
+<b>URL:</b> <a href="http://www-sop.inria.fr/koala/kbml/">http://www-sop.inria.fr/koala/kbml/</a><br>
+<a href="http://www-sop.inria.fr/koala/koml/">http://www-sop.inria.fr/koala/koml/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>KBML and KOML are packages for serializing/deserializing Java
+Beans/Java objects to/from XML documents. Both use proprietary XML
+languages for serialization.
+</dd>
+
+<dt><br><b><a name="skaringa">Skaringa</a></b></dt>
+<dd><br><b>Developer:</b> The Skaringa Team<br>
+<b>URL:</b> <a href="http://skaringa.sourceforge.net/">http://skaringa.sourceforge.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>Skaringa is an XML data binding tool that uses Reflection. Its main
+component is an Object Transformer, which creates Java objects from XML
+and serializes Java objects as XML. Users may add special,
+Skaringa-specific methods to their classes that Skaringa will call
+after creating objects or before serializing them. In addition, they
+may specify XSLT transformations to be applied to XML documents before
+they are used to create objects or after they have been created by
+serializing objects. They may also control some aspects of generated
+XML, such as pretty-printing and encoding.
+<br><br>The Object Transformer can also generate an XML Schema
+document from a Java object and transform one Java object into another
+Java object according to an XSLT document(!) (Presumably, a tree of
+objects, headed by a single object, can be transformed into another
+tree of objects by transforming the head object. However, this is not
+clear.)
+</dd>
+
+<dt><br><b><a name="snaque">SNAQue/J</a></b></dt>
+<dd><br><b>Developer: </b>Richard Connor, et al.<br>
+<b>URL:</b> <a href="http://www.cis.strath.ac.uk/research/snaque/about.html">http://www.cis.strath.ac.uk/research/snaque/about.html</a><br>
+<b>License:</b> Free (but not Open Source)<br>
+<b>Entry last updated:</b> February, 2003<br>
+<br>SNAQue/J (Strathclyde Novel Architecture for Querying the
+eXtensible Markup Language/Java) is an XML data binding product
+designed to bind user-defined Java classes to XML document fragments.
+<br><br>Unlike most design-time products, SNAQue/J does not generate a
+set of classes from an XML schema. Instead, users create the classes
+that they would like to work with. The classes can have both scalar-
+and object-valued properties -- the latter allow graphs of objects --
+as well as multi-valued (array, List, etc.) properties. The classes
+implicitly define a mapping to an XML document in which classes map to
+complex elements and properties map to attributes or child elements.
+Note that class and property names must match the names of elements and
+attributes in the XML document.
+<br><br>At run time, an application passes a class (which defines the
+entry point into the graph) and an XML document to SNAQue/J. SNAQue/J
+then determines the class structure (presumably using Reflection) and
+looks for a document fragment that matches this structure. A fragment
+matches when (a) the hierarchy of the fragment matches the class
+hierarchy (elements and attributes that do not correspond to properties
+are ignored) and (b) the data in the fragment can be converted to the
+types of corresponding properties. Assuming that a match is found, an
+object of the specified class is returned to the application.
+</dd>
+
+<dt><br><b><a name="xmlconverter">XMLConverter</a></b></dt>
+<dd><br><b>Developer:</b> Syntheson<br>
+<b>URL:</b> <a href="http://syntheson.com/software/xml/converter/">http://syntheson.com/software/xml/converter/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>
+A simple class for serializing Java objects in XML. This uses a proprietary XML language.
+</dd>
+
+<dt><br><b><a name="javabeans">java.beans.XMLEncoder, java.beans.XMLDecoder</a></b></dt>
+<dd><br><b>Developer:</b> Sun Microsystems<br>
+<b>URL:</b> <a href="http://java.sun.com/j2se/1.4/docs/api/java/beans/XMLEncoder.html">http://java.sun.com/j2se/1.4/docs/api/java/beans/XMLEncoder.html</a><br>
+<b>License:</b> Commercial (free with registration)<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Simple classes for serializing and deserializing Java objects in
+XML. These use a proprietary XML language. These classes were
+introduced in the Java 2 Platform, Standard Edition, version 1.4.
+</dd>
+
+<dt><br><b><a name="xmlpickle">xml_pickle, xml_objectify</a></b></dt>
+<dd><br><b>Developer:</b> David Mertz<br>
+<b>URL:</b> <a href="http://gnosis.cx/download/xml_pickle.py">http://gnosis.cx/download/xml_pickle.py</a><br>
+<a href="http://gnosis.cx/download/xml_objectify.py">http://gnosis.cx/download/xml_objectify.py</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> July, 2001<br>
+<br>Classes for transferring data between XML documents and Python
+objects. xml_pickle uses a proprietary XML serialization syntax.
+xml_objectify attempts to create an object from any XML document, but
+cannot serialize the object back to XML.
+</dd>
+
+<dt><br><b><a name="xstream">XStream</a></b></dt>
+<dd><br><b>Developer:</b> Joe Walnes<br>
+<b>URL:</b> <a href="http://xstream.codehaus.org/">http://xstream.codehaus.org/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> May, 2004<br>
+<br>XStream is a Java XML data binding tool that (apparently) uses
+Reflection to create objects from XML and serialize objects as XML. It
+can serialize object graphs, keeping duplicate references intact using
+IDs or XPath references. Users have several customization options.
+First, they can specify element type names to be used for each class.
+(Attributes do not appear to be supported.) Second, they can write
+their own code for how Java types are converted to/from XML values.
+(Default converters are provided for many types, such as numeric data
+types, dates, binary data (using Base64), arrays, Collections, and
+Maps.) Third, they can serialize to/from any tree structure -- not just
+XML -- by implementing an interface that works with that tree
+structure.
+</dd>
+
+</dl>
+
+<h3><a name="test">2.3 Test Suites and Benchmarks</a></h3>
+
+<dl>
+
+<dt><br><b><a name="bindmark">bindmark</a></b></dt>
+<dd><br><b>Developer:</b> Kirill Grouchnikov<br>
+<b>URL:</b> <a href="https://bindmark.dev.java.net/">https://bindmark.dev.java.net/</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> February, 2005<br>
+<br>
+From the Web site:
+<br><br>"The goal of this project is to provide a comparison of the
+existing open-source and commercial (when available for free evaluation
+download) libraries for binding XML data to Java classes. The libraries
+are evaluated in several areas, including ease of use (the amount of
+effort needed to invest to the first successful run), the size of the
+accompanying jar files and the performance. In this project, the main
+emphasis is put into providing the performance comparisons, both in
+time and in memory."
+<br><br>
+The Web site contains detailed results for more than 15 data binding tools.
+</dd>
+
+<dt><br><b><a name="commerceone">XML Schema to Java Tool Test Suite</a></b></dt>
+<dd><br><b>Developer:</b> Commerce One<br>
+<b>URL:</b> <a href="http://www.commerceone.com/developers/docs/testsuite.zip">http://www.commerceone.com/developers/docs/testsuite.zip</a><br>
+<b>License:</b> Open Source<br>
+<b>Entry last updated:</b> September, 2003<br>
+<br>
+From an <a href="http://www.xml.com/pub/a/2003/09/03/binding.html">article</a> on XML.com:
+<br><br>"This first version of the test case suite is relatively basic,
+consisting of 116 schemas testing various features of WXS and 111
+instances of the schemas."
+<br><br>"The test cases in the test suite have been chosen to test a
+number of WXS features. The features selected, and the test cases
+created, have not been chosen with any particular tool in mind. The
+features that have been selected for inclusion in the test suite are
+features that have been determined to be basic or to be frequently used
+by users of the language. The test cases are therefore intended to test
+the over-all basic feature coverage of the various tools. The test
+cases have not been designed to test the more obscure features of the
+schema language, or to construct the most backbreaking feature
+combinations, as this is not the most common use of the language."
+</dd>
+
+</dl>
+
+<h2><a name="papers">3.0 Articles, Books, etc.</a></h2>
+
+<h3><a name="general">3.1 Articles: General</a></h3>
+
+<p><b>NOTE:</b> For other introductory articles about XML data binding, see <a href="#jaxbandcastor">Articles: JAXB and Castor</a> and <a href="#other">Articles: Other Products</a>.</p>
+
+<ul>
+
+<li><p><a href="http://www.xml.com/pub/a/2003/09/03/binding.html">Comparing Java Data Binding Tools</a> by Mette Hedin<br>A
+comparison of Breeze XML Binder, Castor, the JAXB Reference
+Implementation, and XGen. The first part of the article compares how
+well the products support XML Schemas and whether the resulting code
+(a) compiles and (b) can round-trip documents. The second part compares
+some features of the products and is clearly biased towards XGen (the
+author was the technical lead of XGen). It is nonetheless useful in
+describing some of the challenges in designing XML data binding tools.</p></li>
+
+<li><p><a href="http://developer.java.sun.com/developer/technicalArticles/xml/mapping/">Mapping XML to Java, Part 1</a> by Robert Hustead<br>
+Yet another well-written introduction to XML data binding.</p></li>
+
+<li><p><a href="http://www.onjava.com/pub/a/onjava/2002/05/15/databind.html">Why Data Binding Matters</a> by Brett McLaughlin<br>
+Discusses a number of use cases for XML data binding. These include
+both common cases (configuration files, working with data from XML
+databases, data interchange) and novel cases (data modeling).</p></li>
+
+<li><p><a href="http://www-106.ibm.com/developerworks/library/x-databdopt/">XML and Java technologies: Data binding, Part 1: Code generation approaches -- JAXB and more</a><br>
+<a href="http://www-106.ibm.com/developerworks/xml/library/x-databdopt2/">XML and Java technologies: Data binding, Part 2: Performance</a><br>
+<a href="http://www-106.ibm.com/developerworks/xml/library/x-databd3/">XML and Java technologies: Data binding Part 3: JiBX architecture</a> by Dennis M. Sosnoski<br>
+An excellent three-part comparison of JAXB, Castor, JBind, Quick, Zeus,
+and JiBX. Part 1 discusses the pros and cons of each product (except
+JiBX) and shows the code generated by each for a particular schema.
+Part 2 compares performance and memory usage. Part 3 discusses the
+architecture of JiBX, but also discusses design choices used by the
+other products. If you understand XML data binding and are trying to
+decide which product to use, this is a great place to start.</p></li>
+
+<li><p><a href="http://www.topxml.com/code/default.asp?p=3&amp;id=v20040820054403">A closer look at XML Data Binding, including a product appraisal, Part 1</a><br>
+<a href="http://www.topxml.com/code/default.asp?p=3&amp;id=v20040906063456">A closer look at XML Data Binding, including a product appraisal, Part 2</a><br>
+<a href="http://www.topxml.com/code/default.asp?p=3&amp;id=v20040906064945">A closer look at XML Data Binding, including a product appraisal, Part 3</a> by Simon Sprott<br>
+A three part article on XML data binding. Part 1 introduces XML data
+binding, with examples in VB. Part 2 compares Castor, JAXB, Liquid
+Technologies XML Data Binding Wizard, and Microsoft XSD.exe. Part 3
+looks at the structures generated for sequences, choices, simple and
+complex types, cardinality, and extension, with examples in C#. </p></li>
+
+</ul>
+
+<h3><a name="jaxbandcastor">3.2 Articles: JAXB and Castor</a></h3>
+
+<p><b>WARNING:</b> The JAXB specification changed significantly in summer, 2002. According to an <a href="http://www-106.ibm.com/developerworks/library/x-databdopt/">article</a> by Dennis Sosnoski, the main changes are that:</p>
+
+<ul>
+<li>Code is generated from XML Schemas, not DTDs.</li>
+
+<li>The code generator generates both interfaces and classes that
+implement those interfaces, instead of just generating classes. This
+allows applications to write to the interfaces (which are portable
+across JAXB implementations), while different JAXB implementations can
+generate different classes that implement those interfaces.</li>
+
+<li>Validation is optional.</li>
+
+</ul>
+
+<p>Because of this, the technical details in articles written before
+summer, 2002, are out of date. However, the general ideas used by JAXB
+are the same in both versions, so the older articles still provide a
+useful introduction.</p>
+
+<ul>
+
+<li><p><a href="http://www.onjava.com/pub/a/onjava/2001/10/24/xmldatabind.html">XML Data Binding with Castor</a> by Dion Almaer<br>
+Discusses how to use Castor with both implicit and explicit mappings. Includes code examples.</p></li>
+
+<li><p><a href="http://java.sun.com/xml/jaxp-1.0.1/docs/binding/DataBinding.html">Code Fast, Run Fast with XML Data Binding</a> by Eric Armstrong<br>
+A brief introduction to Sun's XML data binding. Serves as a useful overview of data binding in general.</p></li>
+
+<li><p><a href="http://www.xml.com/pub/a/2002/07/24/databinding.html">XML Data-Binding: Comparing Castor to .NET</a> by Niel Bornstein<br>
+Compares the XML data binding capabilities of Castor and .NET by generating sample code from an XML Schema with both products.</p></li>
+
+<li><p><a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-jaxb.html">Use XML data binding to do your laundry</a> by Sam Brodkin<br>
+A discussion of XML data binding, with code examples for JAXB and Castor.</p></li>
+
+<li><p><a href="http://www.gerstbach.at/2004/XMLDataBinding/">XML Data Binding (PDF)</a> by Peter Gerstbach<br>
+Eine Einführung in XML Data Binding, insbesondere in JAXB. Die Arbeit
+enthält JAXB Beispielanwendungen und erklärt die Mappingregeln (XML
+Schema &lt;=&gt; Java) und Anpassungsmöglichkeiten für JAXB. Sprache:
+Deutsch.</p></li>
+
+<li><p><a href="http://www.xml.com/pub/a/2003/01/08/jaxb-api.html">The JAXB API</a> by Kohsuke Kawaguchi<br>
+A discussion of the JAXB API, which is used to marshall Java objects to
+XML documents, unmarshall XML documents to Java objects, and validate
+Java objects against an XML Schema.</p></li>
+
+<li><p><a href="http://java.sun.com/developer/technicalArticles/WebServices/jaxb/">Java Architecture for XML Binding (JAXB)</a> by Ed Ort and Bhakti Mehta<br>
+An nice overview of JAXB from the folks at Sun, including a brief description of how to customize bindings.</p></li>
+
+<li><p><a href="http://www-106.ibm.com/developerworks/xml/library/x-bindcastor/">XML in Java: Data Binding with Castor</a> by Dennis M. Sosnoski<br>
+A quick introduction to XML data binding, followed by an in-depth look at how to use Castor. Includes code examples.</p></li>
+
+<li><p><a href="http://www-105.ibm.com/developerworks/education.nsf/xml-onlinecourse-bytitle/29E38C9B6910F69F86256B51004F94B7?open&amp;l=188,t=grx,p=jaxb">Data binding with JAXB</a> by Daniel Steinberg (registration required)<br>
+A tutorial introduction to using JAXB. Includes code examples.</p></li>
+
+<li><p><a href="http://www.wrox.com/books/samplechapters/5059/content.pdf">XML Data Binding</a> from WROX Press<br>
+This is chapter 15 of the book "Professional XML" (and a very nice
+freebie, at that). It discusses a number of subjects, including a
+general overview of XML data binding, XML data binding with Castor, and
+reasons to use XSLT with XML data binding.</p></li>
+
+</ul>
+
+<h3><a name="other">3.3 Articles: Other Products</a></h3>
+
+<ul>
+
+<li><p><a href="http://dev2dev.bea.com/technologies/xmlbeans/articles.jsp">XMLBeans Articles</a> from BEA<br>
+Links to a number of different articles on XMLBeans.
+</p></li>
+
+<li><p><a href="http://www-106.ibm.com/developerworks/library/data-binding1/">Objects, objects everywhere</a><br>
+<a href="http://www-106.ibm.com/developerworks/library/data-binding2/">Make classes from XML data</a><br>
+<a href="http://www-106.ibm.com/developerworks/library/data-binding3/">From text to byte code</a><br>
+<a href="http://www-106.ibm.com/developerworks/library/data-binding4/">From bits to brackets</a> by Brett McLaughlin<br>
+An excellent, four-part introduction to data binding. Describes the strategy behind Zeus(?).</p></li>
+
+<li><p><a href="http://www-106.ibm.com/developerworks/library/x-quick/index.html">Converting between Java objects and XML with Quick</a> by Brett McLaughlin<br>
+An introduction to Quick. Includes code and binding language examples.
+</p></li>
+
+<li><p><a href="http://gnosis.cx/publish/programming/xml_matters_1.txt">On the Pythonic Treatment of XML Documents As Objects (I)</a><br>
+<a href="http://gnosis.cx/publish/programming/xml_matters_2.txt">On the Pythonic Treatment of XML Documents As Objects (II)</a> by David Mertz<br>
+XML data binding and Python. Introduces two Python objects (xml_pickle
+and xml_objectify) for serializing and deserializing Python objects as
+XML.</p></li>
+
+<li><p><a href="http://www.xml.com/pub/a/2003/06/11/py-xml.html">XML Data Bindings in Python</a><br>
+<a href="http://www.xml.com/pub/a/2003/07/02/py-xml.html">XML Data Bindings in Python, Part 2</a><br>
+<a href="http://www.xml.com/pub/a/2003/08/13/py-xml.html">Introducing Anobind</a> by Uche Ogbuji<br>
+A series of articles about XML data binding and Python. Discusses generateDS.py, gnosis.xml.objectify, and Anobind in detail.</p></li>
+
+<li><p><a href="http://www-106.ibm.com/developerworks/java/library/x-databd4/index.html">XML and Java technologies: Data Binding Part 4: JiBX Usage</a> by Dennis Sosnoski<br>
+An introduction to JiBX. Includes code and binding language examples.
+</p></li>
+
+</ul>
+
+<h3><a name="mapping">3.4 Articles: Mapping XML &lt;=&gt; UML, Objects, etc.</a></h3>
+
+<ul>
+
+<li><p><a href="http://staff.dstc.edu.au/andrewg/papers/ER2000/er2000.pdf">Object Role Modeling and XML Schemas</a> by Linda Bird, Andrew Goodchild, and Terry Halpin<br>
+Discusses how to map Object Role Models (a graphical object modeling
+technique) to XML Schemas. Essentially the reverse of the XML Schemas
+to object schema mapping Ronald Bourret's paper.</p></li>
+
+<li><p><a href="http://www.rational.com/media/uml/resources/media/uml_xmlschema33.pdf">UML for XML Schema Mapping Specification</a> by Grady Booch, Magnus Christerson, Matthew Fuchs, and Jari Koistinen<br>
+Defines a mapping from UML to SOX (an XML schema language).</p></li>
+
+<li><p><a href="http://www.rpbourret.com/xml/SchemaMap.htm">Mapping W3C Schemas to Object Schemas to Relational Schemas</a> by Ronald Bourret<br>
+Describes a complete mapping from the data model in the W3C's XML
+Schemas to object schemas and the mapping from object schemas to
+relational schemas.</p></li>
+
+<li><p><a href="http://www.rational.com/products/whitepapers/412.jsp">Migrating from XML DTD to XML Schema using UML</a> from Rational Software Corporation<br>
+"[O]utlines ... a set of rules developed to automate the generation of
+W3C XML-Schema from a Unified Modeling Language (UML) model
+representing the contents of an XML DTD. [A]lso outlines the modeling
+of W3C XML 1.0 DTD schemas using UML."</p></li>
+
+<li><p><a href="http://www.theserverside.com/resources/articles/XMLCodeGen/xmltransform.pdf">Code Generation Using XML-Based Document Transformation (PDF)</a> by Soumen Sarkar and Craig Cleaveland<br>
+Although not directly related to XML data binding, this paper describes
+how XSLT can be used to generate code. At least one data binding
+product (XJay) does this.</p></li>
+
+</ul>
+
+<h3><a name="books">3.5 Books</a></h3>
+
+<ul>
+
+<li><p><a href="http://www.oreilly.com/catalog/javaxmldatabind/">Java &amp; XML Data Binding</a> by Brett McLaughlin<br>
+A book describing JAXB and Open Source data binding products (Zeus,
+Castor, and Quick). The book can be bought from the linked-to page.</p></li>
+
+</ul>
+
+<h3><a name="specs">3.6 Specifications</a></h3>
+
+<ul>
+
+<li><p><a href="http://java.sun.com/xml/jaxb/">JAXB Specification (Java Architecture for XML Binding, aka Adelard, aka JSR-31)</a> from Sun Microsystems<br>
+Download the specification from this page.</p></li>
+
+<li><p><a href="http://java.sun.com/aboutJava/communityprocess/jsr/jsr_057_jbprs.html">
+Long-Term Persistence for JavaBeansTM Specification (aka JSR-57)</a> from Sun Microsystems<br>
+"JSR 57 provides streams to convert graphs of JavaBeansTM architecture
+to and from version resilient file formats (typically XML documents)."
+It is not clear exactly what is available in the way of code and/or a
+specification.</p></li>
+
+</ul>
+
+<h2><a name="comments">4.0 Comments and Feedback</a></h2>
+
+<p>Please send comments and feedback to Ronald Bourret at
+rpbourret@rpbourret.com. Please note that I travel often and may take
+two to three weeks to respond.</p>
+
+<h3><a name="suggested">4.1 Suggested Products</a></h3>
+
+<p>If there is a product that you would like to see listed on this
+page, please send me information at the above email address. You are
+welcome to include a description of the product. This will help get
+your product listed faster, as I am always behind in
+researching/writing such descriptions. Your description will be clearly
+labeled as "From the company:" and I reserve the right to edit it. Any
+changes I make will be returned to you for technical review/approval.</p>
+
+<p>Here are some guidelines to help you out:</p>
+
+<ul>
+<li><p><b>Audience.</b> The intended audience is programmers.</p></li>
+
+<li><p><b>Technical detail.</b> The purpose of the description is to
+give a concise technical description of the product: what it does, how
+it does it, and what features it has.</p></li>
+
+<li><p><b>Focus on XML.</b> Focus on the XML aspects of the product,
+even if these took less time to write than that cool GUI tool. Mention
+the GUI tool in one sentence or less. ("Other features include ...")</p></li>
+
+<li><p><b>User tasks.</b> Be sure to describe what the user must do.
+Writing code is different from filling in forms, both in terms of
+flexibility and difficulty.</p></li>
+
+<li><p><b>No vaporware.</b> The features you describe must be in a released version of the product, not just in the specification or "under development".</p></li>
+
+<li><p><b>No marketing lingo.</b> All marketing lingo will be deleted.
+Obvious examples of marketing terms are "enterprise-wide solution" and
+"business critical". Less obvious examples are such unverifiable terms
+as "fast", "scalable", and "robust".</p></li>
+
+<li><p><b>Still not sure what to write?</b> Look at the descriptions of similar products in the list.</p></li>
+</ul>
+
+<p></p>
+
+<p><a href="http://www.rpbourret.com/index.htm">Back to Ron Bourret's home page</a></p>
+
+</body>
+</html>
