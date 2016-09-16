@@ -1,0 +1,2850 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><head><title>XML Namespaces FAQ</title></head>
+
+<body>
+
+<center>
+<script type="text/javascript"><!--
+google_ad_client = "pub-5162200697094810";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_channel ="4331131656";
+google_color_border = ["FF4500","578A24"];
+google_color_bg = ["FFEBCD","CCFF99"];
+google_color_link = ["DE7008","00008B"];
+google_color_url = ["E0AD12","00008B"];
+google_color_text = ["8B4513","000000"];
+//--></script>
+
+<h1>XML Namespaces FAQ</h1>
+<p>Maintained by Ronald Bourret</p>
+
+<p>Copyright 2000-2004 by Ronald Bourret<br>
+(Last updated May, 2004)</p>
+</center>
+
+<h2>Table of Contents</h2>
+
+<p>
+<a href="#p1">PART I: OVERVIEW</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s1">SECTION 1: EXECUTIVE SUMMARY</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q1_1">1.1) Can you give me an executive summary of what XML namespaces are?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q1_2">1.2) Can you give me an executive summary of what XML namespaces are not?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s2">SECTION 2: TRADITIONAL NAMESPACES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q2_1">2.1) What is a traditional namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q2_2">2.2) What is the relationship between different traditional namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q2_3">2.3) What are traditional namespaces used for?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s3">SECTION 3: XML NAMESPACES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_1">3.1) What is the purpose of XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_2">3.2) What is an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_3">3.3) Does XML namespaces recommendation define anything except a two-part naming system for element types and attributes?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_4">3.4) What do XML namespaces actually contain?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_5">3.5) Are the names of all element types and attributes in some XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_6">3.6) Do XML namespaces apply to entity names, notation names, or processing instruction targets?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_7">3.7) Who can create an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_8">3.8) Do I need to use XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_9">3.9) What is the relationship between XML namespaces and the XML 1.0 recommendation?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q3_10">3.10) What is the difference between versions 1.0 and 1.1 of the XML namspaces recommendation?</a><br>
+
+<br><a href="#p2">PART II: DECLARING AND USING XML NAMESPACES</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s4">SECTION 4: DECLARING XML NAMESPACES IN AN XML DOCUMENT</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_1">4.1) How do I declare an XML namespace in an XML document?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_2">4.2) Where can I declare an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_3">4.3) Can I use an attribute default in a DTD to declare an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_4">4.4) Do the default values of xmlns attributes declared in the DTD apply to the DTD?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_5">4.5) How do I override an XML namespace declaration that uses a prefix?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_6">4.6) How do I override a default XML namespace declaration?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_7">4.7) How do I undeclare an XML namespace prefix?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_8">4.8) How do I undeclare the default XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_9">4.9) Why are special attributes used to declare XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q4_10">4.10) How do different XML technologies treat XML namespace declarations?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s5">SECTION 5: USING XML NAMESPACES IN AN XML DOCUMENT</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q5_1">5.1) How do I use prefixes to refer to element type and attribute names in an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q5_2">5.2) How do I use the default XML namespace to refer to element type names in an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q5_3">5.3) How do I use the default XML namespace to refer to attribute names in an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q5_4">5.4) When should I use the default XML namespace instead of prefixes?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s6">SECTION 6: SCOPE OF XML NAMESPACE DECLARATIONS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_1">6.1) What is the scope of an XML namespace declaration?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_2">6.2) Does the scope of an XML namespace declaration include the element it is declared on?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_3">6.3) If an element or attribute is in the scope of an XML namespace declaration, is its name in that namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_4">6.4) What happens when an XML namespace declaration goes out of scope?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_5">6.5) What happens if no XML namespace declaration is in scope?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_6">6.6) Can multiple XML namespace declarations be in scope at the same time?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_7">6.7) How can I declare XML namespaces so that all elements and attributes are in their scope?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q6_8">6.8) Does the scope of an XML namespace declaration ever include the DTD?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s7">SECTION 7: XML NAMESPACES AND DTDs</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_1">7.1) Can I use XML namespaces in DTDs?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_2">7.2) Do XML namespace declarations apply to DTDs?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_3">7.3) Can I use qualified names in DTDs?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_4">7.4) Can the content model in an element type declaration contain element types whose names come from other XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_5">7.5) Can the attribute list of an element type contain attributes whose names come from other XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_6">7.6) How can I construct an XML document that is valid and conforms to the XML namespaces recommendation?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_7">7.7) How can I allow the prefixes in my document to be different from the prefixes in my DTD?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_8">7.8) How can I validate an XML document that uses XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q7_9">7.9) If I start using XML namespaces, do I need to change my existing DTDs?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s8">SECTION 8: USING DOCUMENTS THAT USE XML NAMESPACES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q8_1">8.1) How do I create documents that use XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q8_2">8.2) How can I check that a document conforms to the XML namespaces recommendation?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q8_3">8.3) Can I use the same document with both namespace-aware and namespace-unaware applications?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q8_4">8.4) What software is needed to process XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q8_5">8.5) How can I use XML namespaces to combine documents that use different element type and attribute names?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q8_6">8.6) How do I use XML namespaces with Internet Explorer 5.0 and/or the MSXML parser?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s9">SECTION 9: PROCESSING XML NAMESPACES IN XML APPLICATIONS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_1">9.1) How do applications process documents that use XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_2">9.2) How do I use XML namespaces with SAX 1.0?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_3">9.3) How do I use XML namespaces with SAX 2.0?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_4">9.4) How do I use XML namespaces with DOM level 1?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_5">9.5) How do I use XML namespaces with DOM level 2?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_6">9.6) Can an application process documents that use XML namespaces and documents that don't use XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_7">9.7) Can an application be both namespace-aware and namespace-unaware?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q9_8">9.8) What does a namespace-aware application do when it encounters an error?</a><br>
+
+<br><a href="#p3">PART III: NAMES, PREFIXES, AND URIs</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s10">SECTION 10: NAMES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_1">10.1) What is a qualified name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_2">10.2) What characters are allowed in a qualified name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_3">10.3) Where can qualified names appear?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_4">10.4) Can qualified names be used in attribute values?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_5">10.5) How are qualified names mapped to names in XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_6">10.6) What is a prefixed name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_7">10.7) What is an unprefixed name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_8">10.8) Are unprefixed names in an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_9">10.9) What is a local name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_10">10.10) What is a namespace name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_11">10.11) What is a universal name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_12">10.12) How are universal names represented?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q10_13">10.13) Are universal names universally unique?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s11">SECTION 11: XML NAMESPACE PREFIXES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_1">11.1) What is an XML namespace prefix?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_2">11.2) What characters are allowed in an XML namespace prefix?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_3">11.3) Are prefixes significant?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_4">11.4) Can I use the same prefix for more than one XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_5">11.5) Can I use more than one prefix for the same XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_6">11.6) How are prefixes declared?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_7">11.7) Can I undeclare a prefix -- that is, dissociate a prefix from an XML namespace?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_8">11.8) What happens if I use a prefix that is not declared?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_9">11.9) What happens if there is no prefix on an element type name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q11_10">11.10) What happens if there is no prefix on an attribute name?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s12">SECTION 12: XML NAMESPACE NAMES (URIs)</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q12_1">12.1) What is an XML namespace URI?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q12_2">12.2) What is an XML namespace name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q12_3">12.3) What does the URI used as an XML namespace name point to?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q12_4">12.4) Can I resolve the URI used as an XML namespace name?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q12_5">12.5) Can I use a relative URI as a namespace name?</a><br>
+
+<br><a href="#p4">PART IV: MISCELLANEOUS</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s13">SECTION 13: POLITICS AND REVOLUTIONS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q13_1">13.1) Why are XML namespaces so hard to understand and use?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q13_2">13.2) Are there any alternatives to XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q13_3">13.3) How controversial are XML namespaces?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s14">SECTION 14: XML NAMESPACE RESOURCES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q14_1">14.1) What resources are available for learning about XML namespaces?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#q14_2">14.2) What utilities are available for working with XML namespaces?</a><br>
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#s15">SECTION 15: COMMENTS, COMPLAINTS, AND SUGGESTIONS</a><br></p>
+
+<h2><a name="p1">PART I</a>: OVERVIEW</h2>
+
+<h3>1) <a name="s1">SECTION 1</a>: EXECUTIVE SUMMARY</h3>
+
+<h4><a name="q1_1">1.1)</a> Can you give me an executive summary of what XML namespaces are?</h4>
+
+<p>Sure. Here it is in five easy bullet points.</p>
+
+<ul>
+<li><p>The XML namespaces recommendation defines a way to distinguish
+between duplicate element type and attribute names. Such duplication
+might occur, for example, in an XSLT stylesheet or in a document that
+contains element types and attributes from two different DTDs.</p></li>
+
+<li><p>An XML namespace is a collection of element type and attribute
+names. The namespace is identified by a unique name, which is a URI.
+Thus, any element type or attribute name in an XML namespace can be
+uniquely identified by a two-part name: the name of its XML namespace
+and its local name. <b>This two-part naming system is the only thing defined by the XML namespaces recommendation.</b></p></li>
+
+<li><p>XML namespaces are declared with an xmlns attribute, which can
+associate a prefix with the namespace. The declaration is in scope for
+the element containing the attribute and all its descendants. For
+example:</p></li>
+
+<pre>  &lt;!-- Declares two XML namespaces. Their scope is the A and B elements. --&gt;
+  &lt;A xmlns:foo="http://www.foo.org/" xmlns="http://www.bar.org/"&gt;
+     &lt;B&gt;abcd&lt;/B&gt;
+  &lt;/A&gt;
+</pre>
+
+<li><p>If an XML namespace declaration contains a prefix, you refer to
+element type and attribute names in that namespace with the prefix. For
+example:</p></li>
+
+<pre>  &lt;!-- A and B are in the http://www.foo.org/ namespace, which is associated with the foo prefix. --&gt;
+  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B&gt;abcd&lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<li><p>If an XML namespace declaration does not contain a prefix, the
+namespace is the default XML namespace and you refer to element type
+names in that namespace without a prefix. For example:</p></li>
+
+<pre>  &lt;!-- This is equivalent to the previous example but uses a default namespace instead of the foo prefix. --&gt;
+  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B&gt;abcd&lt;B&gt;
+  &lt;/A&gt;
+</pre>
+
+</ul>
+
+<h4><a name="q1_2">1.2)</a> Can you give me an executive summary of what XML namespaces are not?</h4>
+
+<p>They aren't a cure of cancer, they aren't a way to win the lottery,
+and they aren't a direct cause of world peace. They also aren't very
+difficult to understand or use. Two things that XML namespaces are not
+have caused a lot of confusion, so we'll mention them here:</p>
+
+<ul>
+<li><p>XML namespaces are not a technology for joining XML documents
+that use different DTDs. Although they might be used in such a
+technology, they don't provide it themselves.</p></li>
+
+<li><p>The URIs used as XML namespace names are not guaranteed to point
+to schemas, information about the namespace, or anything else --
+they're just identifiers. URIs were used simply because they're a
+well-known system for creating unique identifiers. Don't even think
+about trying to resolve these URIs. (For details, see <a href="#q12_4">question 12.4</a>.)</p></li>
+</ul>
+
+<h3>2) <a name="s2">SECTION 2</a>: TRADITIONAL NAMESPACES</h3>
+
+<h4><a name="q2_1">2.1)</a> What is a traditional namespace?</h4>
+
+<p>Before discussing XML namespaces, it is useful to discuss namespaces
+in general. In this FAQ, we will refer to such namespaces as <i>traditional namespaces</i>. We will refer to XML namespaces as <i>XML namespaces</i>. The word <i>namespace</i>
+can refer to either a traditional namespace or an XML namespace,
+depending on context, but will generally refer to an XML namespace.</p>
+
+<p>A traditional namespace is a set of zero or more names, each of
+which must be unique within the namespace and constructed according to
+the rules (if any) of the namespace. For example, the names of element
+types in an XML document inhabit a traditional namespace, as do the
+names of tables in a relational database and the names of class
+variables in a Java class. Traditional namespaces also occur outside
+the field of computer science -- for example, the names of people could
+be thought to inhabit a traditional namespace, as could the names of
+species.</p>
+
+<h4><a name="q2_2">2.2)</a> What is the relationship between different traditional namespaces?</h4>
+
+<p>They are disjoint -- that is, they are not related. Because of this,
+a name in one traditional namespace does not collide with the same name
+in a different traditional namespace. This property is useful to
+applications that have multiple sets of names. By assigning each set of
+names to a different traditional namespace, they can allow the same
+name to occur in each set of names without fear of collision.</p>
+
+<p>For example, in the following XML document, there is no conflict between the three different uses of the name Value.</p>
+
+<pre>  &lt;AuctionItem&gt;
+     &lt;Title Value="486Laptop"/&gt;
+     &lt;Category Value="Computers"/&gt;
+     &lt;Value&gt;$100&lt;/Value&gt;
+  &lt;/AuctionItem&gt;
+</pre>
+
+<p>This is because an XML document has one traditional namespace for
+element type names and, for each element type, one traditional
+namespace for the names of the attributes that apply to that element
+type. Thus, the two Value attribute names don't conflict because each
+is assigned to a different traditional namespace -- the first to the
+attribute namespace for the Title element type and the second to the
+attribute namespace for the Category element type. Furthermore, neither
+of the Value attribute names conflicts with the Value element type name
+because element type names are kept in a traditional namespace that is
+separate from the attribute namespaces.</p>
+
+<p>Other examples of applications that use multiple traditional namespaces include:</p>
+
+<ul>
+<li><p>Java classes. In a Java class, there is one traditional
+namespace for the names of class variables, one traditional namespace
+for the names of methods, and, for each method, one traditional
+namespace for the names of variables local to that method.</p></li>
+
+<li><p>Relational databases. In a relational database, there is one
+traditional namespace for the names of tables and, for each table, one
+traditional namespace for the names of columns in that table.</p></li>
+</ul>
+
+<h4><a name="q2_3">2.3)</a> What are traditional namespaces used for?</h4>
+
+<p>Perhaps the most common (computer science) use of traditional
+namespaces is to provide a container for a set of identifiers. For
+example, traditional namespaces are used to contain the names
+(identifiers) of element types in an XML document, the names of class
+variables in a Java class, and the names of tables in a relational
+database. Traditional namespaces are useful in this regard because of
+their requirement that each name in the namespace be unique. Thus, when
+a new name (identifier) is added to the namespace, the uniqueness of
+the identifier can be verified by checking that the name does not
+already exist in the namespace.</p>
+
+<p>(Note that just because a set of objects draws its names from some
+traditional namespace does not mean that those names uniquely identify
+the objects. For example, two different people can share the same name,
+as can two different element nodes in a DOM tree, which use element
+type names as their names. For the names in a traditional namespace to
+uniquely identify the objects in a set, the objects in the set must
+draw their names only from that namespace and no name can be applied to
+more than one object. In practice, the names from a single traditional
+namespace are only used to identify the objects in a single set;
+otherwise, additional information must be stored stating which names
+apply to which set.)</p>
+
+<h3>3) <a name="s3">SECTION 3</a>: XML NAMESPACES</h3>
+
+<h4><a name="q3_1">3.1)</a> What is the purpose of XML namespaces?</h4>
+
+<p>XML namespaces are designed to provide universally unique names for
+elements and attributes. This allows people to do a number of things,
+such as:</p>
+
+<ul>
+
+<li><p>Combine fragments from different documents without any naming conflicts. (See example below.)</p></li>
+
+<li><p>Write reusable code modules that can be invoked for specific
+elements and attributes. Universally unique names guarantee that such
+modules are invoked only for the correct elements and attributes.</p></li>
+
+<li><p>Define elements and attributes that can be reused in other
+schemas or instance documents without fear of name collisions. For
+example, you might use XHTML elements in a parts catalog to provide
+part descriptions. Or you might use the nil attribute defined in XML
+Schemas to indicate a missing value.</p></li>
+
+</ul>
+
+<p>As an example of how XML namespaces are used to resolve naming
+conflicts in XML documents that contain element types and attributes
+from multiple XML languages, consider the following two XML documents:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;Address&gt;
+     &lt;Street&gt;Wilhelminenstr. 7&lt;/Street&gt;
+     &lt;City&gt;Darmstadt&lt;/City&gt;
+     &lt;State&gt;Hessen&lt;/State&gt;
+     &lt;Country&gt;Germany&lt;/Country&gt;
+     &lt;PostalCode&gt;D-64285&lt;/PostalCode&gt;
+  &lt;/Address&gt;
+</pre>
+
+<p>and:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;Server&gt;
+     &lt;Name&gt;OurWebServer&lt;/Name&gt;
+     &lt;Address&gt;123.45.67.8&lt;/Address&gt;
+  &lt;/Server&gt;
+</pre>
+
+<p>Each document uses a different XML language and each language
+defines an Address element type. Each of these Address element types is
+different -- that is, each has a different content model, a different
+meaning, and is interpreted by an application in a different way. This
+is not a problem as long as these element types exist only in separate
+documents. But what if they are combined in the same document, such as
+a list of departments, their addresses, and their Web servers? How does
+an application know which Address element type it is processing?</p>
+
+<p>One solution is to simply rename one of the Address element types --
+for example, we could rename the second element type IPAddress.
+However, this is not a useful long term solution. One of the hopes of
+XML is that people will standardize XML languages for various subject
+areas and write modular code to process those languages. By reusing
+existing languages and code, people can quickly define new languages
+and write applications that process them. If we rename the second
+Address element type to IPAddress, we will break any code that expects
+the old name.</p>
+
+<p>A better answer is to assign each language (including its Address
+element type) to a different namespace. This allows us to continue
+using the Address name in each language, but to distinguish between the
+two different element types. The mechanism by which we do this is XML
+namespaces.</p>
+
+<p>(Note that by assigning each Address name to an XML namespace, we
+actually change the name to a two-part name consisting of the name of
+the XML namespace plus the name Address. This means that any code that
+recognizes just the name Address will need to be changed to recognize
+the new two-part name. However, this only needs to be done once, as the
+two-part name is universally unique. For more information about the
+uniqueness of universal name, see <a href="#q10_12">question 10.13</a>; for more information about processing universal names, see <a href="#q9_1">question 9.1</a>.)</p>
+
+<h4><a name="q3_2">3.2)</a> What is an XML namespace?</h4>
+
+<p>An XML namespace is a collection of element type and attribute
+names. The collection itself is unimportant -- in fact, a reasonable
+argument can be made that XML namespaces don't actually exist as
+physical or conceptual entities (see myth #1 in<!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=2">--> <a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth1">"Namespace Myths Exploded"</a>).
+What is important is the name of the XML namespace, which is a URI.
+This allows XML namespaces to provide a two-part naming system for
+element types and attributes. The first part of the name is the URI
+used to identify the XML namespace -- the <i>namespace name</i>. The second part is the element type or attribute name itself -- the <i>local part</i>, also known as the <i>local name</i>. Together, they form the <i>universal name</i>.</p>
+
+<p><b>This two-part naming system is the only thing defined by the XML namespaces recommendation.</b></p>
+
+<p>By using multiple XML namespaces, multiple element types with the
+same local name can inhabit the same XML document. For example, the
+following document uses XML namespaces to distinguish between two
+different element types named Address.</p>
+
+<pre>  &lt;Department&gt;
+     &lt;Name&gt;DVS1&lt;/Name&gt;
+     &lt;addr:Address xmlns:addr="http://www.tu-darmstadt.de/ito/addresses"&gt;
+        &lt;addr:Street&gt;Wilhelminenstr. 7&lt;/addr:Street&gt;
+        &lt;addr:City&gt;Darmstadt&lt;/addr:City&gt;
+        &lt;addr:State&gt;Hessen&lt;/addr:State&gt;
+        &lt;addr:Country&gt;Germany&lt;/addr:Country&gt;
+        &lt;addr:PostalCode&gt;D-64285&lt;/addr:PostalCode&gt;
+     &lt;/addr:Address&gt;
+     &lt;serv:Server xmlns:serv="http://www.tu-darmstadt.de/ito/servers"&gt;
+        &lt;serv:Name&gt;OurWebServer&lt;/serv:Name&gt;
+        &lt;serv:Address&gt;123.45.67.8&lt;/serv:Address&gt;
+     &lt;/serv:Server&gt;
+  &lt;/Department&gt;
+</pre>
+
+<p>The first Address element type name belongs to the
+http://www.tu-darmstadt.de/ito/addresses XML namespace. It has a
+universal (two-part) name of "http://www.tu-darmstadt.de/ito/addresses"
+plus "Address". (Following the convention proposed by James Clark in
+his paper XML Namespaces (see <a href="#q14_1">question 14.1</a>), we
+write this as {http://www.tu-darmstadt.de/ito/addresses}Address.) The
+second Address element type name belongs to the
+http://www.tu-darmstadt.de/ito/servers XML namespace and has a
+universal name of {http://www.tu-darmstadt.de/ito/servers}Address.
+Thus, each universal name is unique, meeting the requirement that each
+element type in an XML document have a unique name.</p>
+
+<h4><a name="q3_3">3.3)</a> Does the XML namespaces recommendation define anything except a two-part naming system for element types and attributes?</h4>
+
+<p>No.</p>
+
+<p>This is a very important point and a source of much confusion, so we will repeat it:</p>
+
+<p>&nbsp;&nbsp;&nbsp;<b>THE XML NAMESPACES RECOMMENDATION DOES NOT<br>
+&nbsp;&nbsp;&nbsp;DEFINE ANYTHING EXCEPT A TWO-PART NAMING SYSTEM<br>
+&nbsp;&nbsp;&nbsp;FOR ELEMENT TYPES AND ATTRIBUTES.</b></p>
+
+<p>In particular, they do not provide or define any of the following:</p>
+
+<ul>
+<li><p>A way to merge two documents that use different DTDs. (See <a href="#q8_5">question 8.5</a>.)</p></li>
+
+<li><p>A way to associate XML namespaces and schema information. (See <a href="#q12_2">question 12.2</a> and myth #8 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=3#myth8">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth8">"Namespace Myths Exploded"</a>.)</p></li>
+
+<li><p>A way to validate documents that use XML namespaces. (See <a href="#q7_6">question 7.6</a>.)</p></li>
+
+<li><p>A way to associate element type or attribute declarations in a DTD with an XML namespace. (See <a href="#q7_2">question 7.2</a>.)</p></li>
+</ul>
+
+<h4><a name="q3_4">3.4)</a> What do XML namespaces actually contain?</h4>
+
+<p>XML namespaces are collections of names, nothing more. That is, they contain the <i>names</i> of element types and attributes, not the elements or attributes themselves. For example, consider the following document.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;B foo:C="foo" D="bar"/&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>The element type <i>name</i> A and the attribute <i>name</i> C are in the http://www.foo.org/ namespace because they are mapped there by the foo prefix. The element type <i>name</i> B and the attribute name D are not in any XML namespace because no prefix maps them there. On the other hand, the <i>elements</i>
+A and B and the attributes C and D are not in any XML namespace, even
+though they are physically within the scope of the http://www.foo.org/
+namespace declaration. This is because XML namespaces contain <i>names</i>, not <i>elements</i> or <i>attributes</i>.</p>
+
+<p>XML namespaces also do not contain the definitions of the element
+types or attributes. This is an important difference, as many people
+are tempted to think of an XML namespace as a schema, which it is not.
+(For more information, see myth #8 in<!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=3#myth8">--> <a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth8">"Namespace Myths Exploded"</a>.)</p>
+
+<p>(For information about the structure of an XML namespace, see myth #6 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=3#myth6">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth6">"Namespace Myths Exploded"</a>.)</p>
+
+<h4><a name="q3_5">3.5)</a> Are the names of all element types and attributes in some XML namespace?</h4>
+
+<p>No.</p>
+
+<p>If an element type or attribute name is not specifically declared to
+be in an XML namespace -- that is, it is unprefixed and (in the case of
+element type names) there is no default XML namespace -- then that name
+is not in any XML namespace. If you want, you can think of it as having
+a null URI as its name, although no "null" XML namespace actually
+exists. For example, in the following, the element type name B and the
+attribute names C and E are not in any XML namespace:</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;B C="bar"/&gt;
+     &lt;foo:D E="bar"/&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>For more information about unprefixed attribute names and XML namespaces, see myth #4 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=2#myth4">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth4">"Namespace Myths Exploded"</a>.</p>
+
+<h4><a name="q3_6">3.6)</a> Do XML namespaces apply to entity names, notation names, or processing instruction targets?</h4>
+
+<p>No.</p>
+
+<p>XML namespaces apply only to element type and attribute names.
+Furthermore, in an XML document that conforms to the XML namespaces
+recommendation, entity names, notation names, and processing
+instruction targets must not contain colons.</p>
+
+<h4><a name="q3_7">3.7)</a> Who can create an XML namespace?</h4>
+
+<p>Anybody can create an XML namespace -- all you need to do is assign
+a URI as its name and decide what element type and attribute names are
+in it. The URI must be under your control and should not be being used
+to identify a different XML namespace, such as by a coworker.</p>
+
+<p>(In practice, most people that create XML namespaces also describe
+the element types and attributes whose names are in it -- their content
+models and types, their semantics, and so on. However, this is not part
+of the process of creating an XML namespace, nor does the XML namespace
+include or provide a way to discover such information.)</p>
+
+<h4><a name="q3_8">3.8)</a> Do I need to use XML namespaces?</h4>
+
+<p>Maybe, maybe not.</p>
+
+<p>If you don't have any naming conflicts in the XML documents you are
+using today, as is often the case with documents used inside a single
+organization, then you probably don't need to use XML namespaces.
+However, if you do have conflicts today, or if you expect conflicts in
+the future due to distributing your documents outside your organization
+or bringing outside documents into your organization, then you should
+probably use XML namespaces.</p>
+
+<p>Regardless of whether you use XML namespaces in your own documents,
+it is likely that you will use them in conjunction with some other XML
+technology, such as XSL, XHTML, or XML Schemas. For example, the
+following XSLT (XSL Transformations) stylesheet uses XML namespaces to
+distinguish between element types defined in XSLT and those defined
+elsewhere:</p>
+
+<pre>  &lt;xsl:stylesheet version="1.0"
+                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
+     &lt;xsl:template match="Address"&gt;
+     &lt;!-- The Addresses element type is not part of the XSLT namespace. --&gt;
+     &lt;Addresses&gt;
+        &lt;xsl:apply-templates/&gt;
+     &lt;/Addresses&gt;
+     &lt;/xsl:template&gt;
+  &lt;/xsl:stylesheet&gt;
+</pre>
+
+<h4><a name="q3_9">3.9)</a> What is the relationship between XML namespaces and the XML 1.0 recommendation?</h4>
+
+<p>Although the XML 1.0 recommendation anticipated the need for XML
+namespaces by noting that element type and attribute names should not
+include colons, it did not actually support XML namespaces. Thus, XML
+namespaces are layered on top of XML 1.0. In particular, any XML
+document that uses XML namespaces is a legal XML 1.0 document and can
+be interpreted as such in the absence of XML namespaces. For example,
+consider the following document:</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B foo:C="bar"/&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>If this document is processed by a namespace-unaware processor, that
+processor will see two elements whose names are foo:A and foo:B. The
+foo:A element has an attribute named xmlns:foo and the foo:B element
+has an attribute named foo:C. On the other hand, a namespace-aware
+processor will see two elements with universal names
+{http://www.foo.org}A and {http://www.foo.org}B. The
+{http://www.foo.org}A does not have any attributes; instead, it has a
+namespace declaration that maps the foo prefix to the URI
+http://www.foo.org. The {http://www.foo.org}B element has an attribute
+named {http://www.foo.org}C.</p>
+
+<p>Needless to say, this has led to a certain amount of confusion. One
+area of confusion is the relationship between XML namespaces and
+validating XML documents against DTDs. This occurs because the XML
+namespaces recommendation did not describe how to use XML namespaces
+with DTDs. (For more information, see <a href="#s7">section 7</a>.) Fortunately, a similar situation does not occur with XML schema languages, as all of these support XML namespaces.</p>
+
+<p>The other main area of confusion is in recommendations and
+specifications such as DOM and SAX whose first version predates the XML
+namespaces recommendation. Although these have since been updated to
+include XML namespace support, the solutions have not always been
+pretty due to backwards compatibility requirements. All recommendations
+in the XML family now support XML namespaces.</p>
+
+<h4><a name="q3_10">3.10)</a> What is the difference between versions 1.0 and 1.1 of the XML namspaces recommendation?</h4>
+
+<p>There are only two differences between XML namespaces 1.0 and XML namespaces 1.1:</p>
+
+<ul>
+
+<li><p>Version 1.1 adds a way to undeclare prefixes. For more information, see <a href="#q4_7">question 4.7</a>.</p></li>
+
+<li><p>Version 1.1 uses IRIs (Internationalized Resource Identifiers)
+instead of URIs. Basically, URIs are restricted to a subset of ASCII
+characters, while IRIs allow much broader use of Unicode characters.
+For complete details, see <a href="http://www.w3.org/TR/xml-names11/#IRIs">section 9</a> of Namespaces in XML 1.1.</p></li>
+
+</ul>
+
+<p>NOTE: As of this writing (February, 2003), Namespaces in XML 1.1 is still a candidate recommendation and not widely used.</p>
+<h2><a name="p2">PART II</a>: DECLARING AND USING XML NAMESPACES</h2>
+
+<h3>4) <a name="s4">SECTION 4</a>: DECLARING XML NAMESPACES IN AN XML DOCUMENT</h3>
+
+<h4><a name="q4_1">4.1)</a> How do I declare an XML namespace in an XML document?</h4>
+
+<p>To declare an XML namespace, you use an attribute whose name has the form:</p>
+
+<pre>  xmlns:<i>prefix</i>
+        --OR--
+  xmlns
+</pre>
+
+<p>These attributes are often called <i>xmlns attributes</i> and their value is the name of the XML namespace being declared; this is a URI. The first form of the attribute (xmlns:<i>prefix</i>)
+declares a prefix to be associated with the XML namespace. The second
+form (xmlns) declares that the specified namespace is the default XML
+namespace.</p>
+
+<p>For example, the following declares two XML namespaces, named
+http://www.tu-darmstadt.de/ito/addresses and
+http://www.tu-darmstadt.de/ito/servers. The first declaration
+associates the addr prefix with the
+http://www.tu-darmstadt.de/ito/addresses namespace and the second
+declaration states that the http://www.tu-darmstadt.de/ito/servers
+namespace is the default XML namespace.</p>
+
+<pre>  &lt;Department
+       xmlns:addr="http://www.tu-darmstadt.de/ito/addresses"
+       xmlns="http://www.tu-darmstadt.de/ito/servers"&gt;
+</pre>
+
+<p><b>NOTE:</b> Technically, xmlns attributes are not attributes at all
+-- they are XML namespace declarations that just happen to look like
+attributes. Unfortunately, they are not treated consistently by the
+various XML recommendations, which means that you must be careful when
+writing an XML application.</p>
+
+<p>For example, in the XML Information Set (<a href="http://www.w3.org/TR/xml-infoset">http://www.w3.org/TR/xml-infoset</a>),
+xmlns "attributes" do not appear as attribute information items.
+Instead, they appear as namespace declaration information items. On the
+other hand, both DOM level 2 and SAX 2.0 treat namespace attributes
+somewhat ambiguously. In SAX 2.0, an application can instruct the
+parser to return xmlns "attributes" along with other attributes, or
+omit them from the list of attributes. Similarly, while DOM level 2
+sets namespace information based on xmlns "attributes", it also forces
+applications to manually add namespace declarations using the same
+mechanism the application would use to set any other attributes.</p>
+
+<h4><a name="q4_2">4.2)</a> Where can I declare an XML namespace?</h4>
+
+<p>You can declare an XML namespace on any element in an XML document.
+The namespace is in scope for that element and all its descendants
+unless it is overridden (see <a href="#q4_5">question 4.5</a> and <a href="#q4_6">question 4.6</a>) or undeclared (see <a href="#q4_8">question 4.8</a>). For more information about scope, see <a href="#s6">section 6</a>.</p>
+
+<h4><a name="q4_3">4.3)</a> Can I use an attribute default in a DTD to declare an XML namespace?</h4>
+
+<p>Yes.</p>
+
+<p>For example, the following uses the FIXED attribute xmlns:foo on the
+A element type to associate the foo prefix with the http://www.foo.org/
+namespace. The effect of this is that both A and B are in the
+http://www.foo.org/ namespace.</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (foo:B)&gt;
+     &lt;!ATTLIST foo:A
+               xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+     &lt;!ELEMENT foo:B (#PCDATA)&gt;
+  ]&gt;
+  &lt;!-- foo prefix declared through default attribute. --&gt;
+  &lt;foo:A&gt;
+     &lt;foo:B&gt;abc&lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p><b>IMPORTANT:</b> You should be very careful about placing XML
+namespace declarations in external entities (external DTDs), as
+non-validating parsers are not required to read these. For example,
+suppose the preceding DTD was placed in an external entity (foo.dtd)
+and that the document was processed by a non-validating parser that did
+not read foo.dtd. This would result in a namespace error because the
+foo prefix was never declared:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!-- foo.dtd might not be read by non-validating parsers. --&gt;
+  &lt;!DOCTYPE foo:A SYSTEM "foo.dtd"&gt;
+  &lt;!-- foo prefix not declared unless foo.dtd is read. --&gt;
+  &lt;foo:A&gt;
+     &lt;foo:B&gt;abc&lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<h4><a name="q4_4">4.4)</a> Do the default values of xmlns attributes declared in the DTD apply to the DTD?</h4>
+
+<p>No.</p>
+
+<p>Declaring a default value of an xmlns attribute in the DTD does not
+declare an XML namespace for the DTD. (In fact, no XML namespace
+declarations apply to DTDs.) Instead, these defaults (declarations)
+take effect only when the attribute is instantiated on an element. For
+example:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (foo:B)&gt;
+     &lt;!ATTLIST foo:A
+               xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+     &lt;!ELEMENT foo:B (#PCDATA)&gt;
+  ]&gt;
+  &lt;foo:A&gt;  &lt;========== Namespace declaration takes effect here.
+     &lt;foo:B&gt;abc&lt;/foo:B&gt;
+  &lt;/foo:A&gt;  &lt;========= Namespace declaration ends here.
+</pre>
+
+<p>For more information, see <a href="#q7_2">question 7.2</a>. (Note
+that an earlier version of MSXML (the parser used by Internet Explorer)
+did use fixed xmlns attribute declarations as XML namespace
+declarations, but that this was removed in MSXML 4. For more
+information, see <a href="#q8_6">question 8.6</a>.)</p>
+
+<h4><a name="q4_5">4.5)</a> How do I override an XML namespace declaration that uses a prefix?</h4>
+
+<p>To override the prefix used in an XML namespace declaration, you
+simply declare another XML namespace with the same prefix. For example,
+in the following, the foo prefix is associated with the
+http://www.foo.org/ namespace on the A and B elements and the
+http://www.bar.org/ namespace on the C and D elements. That is, the
+names A and B are in the http://www.foo.org/ namespace and the names C
+and D are in the http://www.bar.org/ namespace.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B&gt;
+        &lt;foo:C xmlns:foo="http://www.bar.org/"&gt;
+           &lt;foo:D&gt;abcd&lt;/foo:D&gt;
+        &lt;/foo:C&gt;
+     &lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>In general, this leads to documents that are confusing to read and should be avoided.</p>
+
+<h4><a name="q4_6">4.6)</a> How do I override a default XML namespace declaration?</h4>
+
+<p>To override the current default XML namespace, you simply declare
+another XML namespace as the default. For example, in the following,
+the default XML namespace is the http://www.foo.org/ namespace on the A
+and B elements and the http://www.bar.org/ namespace on the C and D
+elements. That is, the names A and B are in the http://www.foo.org/
+namespace and the names C and D are in the http://www.bar.org/
+namespace.</p>
+
+<pre>  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B&gt;
+        &lt;C xmlns="http://www.bar.org/"&gt;
+           &lt;D&gt;abcd&lt;/D&gt;
+        &lt;/C&gt;
+     &lt;/B&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>Using multiple default XML namespaces can lead to documents that are
+confusing to read and should be done carefully. For more information,
+see <a href="#q5_4">question 5.4</a>.</p>
+
+<h4><a name="q4_7">4.7)</a> How do I undeclare an XML namespace prefix?</h4>
+
+<p>In version 1.0 of the XML namespaces recommendation, you cannot
+"undeclare" an XML namespace prefix. It remains in scope until the end
+of the element on which it was declared unless it is overridden.
+Furthermore, trying to undeclare a prefix by redeclaring it with an
+empty (zero-length) name (URI) results in a namespace error. For
+example:</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B&gt;
+        &lt;foo:C xmlns:foo=""&gt;   &lt;==== This is an error in v1.0, legal in v1.1.
+           &lt;foo:D&gt;abcd&lt;/foo:D&gt;
+        &lt;/foo:C&gt;
+     &lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>In version 1.1 of the XML namespaces recommendation [currently a
+candidate recommendation -- February, 2003], you can undeclare an XML
+namespace prefix by redeclaring it with an empty name. For example, in
+the above document, the XML namespace declaration xmlns:foo="" is legal
+and removes the mapping from the foo prefix to the http://www.foo.org
+URI. Because of this, the use of the foo prefix in the foo:D element
+results in a namespace error.</p>
+
+<h4><a name="q4_8">4.8)</a> How do I undeclare the default XML namespace?</h4>
+
+<p>To "undeclare" the default XML namespace, you declare a default XML
+namespace with an empty (zero-length) name (URI). Within the scope of
+this declaration, unprefixed element type names do not belong to any
+XML namespace. For example, in the following, the default XML namespace
+is the http://www.foo.org/ for the A and B elements and there is no
+default XML namespace for the C and D elements. That is, the names A
+and B are in the http://www.foo.org/ namespace and the names C and D
+are not in any XML namespace.</p>
+
+<pre>  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B&gt;
+        &lt;C xmlns=""&gt;
+           &lt;D&gt;abcd&lt;/D&gt;
+        &lt;/C&gt;
+     &lt;/B&gt;
+  &lt;/A&gt;
+</pre>
+
+<h4><a name="q4_9">4.9)</a> Why are special attributes used to declare XML namespaces?</h4>
+
+<p>I don't know the answer to this question, but the likely reason is
+that the hope that they would simplify the process of moving fragments
+from one document to another document. An early draft of the XML
+namespaces recommendation proposed using processing instructions to
+declare XML namespaces. While these were simple to read and process,
+they weren't easy to move to other documents. Attributes, on the other
+hand, are intimately attached to the elements being moved.</p>
+
+<p>Unfortunately, this hasn't worked as well as was hoped. For example, consider the following XML document:</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B&gt;
+        &lt;foo:C&gt;bar&lt;/foo:C&gt;
+     &lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>Simply using a text editor to cut the fragment headed by the
+&lt;B&gt; element from one document and paste it into another document
+results in the loss of namespace information because the namespace
+declaration is not part of the fragment -- it is on the parent element
+(&lt;A&gt;) -- and isn't moved.</p>
+
+<p>Even when this is done programmatically, the situation isn't
+necessarily any better. For example, suppose an application uses DOM
+level 2 to "cut" the fragment from the above document and "paste" it
+into a different document. Although the namespace information is
+transferred (it is carried by each node), the namespace declaration
+(xmlns attribute) is not, again because it is not part of the fragment.
+Thus, the application must manually add the declaration before
+serializing the document or the new document will be invalid.</p>
+
+<h4><a name="q4_10">4.10)</a> How do different XML technologies treat XML namespace declarations?</h4>
+
+<p>This depends on the technology -- some treat them as attributes and
+some treat them as namespace declarations. For example, SAX1 treats
+them as attributes and SAX2 can treat them as attributes or namespace
+declarations, depending on how the parser is configured. (For more
+information, see <a href="#q9_3">question 9.3</a> and the SAX2
+documentation.) DOM levels 1 and 2 treat them as attributes, but DOM
+level 2 also interprets them as namespace declarations. (For more
+information, see <a href="#q9_5">question 9.5</a>.) XPath, XSLT, and XML Schemas treat them as namespaces declarations.</p>
+
+<p>The reason that different technologies treat these differently is
+that many of these technologies predate XML namespaces. Thus, newer
+versions of them need to worry both about XML namespaces and backwards
+compatibility issues.</p>
+
+<h3>5) <a name="s5">SECTION 5</a>: USING XML NAMESPACES IN AN XML DOCUMENT</h3>
+
+<h4><a name="q5_1">5.1)</a> How do I use prefixes to refer to element type and attribute names in an XML namespace?</h4>
+
+<p>Make sure you have declared the prefix (see <a href="#q4_1">question 4.1</a>) and that it is still in scope (see <a href="#s6">section 6</a>).
+All you need to do then is prefix the local name of an element type or
+attribute with the prefix and a colon. The result is a <i>qualified name</i> (see <a href="#q10_1">question 10.1</a>), which the application parses to determine what XML namespace the local name belongs to.</p>
+
+<p>For example, suppose you have associated the serv prefix with the
+http://www.tu-darmstadt.de/ito/servers namespace and that the
+declaration is still in scope. In the following, serv:Address refers to
+the Address name in the http://www.tu-darmstadt.de/ito/servers
+namespace. (Note that the prefix is used on both the start and end
+tags.)</p>
+
+<pre>  &lt;!-- serv refers to the http://www.tu-darmstadt.de/ito/servers namespace. --&gt;
+  &lt;serv:Address&gt;123.45.67.8&lt;/serv:Address&gt;
+</pre>
+
+<p>Now suppose you have associated the xslt prefix with the
+http://www.w3.org/1999/XSL/Transform namespace. In the following,
+xslt:version refers to the version name in the
+http://www.w3.org/1999/XSL/Transform namespace:</p>
+
+<pre>  &lt;!-- xslt refers to the http://www.w3.org/1999/XSL/Transform namespace. --&gt;
+  &lt;html xslt:version="1.0"&gt;
+</pre>
+
+<h4><a name="q5_2">5.2)</a> How do I use the default XML namespace to refer to element type names in an XML namespace?</h4>
+
+<p>Make sure you have declared the default XML namespace (see <a href="#q4_1">question 4.1</a>) and that that declaration is still in scope (see <a href="#s6">section 6</a>). All you need to do then is use the local name of an element type. Even though it is not prefixed, the result is still a <i>qualified name</i> (see <a href="#q10_1">question 10.1</a>), which the application parses to determine what XML namespace it belongs to.</p>
+
+<p>For example, suppose you declared the
+http://www.tu-darmstadt.de/ito/addresses namespace as the default XML
+namespace and that the declaration is still in scope. In the following,
+Address refers to the Address name in the
+http://www.tu-darmstadt.de/ito/addresses namespace.</p>
+
+<pre>  &lt;!-- http://www.tu-darmstadt.de/ito/addresses is the default XML namespace. --&gt;
+  &lt;Address&gt;123.45.67.8&lt;/Address&gt;
+</pre>
+
+<p>For information about how to use the default XML namespace with attribute names, see <a href="#q5_3">question 5.3</a>.</p>
+
+<h4><a name="q5_3">5.3)</a> How do I use the default XML namespace to refer to attribute names in an XML namespace?</h4>
+
+<p>You can't.</p>
+
+<p>The default XML namespace only applies to element type names, so you
+can refer to attribute names that are in an XML namespace only with a
+prefix. For example, suppose that you declared the
+http://www.tu-darmstadt.de/ito/addresses namespace as the default XML
+namespace. In the following, the type attribute name does not refer to
+that namespace, although the Address element type name does. That is,
+the Address element type name is in the
+http://www.tu-darmstadt.de/ito/addresses namespace, but the type
+attribute name is not in any XML namespace.</p>
+
+<pre>  &lt;!-- http://www.tu-darmstadt.de/ito/addresses is the default XML namespace. --&gt;
+  &lt;Address type="home"&gt;
+</pre>
+
+<p>To understand why this is true, remember that the purpose of XML
+namespaces is to uniquely identify element and attribute names.
+Unprefixed attribute names can be uniquely identified based on the
+element type to which they belong, so there is no need identify them
+further by including them in an XML namespace. In fact, the only reason
+for allowing attribute names to be prefixed is so that attributes
+defined in one XML language can be used in another XML language.</p>
+
+<p>For information about how to use the default XML namespace with element type names, see <a href="#q5_2">question 5.2</a>. For more information about unprefixed attribute names and XML namespaces, see myth #4 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=2#myth4">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth4">"Namespace Myths Exploded"</a>.</p>
+
+<h4><a name="q5_4">5.4)</a> When should I use the default XML namespace instead of prefixes?</h4>
+
+<p>This is purely a matter of choice, although your choice may affect
+the readability of the document. When elements whose names all belong
+to a single XML namespace are grouped together, using a default XML
+namespace might make the document more readable. For example:</p>
+
+<pre>  &lt;!-- A, B, C, and G are in the http://www.foo.org/ namespace. --&gt;
+  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B&gt;abcd&lt;/B&gt;
+     &lt;C&gt;efgh&lt;/C&gt;
+     &lt;!-- D, E, and F are in the http://www.bar.org/ namespace. --&gt;
+     &lt;D xmlns="http://www.bar.org/"&gt;
+        &lt;E&gt;1234&lt;/E&gt;
+        &lt;F&gt;5678&lt;/F&gt;
+     &lt;/D&gt;
+     &lt;!-- Remember! G is in the http://www.foo.org/ namespace. --&gt;
+     &lt;G&gt;ijkl&lt;/G&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>When elements whose names are in multiple XML namespaces are
+interspersed, default XML namespaces definitely make a document more
+difficult to read and prefixes should be used instead. For example:</p>
+
+<pre>  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B xmlns="http://www.bar.org/"&gt;abcd&lt;/B&gt;
+     &lt;C xmlns="http://www.foo.org/"&gt;efgh&lt;/C&gt;
+     &lt;D xmlns="http://www.bar.org/"&gt;
+        &lt;E xmlns="http://www.foo.org/"&gt;1234&lt;/E&gt;
+        &lt;F xmlns="http://www.bar.org/"&gt;5678&lt;/F&gt;
+     &lt;/D&gt;
+     &lt;G xmlns="http://www.foo.org/"&gt;ijkl&lt;/G&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>In some cases, default namespaces can be processed faster than
+namespace prefixes, but the difference is certain to be negligible in
+comparison to total processing time.</p>
+
+<h3>6) <a name="s6">SECTION 6</a>: SCOPE OF XML NAMESPACE DECLARATIONS</h3>
+
+<h4><a name="q6_1">6.1)</a> What is the scope of an XML namespace declaration?</h4>
+
+<p>The <i>scope</i> of an XML namespace declaration is that part of an
+XML document to which the declaration applies. An XML namespace
+declaration remains in scope for the element on which it is declared
+and all of its descendants, unless it is overridden or undeclared on
+one of those descendants (see questions <a href="#q4_5">4.5</a>, <a href="#q4_6">4.6</a>, and <a href="#q4_8">4.8</a>).</p>
+
+<p>For example, in the following, the scope of the declaration of the
+http://www.foo.org/ namespace is the element A and its descendants (B
+and C). The scope of the declaration of the http://www.bar.org/
+namespace is only the element C.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B&gt;
+        &lt;bar:C xmlns:bar="http://www.bar.org/" /&gt;
+     &lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<h4><a name="q6_2">6.2)</a> Does the scope of an XML namespace declaration include the element it is declared on?</h4>
+
+<p>Yes.</p>
+
+<p>For example, in the following, the names B and C are in the
+http://www.bar.org/ namespace, not the http://www.foo.org/ namespace.
+This is because the declaration that associates the foo prefix with the
+http://www.bar.org/ namespace occurs on the B element, overriding the
+declaration on the A element that associates it with the
+http://www.foo.org/ namespace.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B xmlns:foo="http://www.bar.org/"&gt;
+        &lt;foo:C&gt;abcd&lt;/foo:C&gt;
+     &lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>Similarly, in the following, the names B and C are in the
+http://www.bar.org/ namespace, not the http://www.foo.org/ namespace
+because the declaration declaring http://www.bar.org/ as the default
+XML namespace occurs on the B element, overriding the declaration on
+the A element.</p>
+
+<pre>  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B xmlns="http://www.bar.org/"&gt;
+        &lt;C&gt;abcd&lt;/C&gt;
+     &lt;/B&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>A final example is that, in the following, the attribute name D is in the http://www.bar.org/ namespace.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B foo:D="In http://www.bar.org/ namespace"
+             xmlns:foo="http://www.bar.org/"&gt;
+        &lt;C&gt;abcd&lt;/C&gt;
+     &lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>One consequence of XML namespace declarations applying to the
+elements they occur on is that they actually apply before they appear.
+Because of this, software that processes qualified names should be
+particularly careful to scan the attributes of an element for XML
+namespace declarations before deciding what XML namespace (if any) an
+element type or attribute name belongs to.</p>
+
+<h4><a name="q6_3">6.3)</a> If an element or attribute is in the scope of an XML namespace declaration, is its name in that namespace?</h4>
+
+<p>Not necessarily.</p>
+
+<p>When an element or attribute is in the scope of an XML namespace
+declaration, the element or attribute's name is checked to see if it
+has a prefix that matches the prefix in the declaration. Whether the
+name is actually in the XML namespace depends on whether the prefix
+matches. For example, in the following, the element type names A, B,
+and D and the attribute names C and E are in the scope of the
+declaration of the http://www.foo.org/ namespace. While the names A, B,
+and C are in that namespace, the names D and E are not.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B foo:C="foo" /&gt;
+     &lt;bar:D bar:E="bar" /&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<h4><a name="q6_4">6.4)</a> What happens when an XML namespace declaration goes out of scope?</h4>
+
+<p>When an XML namespace declaration goes out of scope, it simply no
+longer applies. For example, in the following, the declaration of the
+http://www.foo.org/ namespace does not apply to the C element because
+this is outside its scope. That is, it is past the end of the B
+element, on which the http://www.foo.org/ namespace was declared.</p>
+
+<pre>  &lt;!-- B is in the http://www.foo.org/ namespace; C is not in any XML namespace. --&gt;
+  &lt;A&gt;
+     &lt;B xmlns="http://www.foo.org/"&gt;abcd&lt;/B&gt;
+     &lt;C&gt;efgh&lt;/C&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>In addition to the declaration no longer applying, any declarations
+that it overrode come back into scope. For example, in the following,
+the declaration of the http://www.foo.org/ namespace is brought back
+into scope after the end of the B element. This is because it was
+overridden on the B element by the declaration of the
+http://www.bar.org/ namespace.</p>
+
+<pre>  &lt;!-- A and C are in the http://www.foo.org/ namespace. B is in the http://www.bar.org/ namespace. --&gt;
+  &lt;A xmlns="http://www.foo.org/"&gt;
+     &lt;B xmlns="http://www.bar.org/"&gt;abcd&lt;/B&gt;
+     &lt;C&gt;efgh&lt;/C&gt;
+  &lt;/A&gt;
+</pre>
+
+<h4><a name="q6_5">6.5)</a> What happens if no XML namespace declaration is in scope?</h4>
+
+<p>If no XML namespace declaration is in scope, then any prefixed
+element type or attribute names result in namespace errors. For
+example, in the following, the names foo:A and foo:B result in
+namespace errors.</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;foo:A foo:B="error" /&gt;
+</pre>
+
+<p>In the absence of an XML namespace declaration, unprefixed element
+type and attribute names do not belong to any XML namespace. For
+example, in the following, the names A and B are not in any XML
+namespace. For more information, see <a href="#q3_5">question 3.5</a>.</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;A B="no error" /&gt;
+</pre>
+
+<h4><a name="q6_6">6.6)</a> Can multiple XML namespace declarations be in scope at the same time?</h4>
+
+<p>Yes, as long as they don't use the same prefixes and at most one of
+them is the default XML namespace. For example, in the following, the
+http://www.foo.org/ and http://www.bar.org/ namespaces are both in
+scope for all elements:</p>
+
+<pre>  &lt;A xmlns:foo="http://www.foo.org/"
+     xmlns:bar="http://www.bar.org/"&gt;
+     &lt;foo:B&gt;abcd&lt;/foo:B&gt;
+     &lt;bar:C&gt;efgh&lt;/bar:C&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>One consequence of this is that you can place all XML namespace
+declarations on the root element and they will be in scope for all
+elements. This is the simplest way to use XML namespaces.</p>
+
+<h4><a name="q6_7">6.7)</a> How can I declare XML namespaces so that all elements and attributes are in their scope?</h4>
+
+<p>XML namespace declarations that are made on the root element are in
+scope for all elements and attributes in the document. This means that
+an easy way to declare XML namespaces is to declare them only on the
+root element. For example:</p>
+
+<pre>  &lt;Department
+         xmlns:addr="http://www.tu-darmstadt.de/ito/addresses"
+         xmlns:serv="http://www.tu-darmstadt.de/ito/servers"&gt;
+     &lt;Name&gt;DVS1&lt;/Name&gt;
+     &lt;addr:Address&gt;
+        &lt;addr:Street&gt;Wilhelminenstr. 7&lt;/addr:Street&gt;
+        &lt;addr:City&gt;Darmstadt&lt;/addr:City&gt;
+        &lt;addr:State&gt;Hessen&lt;/addr:State&gt;
+        &lt;addr:Country&gt;Germany&lt;/addr:Country&gt;
+        &lt;addr:PostalCode&gt;D-64285&lt;/addr:PostalCode&gt;
+     &lt;/addr:Address&gt;
+     &lt;serv:Server&gt;
+        &lt;serv:Name&gt;OurWebServer&lt;/serv:Name&gt;
+        &lt;serv:Address&gt;123.45.67.8&lt;/serv:Address&gt;
+     &lt;/serv:Server&gt;
+  &lt;/Department&gt;
+</pre>
+
+<h4><a name="q6_8">6.8)</a> Does the scope of an XML namespace declaration ever include the DTD?</h4>
+
+<p>No.</p>
+
+<p>XML namespaces can be declared only on elements and their scope
+consists only of those elements and their descendants. Thus, the scope
+can never include the DTD. For more information, see <a href="#q7_2">question 7.2</a>.</p>
+
+<h3>7) <a name="s7">SECTION 7</a>: XML NAMESPACES AND DTDs</h3>
+
+<h4><a name="q7_1">7.1)</a> Can I use XML namespaces in DTDs?</h4>
+
+<p>Yes and no.</p>
+
+<p>In particular, DTDs can contain qualified names (see <a href="#q7_3">question 7.3</a>) but XML namespace declarations do not apply to DTDs (see <a href="#q7_2">question 7.2</a>).</p>
+
+<p>This has a number of consequences. Because XML namespace declarations do not apply to DTDs:</p>
+
+<ol>
+<li><p>There is no way to determine what XML namespace a prefix in a DTD points to. Which means...</p></li>
+
+<li><p>Qualified names in a DTD cannot be mapped to universal names. Which means...</p></li>
+
+<li><p>Element type and attribute declarations in a DTD are expressed in terms of qualified names, not universal names. Which means...</p></li>
+
+<li><p>Validation cannot be redefined in terms of universal names as might be expected.</p></li>
+</ol>
+
+<p>This situation has caused numerous complaints but, as XML namespaces
+are already a recommendation, is unlikely to change. The long term
+solution to this problem is an XML schema language: all of the proposed
+XML schema languages provide a mechanism by which the local name in an
+element type or attribute declaration can be associated with an XML
+namespace. This makes it possible to redefine validity in terms of
+universal names.</p>
+
+<h4><a name="q7_2">7.2)</a> Do XML namespace declarations apply to DTDs?</h4>
+
+<p>No.</p>
+
+<p>In particular, an xmlns attribute declared in the DTD with a default
+is not an XML namespace declaration for the DTD. For more information,
+see <a href="#q4_4">question 4.4</a>. (Note that an earlier version of
+MSXML (the parser used by Internet Explorer) did use such declarations
+as XML namespace declarations, but that this was removed in MSXML 4.
+For more information, see <a href="#q8_6">question 8.6</a>.)</p>
+
+<h4><a name="q7_3">7.3)</a> Can I use qualified names in DTDs?</h4>
+
+<p>Yes.</p>
+
+<p>For example, the following is legal:</p>
+
+<pre>  &lt;!ELEMENT foo:A (foo:B)&gt;
+  &lt;!ATTLIST foo:A
+            foo:C CDATA #IMPLIED&gt;
+  &lt;!ELEMENT foo:B (#PCDATA)&gt;
+</pre>
+
+<p>However, because XML namespace declarations do not apply to DTDs (see <a href="#q7_2">question 7.2</a>),
+qualified names in the DTD cannot be converted to universal names. As a
+result, qualified names in the DTD have no special meaning. For
+example, foo:A is just foo:A -- it is not A in the XML namespace to
+which the prefix foo is mapped.</p>
+
+<p>The reason qualified names are allowed in the DTD is so that validation will continue to work. For more information, see <a href="#q7_6">question 7.6</a>.</p>
+
+<h4><a name="q7_4">7.4)</a> Can the content model in an element type declaration contain element types whose names come from other XML namespaces?</h4>
+
+<p>Yes and no.</p>
+
+<p>The answer to this question is yes in the sense that a qualified
+name in a content model can have a different prefix than the qualified
+name of the element type being declared. For example, the following is
+legal:</p>
+
+<pre>  &lt;!ELEMENT foo:A (bar:B, baz:C)&gt;
+</pre>
+
+<p>The answer to this question is no in the sense that XML namespace
+declarations do not apply to DTDs so the prefixes used in an element
+type declaration are technically meaningless. In particular, they do
+not specify that the name of a certain element type belongs to a
+certain namespace. Nevertheless, the ability to mix prefixes in this
+manner is crucial when: a) you have a document whose names come from
+multiple XML namespaces (see <a href="#q8_5">question 8.5</a>), and b)
+you want to construct that document in a way that is both valid and
+conforms to the XML namespaces recommendation (see <a href="#q7_6">question 7.6</a>).</p>
+
+<h4><a name="q7_5">7.5)</a> Can the attribute list of an element type contain attributes whose names come from other XML namespaces?</h4>
+
+<p>Yes and no, for the reasons listed in <a href="#q7_4">question 7.4</a>.</p>
+
+<p>For example, the following is legal:</p>
+
+<pre>  &lt;!ATTLIST foo:A 
+            bar:B CDATA #IMPLIED&gt;
+</pre>
+
+
+<h4><a name="q7_6">7.6)</a> How can I construct an XML document that is valid and conforms to the XML namespaces recommendation?</h4>
+
+<p>In answering this question, it is important to remember that:</p>
+
+<ul>
+<li><p>Validity is a concept defined in XML 1.0,</p></li>
+<li><p>XML namespaces are layered on top of XML 1.0 (see myth #11 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=3#myth11">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth11">"Namespace Myths Exploded"</a>), and</p></li>
+<li><p>The XML namespaces recommendation does not redefine validity, such as in terms of universal names (see myth #9 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=3#myth9">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth9">"Namespace Myths Exploded"</a>).</p></li>
+</ul>
+
+<p>Thus, validity is the same for a document that uses XML namespaces
+and one that doesn't. In particular, with respect to validity:</p>
+
+<ul>
+<li><p>xmlns attributes are treated as attributes, not XML namespace declarations.</p></li>
+
+<li><p>Qualified names are treated like other names. For example, in
+the name foo:A, foo is not treated as a namespace prefix, the colon is
+not treated as separating a prefix from a local name, and A is not
+treated as a local name. The name foo:A is treated simply as the name
+foo:A.</p></li>
+</ul>
+
+<p>Because of this, XML documents that you might expect to be valid are
+not. For example, the following document is not valid because the
+element type name A is not declared in the DTD, in spite of the fact
+both foo:A and A share the universal name {http://www.foo.org/}A:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (#PCDATA)&gt;
+     &lt;!ATTLIST foo:A
+               xmlns:foo CDATA #FIXED "http://www.foo.org/"
+               xmlns CDATA #FIXED "http://www.foo.org/"&gt;
+  ]&gt;
+  &lt;A/&gt;
+</pre>
+
+<p>Similarly, the following is not valid because the xmlns attribute is not declared in the DTD:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE A [
+     &lt;!ELEMENT A (#PCDATA)&gt;
+  ]&gt;
+  &lt;A xmlns="http://www.foo.org/" /&gt;
+</pre>
+
+<p>Furthermore, documents that you might expect to be invalid are
+valid. For example, the following document is valid but contains two
+definitions of the element type with the universal name
+{http://www.foo.org/}A:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (bar:A)&gt;
+     &lt;!ATTLIST foo:A
+               xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+     &lt;!ELEMENT bar:A (#PCDATA)&gt;
+     &lt;!ATTLIST bar:A
+               xmlns:bar CDATA #FIXED "http://www.foo.org/"&gt;
+  ]&gt;
+  &lt;foo:A&gt;
+     &lt;bar:A&gt;abcd&lt;/bar:A&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>Finally, validity has nothing to do with correct usage of XML
+namespaces. For example, the following document is valid but does not
+conform to the XML namespaces recommendation because the foo prefix is
+never declared:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (#PCDATA)&gt;
+  ]&gt;
+  &lt;foo:A /&gt;
+</pre>
+
+<p>Therefore, when constructing an XML document that uses XML
+namespaces, you need to do both of the following if you want the
+document to be valid:</p>
+
+<ul>
+<li>Declare xmlns attributes in the DTD.</li>
+<li>Use the same qualified names in the DTD and the body of the document.</li>
+</ul>
+
+<p>For example:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (foo:B)
+     &lt;!ATTLIST foo:A
+               xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+     &lt;!ELEMENT foo:B (#PCDATA)&gt;
+  ]&gt;
+  &lt;foo:A&gt;
+     &lt;foo:B&gt;abcd&lt;/foo:B&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>There is no requirement that the same prefix always be used for the
+same XML namespace. For example, the following is also valid:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (bar:B)&gt;
+     &lt;!ATTLIST foo:A
+               xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+     &lt;!ELEMENT bar:B (#PCDATA)&gt;
+     &lt;!ATTLIST bar:B
+               xmlns:bar CDATA #FIXED "http://www.foo.org/"&gt;
+  ]&gt;
+  &lt;foo:A&gt;
+     &lt;bar:B /&gt;
+  &lt;/foo:A&gt;
+</pre>
+
+<p>However, documents that use multiple prefixes for the same XML
+namespace or the same prefix for multiple XML namespaces are confusing
+to read and thus prone to error. They also allow abuses such as
+defining an element type or attribute with a given universal name more
+than once, as was seen earlier. Therefore, a better set of guidelines
+for writing documents that are both valid and conform to the XML
+namespaces recommendation is:</p>
+
+<ul>
+<li>Declare all xmlns attributes in the DTD.</li>
+<li>Use the same qualified names in the DTD and the body of the document.</li>
+<li>Use one prefix per XML namespace.</li>
+<li>Do not use the same prefix for more than one XML namespace.</li>
+<li>Use at most one default XML namespace.</li>
+</ul>
+
+<p>The latter three guidelines guarantee that prefixes are unique. This
+means that prefixes fulfill the role normally played by namespace names
+(URIs) -- uniquely identifying an XML namespace -- and that qualified
+names are equivalent to universal names, so a given universal name is
+always represented by the same qualified name. Unfortunately, this is
+contrary to the spirit of prefixes, which were designed for their
+flexibility. For a slightly better solution, see <a href="#q7_7">question 7.7</a>.</p>
+
+<h4><a name="q7_7">7.7)</a> How can I allow the prefixes in my document to be different from the prefixes in my DTD?</h4>
+
+<p>One of the problems with the solution proposed in question 7.6 is
+that it requires the prefixes in the document to match those in the
+DTD. Fortunately, there is a workaround for this problem, although it
+does require that a single prefix be used for a particular namespace
+URI throughout the document. (This is a good practice anyway, so it's
+not too much of a restriction.) The solution assumes that you are using
+a DTD that is external to the document, which is common practice.</p>
+
+<p>To use different prefixes in the external DTD and XML documents, you
+declare the prefix with a pair of parameter entities in the DTD. You
+can then override these entities with declarations in the internal DTD
+in a given XML document. This works because the internal DTD is read
+before the external DTD and the first definition of a particular entity
+is the one that is used. The following paragraphs describe how to use a
+single namespace in your DTD. You will need to modify them somewhat to
+use multiple namespaces.</p>
+
+<p>To start with, declare three parameter entities in your DTD:</p>
+
+<pre>   &lt;!ENTITY % p "" &gt;
+   &lt;!ENTITY % s "" &gt;
+   &lt;!ENTITY % nsdecl "xmlns%s;" &gt;
+</pre>
+
+<p>The p entity ("p" is short for "prefix") is used in place of the
+actual prefix in element type and attribute names. The s entity ("s" is
+short for "suffix") is used in place of the actual prefix in namespace
+declarations. The nsdecl entity ("nsdecl" is short for "namespace
+declaration") is used in place of the name of the xmlns attribute in
+declarations of that attribute.</p>
+
+<p>Now use the p entity to define parameter entities for each of the
+names in your namespace. For example, suppose element type names A, B,
+and C and attribute name D are in your namespace.</p>
+
+<pre>   &lt;!ENTITY % A "%p;A"&gt;
+   &lt;!ENTITY % B "%p;B"&gt;
+   &lt;!ENTITY % C "%p;C"&gt;
+   &lt;!ENTITY % D "%p;D"&gt;
+</pre>
+
+<p>Next, declare your element types and attributes using the "name" entities, not the actual names. For example:</p>
+
+<pre>   &lt;!ELEMENT %A; ((%B;)*, %C;)&gt;
+   &lt;!ATTLIST %A;
+             %nsdecl; CDATA "http://www.foo.org/"&gt;
+   &lt;!ELEMENT %B; EMPTY&gt;
+   &lt;!ATTLIST %B;
+             %D; NMTOKEN #REQUIRED
+             E CDATA #REQUIRED&gt;
+   &lt;!ELEMENT %C; (#PCDATA)&gt;
+</pre>
+
+<p>There are several things to notice here.</p>
+
+<ul>
+
+<li><p>Attribute D is in a namespace, so it is declared with a "name" entity. Attribute E is not in a namespace, so no entity is used.</p></li>
+
+<li><p>The nsdecl entity is used to declare the xmlns attribute. (xmlns
+attributes must be declared on every element type on which they can
+occur.) Note that a default value is given for the xmlns attribute.</p></li>
+
+<li><p>The reference to element type B in the content model of A is
+placed inside parentheses. The reason for this is that a modifier -- *
+in this case -- is applied to it. Using parentheses is necessary
+because the replacement values of parameter entities are padded with
+spaces; directly applying the modifier to the parameter entity
+reference would result in illegal syntax in the content model.</p>
+
+<p>For example, suppose the value of the A entity is "foo:A", the value
+of the B entity is "foo:B", and the value of the C entity is "foo:C".
+The declaration:</p>
+
+<pre>   &lt;!ELEMENT %A; (%B;*, %C;)&gt;
+</pre>
+
+<p>would resolve to:</p>
+
+<pre>   &lt;!ELEMENT foo:A ( foo:B *,  foo:C )&gt;
+</pre>
+
+<p>This is illegal because the * modifier must directly follow the
+reference to the foo:B element type. By placing the reference to the B
+entity in parentheses, the declaration resolves to:</p>
+
+<pre>   &lt;!ELEMENT foo:A (( foo:B )*,  foo:C )&gt;
+</pre>
+
+<p>This is legal because the * modifier directly follows the closing parenthesis.</p></li>
+</ul>
+
+<p>Now let's see how this all works. Suppose our XML document won't use
+prefixes, but instead wants the default namespace to be the
+http://www.foo.org/ namespace. In this case, no entity declarations are
+needed in the document. For example, our document might be:</p>
+
+<pre>   &lt;!DOCTYPE A SYSTEM "http://www.foo.org/foo.dtd"&gt;
+   &lt;A&gt;
+      &lt;B D="bar" E="baz buz" /&gt;
+      &lt;B D="boo" E="biz bez" /&gt;
+      &lt;C&gt;bizbuz&lt;/C&gt;
+   &lt;/A&gt;
+</pre>
+
+<p>This document is valid because the declarations for p, s, and nsdecl
+in the DTD set p and s to "" and nsdecl to "xmlns". That is, after
+replacing the p, s, and nsdecl parameter entities, the DTD is as
+follows. Notice that both the DTD and document use the element type
+names A, B, and C and the attribute names D and E.</p>
+
+<pre>   &lt;!ELEMENT  A  (( B )*,  C )&gt;
+   &lt;!ATTLIST  A 
+              xmlns  CDATA "http://www.foo.org/"&gt;
+   &lt;!ELEMENT  B  EMPTY&gt;
+   &lt;!ATTLIST  B 
+              D  NMTOKEN #REQUIRED
+             E CDATA #REQUIRED&gt;
+   &lt;!ELEMENT  C  (#PCDATA)&gt;
+</pre>
+
+<p>But what if the document wants to use a different prefix, such as
+foo? In this case, the document must override the declarations of the p
+and s entities in its internal DTD. That is, it must declare these
+entities so that they use foo as a prefix (followed by a colon) and a
+suffix (preceded by a colon). For example:</p>
+
+<pre>   &lt;!DOCTYPE foo:A SYSTEM "http://www.foo.org/foo.dtd" [
+      &lt;!ENTITY % p "foo:"&gt;
+      &lt;!ENTITY % s ":foo"&gt;
+   ]&gt;
+   &lt;foo:A&gt;
+      &lt;foo:B foo:D="bar" E="baz buz" /&gt;
+      &lt;foo:B foo:D="boo" E="biz bez" /&gt;
+      &lt;foo:C&gt;bizbuz&lt;/foo:C&gt;
+   &lt;/foo:A&gt;
+</pre>
+
+<p>In this case, the internal DTD is read before the external DTD, so
+the values of the p and s entities from the document are used. Thus,
+after replacing the p, s, and nsdecl parameter entities, the DTD is as
+follows. Notice that both the DTD and document use the element type
+names foo:A, foo:B, and foo:C and the attribute names foo:D and E.</p>
+
+<pre>   &lt;!ELEMENT  foo:A  (( foo:B )*,  foo:C )&gt;
+   &lt;!ATTLIST  foo:A 
+              xmlns:foo  CDATA "http://www.foo.org/"&gt;
+   &lt;!ELEMENT  foo:B  EMPTY&gt;
+   &lt;!ATTLIST  foo:B 
+              foo:D  NMTOKEN #REQUIRED
+             E CDATA #REQUIRED&gt;
+   &lt;!ELEMENT  foo:C  (#PCDATA)&gt;
+</pre>
+
+<h4><a name="q7_8">7.8)</a> How can I validate an XML document that uses XML namespaces?</h4>
+
+<p>When people ask this question, they usually assume that validity is
+different for documents that use XML namespaces and documents that
+don't. In fact, it isn't -- it's the same for both. Thus, there is no
+difference between validating a document that uses XML namespaces and
+validating one that doesn't. In either case, you simply use a
+validating parser or other software that performs validation.</p>
+
+<p>For information about how to construct an XML document that is valid
+and conforms to the XML namespace recommendation, see questions <a href="#q7_6">7.6</a> and <a href="#q7_7">7.7</a>.</p>
+
+<h4><a name="q7_9">7.9)</a> If I start using XML namespaces, do I need to change my existing DTDs?</h4>
+
+<p>Probably.</p>
+
+<p>If you want your XML documents to be both valid and conform to the
+XML namespaces recommendation, you need to declare any xmlns attributes
+and use the same qualified names in the DTD as in the body of the
+document. (For more information, see questions <a href="#q7_6">7.6</a> and <a href="#q7_7">7.7</a>.)</p>
+
+<p>If your DTD contains element type and attribute names from a single
+XML namespace, the easiest thing to do is to use your XML namespace as
+the default XML namespace. To do this, declare the attribute xmlns (no
+prefix) for each possible root element type. If you can guarantee that
+the DTD is always read (see <a href="#q4_3">question 4.3</a>), set the
+default value in each xmlns attribute declaration to the URI used as
+your namespace name. Otherwise, declare your XML namespace as the
+default XML namespace on the root element of each instance document.</p>
+
+<p>If your DTD contains element type and attribute names from multiple
+XML namespaces, you need to choose a single prefix for each XML
+namespace and use these consistently in qualified names in both the DTD
+and the body of each document. You also need to declare your xmlns
+attributes in the DTD and declare your XML namespaces. As in the single
+XML namespace case, the easiest way to do this is add xmlns attributes
+to each possible root element type and use default values if possible.</p>
+
+<p>Note that you should only need to make these changes once.</p>
+
+<h3>8) <a name="s8">SECTION 8</a>: USING DOCUMENTS THAT USE XML NAMESPACES</h3>
+
+<h4><a name="q8_1">8.1)</a> How do I create documents that use XML namespaces?</h4>
+
+<p>The same as you create documents that don't use XML namespaces. If
+you're currently using Notepad on Windows or emacs on Linux, you can
+continue using Notepad or emacs. If you're using an XML editor that is
+not namespace-aware, you can also continue to use that, as qualified
+names are legal names in XML documents and xmlns attributes are legal
+attributes. And if you're using an XML editor that is namespace-aware,
+it will probably provide features such as automatically declaring XML
+namespaces and keeping track of prefixes and the default XML namespace
+for you.</p>
+
+<h4><a name="q8_2">8.2)</a> How can I check that a document conforms to the XML namespaces recommendation?</h4>
+
+<p>Unfortunately, I know of no software that only checks for
+conformance to the XML namespaces recommendation. It is possible that
+some namespace-aware validating parsers (such as those from DataChannel
+(Microsoft), IBM, Oracle, or Sun) check XML namespace conformance as
+part of parsing and validating. Thus, you might be able to run your
+document through such parsers as a way of testing conformance.</p>
+
+<p>Note that writing an application to check conformance to the XML
+namespaces recommendation is not as easy as it might seem. The problem
+is that most parsers do not make DTD information available to the
+application, so it might not be possible to check conformance in the
+DTD. Also note that writing a SAX 1.0 application that checks
+conformance in the body of the document (as opposed to the DTD) should
+be an easy thing to do. (John Cowan's Namespace SAX Filter probably
+already does this. For more information, see <a href="#q9_2">question 9.2</a>.)</p>
+
+<h4><a name="q8_3">8.3)</a> Can I use the same document with both namespace-aware and namespace-unaware applications?</h4>
+
+<p>Yes.</p>
+
+<p>This situation is quite common, such as when a namespace-aware
+application is built on top of a namespace-unaware parser. Another
+common situation is when you create an XML document with a
+namespace-unaware XML editor but process it with a namespace-aware
+application.</p>
+
+<p>Using the same document with both namespace-aware and
+namespace-unaware applications is possible because XML namespaces use
+XML syntax. That is, an XML document that uses XML namespaces is still
+an XML document and is recognized as such by namespace-unaware software.</p>
+
+<p>The only thing you need to be careful about when using the same
+document with both namespace-aware and namespace-unaware applications
+is when the namespace-unaware application requires the document to be
+valid. In this case, you must be careful to construct your document in
+a way that is both valid and conforms to the XML namespaces
+recommendation. (It is possible to construct documents that conform to
+the XML namespaces recommendation but are not valid and vice versa.)
+For information about how to do this, see <a href="#q7_6">question 7.6</a>.</p>
+
+<h4><a name="q8_4">8.4)</a> What software is needed to process XML namespaces?</h4>
+
+<p>From a document author's perspective, this is generally not a
+relevant question. Most XML documents are written in a specific XML
+language and processed by an application that understands that
+language. If the language uses an XML namespace, then the application
+will already use that namespace -- there is no need for any special XML
+namespace software.</p>
+
+<p>For information about the software application writers use to process XML namespaces, see <a href="#s9">section 9</a>.</p>
+
+<h4><a name="q8_5">8.5)</a> How can I use XML namespaces to combine documents that use different element type and attribute names?</h4>
+
+<p>Before we answer this question, we need to clear up a common
+misconception about XML namespaces. It is often believed that XML
+namespaces provide some sort of magic that allows you to automatically
+combine XML documents that use separate sets of element types and
+attributes. This is not true. Although XML namespaces provide some of
+the tools you need to do this, you still need to do most of the work
+yourself, as you will see in the answer to this question.</p>
+
+<p>To combine documents that use separate sets of element types and
+attributes, all you really need to do is decide where the elements and
+attributes go in the final document. For example, does element type A
+from the first document go inside element type B? Is it a sibling? Or
+are they completely unrelated? Although the procedure for actually
+combining two documents can be easily automated, deciding how to
+combine them is not likely to ever be automated. Instead, it is a
+strictly human problem, requiring somebody to make choices.</p>
+
+<p>For example, suppose we have a document containing addresses:</p>
+
+<pre>  &lt;Address&gt;
+     &lt;Street&gt;Wilhelminenstr. 7&lt;/Street&gt;
+     &lt;City&gt;Darmstadt&lt;/City&gt;
+     &lt;State&gt;Hessen&lt;/State&gt;
+     &lt;Country&gt;Germany&lt;/Country&gt;
+     &lt;PostalCode&gt;D-64285&lt;/PostalCode&gt;
+  &lt;/Address&gt;
+</pre>
+
+<p>and a document containing Web server information:</p>
+
+<pre>  &lt;Server&gt;
+     &lt;Name&gt;OurWebServer&lt;/Name&gt;
+     &lt;Address&gt;123.45.67.8&lt;/Address&gt;
+  &lt;/Server&gt;
+</pre>
+
+<p>Now suppose we would like a document of departments, their
+addresses, and their Web servers, which we can make from the above
+documents plus a little additional information:</p>
+
+<pre>  &lt;Departments&gt;
+     &lt;Department&gt;
+        &lt;Name&gt;DVS1&lt;/Name&gt;
+        &lt;Address&gt;
+           &lt;Street&gt;Wilhelminenstr. 7&lt;/Street&gt;
+           &lt;City&gt;Darmstadt&lt;/City&gt;
+           &lt;State&gt;Hessen&lt;/State&gt;
+           &lt;Country&gt;Germany&lt;/Country&gt;
+           &lt;PostalCode&gt;D-64285&lt;/PostalCode&gt;
+        &lt;/Address&gt;
+        &lt;Server&gt;
+           &lt;Name&gt;OurWebServer&lt;/Name&gt;
+           &lt;Address&gt;123.45.67.8&lt;/Address&gt;
+        &lt;/Server&gt;
+     &lt;/Department&gt;
+     ...
+  &lt;/Departments&gt;
+</pre>
+
+<p>Unfortunately, we have a problem: there are two Address element
+types and two Name element types. (Although the Name element types both
+have a content model of PCDATA, they have different meanings -- one is
+the name of the department and the other is the name of the server --
+so we would like to recognize them as different element types.)</p>
+
+<p>To solve these conflicts, we can use XML namespaces. We assign the
+address information to the http://www.tu-darmstadt.de/ito/addresses
+namespace, the server information to the
+http://www.tu-darmstadt.de/ito/servers namespace, and the newly added
+departmental information to the http://www.tu-darmstadt.de/ito/depts
+namespace. Thus, our new document looks like:</p>
+
+<pre>  &lt;dept:Departments
+        xmlns:dept="http://www.tu-darmstadt.de/ito/depts
+        xmlns:addr="http://www.tu-darmstadt.de/ito/addresses
+        xmlns:serv="http://www.tu-darmstadt.de/ito/servers&gt;
+     &lt;dept:Department&gt;
+        &lt;dept:Name&gt;DVS1&lt;/dept:Name&gt;
+        &lt;addr:Address&gt;
+           &lt;addr:Street&gt;Wilhelminenstr. 7&lt;/addr:Street&gt;
+           &lt;addr:City&gt;Darmstadt&lt;/addr:City&gt;
+           &lt;addr:State&gt;Hessen&lt;/addr:State&gt;
+           &lt;addr:Country&gt;Germany&lt;/addr:Country&gt;
+           &lt;addr:PostalCode&gt;D-64285&lt;/addr:PostalCode&gt;
+        &lt;/addr:Address&gt;
+        &lt;serv:Server&gt;
+           &lt;serv:Name&gt;OurWebServer&lt;/serv:Name&gt;
+           &lt;serv:Address&gt;123.45.67.8&lt;/serv:Address&gt;
+        &lt;/serv:Server&gt;
+     &lt;/dept:Department&gt;
+     ...
+  &lt;/dept:Departments&gt;
+</pre>
+
+<p>Although we could have assigned only the conflicting element type
+names to XML namespaces, it is generally a better idea to keep the
+names of related element types in a single XML namespace. This avoids
+questions of having to remember which names have been placed in XML
+namespaces and which haven't, as well as avoiding future conflicts that
+might occur when these types are used elsewhere. (This does not
+necessarily mean that the names of all related element types and
+attributes should be placed in a single XML namespace. If you have a
+large and complex set of element types and attributes and expect to
+reuse subsets of it elsewhere, it might make more sense to place the
+names of each reusable subset in its own XML namespace.)</p>
+
+<p>This example was fairly simple in that it did not require us to
+change any existing content models. However, suppose we wanted to keep
+information only about servers: their name, IP address, and physical
+location. In this case, we might want to add the Address element type
+that describes street address to the content of the Server element type:</p>
+
+<pre>  &lt;serv:Servers
+        xmlns:addr="http://www.tu-darmstadt.de/ito/addresses
+        xmlns:serv="http://www.tu-darmstadt.de/ito/servers2&gt;
+     &lt;serv:Server&gt;
+        &lt;serv:Name&gt;OurWebServer&lt;/serv:Name&gt;
+        &lt;serv:Address&gt;123.45.67.8&lt;/serv:Address&gt;
+        &lt;addr:Address&gt;
+           &lt;addr:Street&gt;Wilhelminenstr. 7&lt;/addr:Street&gt;
+           &lt;addr:City&gt;Darmstadt&lt;/addr:City&gt;
+           &lt;addr:State&gt;Hessen&lt;/addr:State&gt;
+           &lt;addr:Country&gt;Germany&lt;/addr:Country&gt;
+           &lt;addr:PostalCode&gt;D-64285&lt;/addr:PostalCode&gt;
+        &lt;/addr:Address&gt;
+     &lt;/serv:Server&gt;
+     ...
+  &lt;/serv:Servers&gt;
+</pre>
+
+<p>Notice that we have changed the name of the XML namespace for the
+server information to http://www.tu-darmstadt.de/ito/servers2. This is
+because we changed the content model of the Server element type. In
+other words, the content models of the two Server element types are
+different, so they are two different element types with the same name
+and should reside in separate XML namespaces. Had we not made this
+change, software searching for the old Server element type would have
+incorrectly processed the new Server element type and vice versa.</p>
+
+<p>As you can see, there is nothing magic about combining documents. It
+is simply a matter of deciding how to fit them together and, although
+there are likely to be tools in the future that make this as easy as
+drag-and-drop, the decisions about exactly how to combine them are
+likely to always require human intervention.</p>
+
+<p>You can also see that XML namespaces played a vital role in this
+process -- they allowed us to combine the documents without changing
+the local names of any of the element types. This is important, as
+without XML namespaces we would endlessly have to invent new ways of
+renaming simple element types like Address. However, it is also
+important to understand that resolving duplicate names is the only role
+XML namespaces played in this process -- the rest was left to the
+people making the decisions.</p>
+
+<h4><a name="q8_6">8.6)</a> How do I use XML namespaces with Internet Explorer 5.0 and/or the MSXML parser?</h4>
+
+<p><b>WARNING! The following applies only to earlier versions of MSXML.
+It does not apply to MSXML 4, which is the currently shipping version
+[July, 2002].</b></p>
+
+<p>An early version of the MSXML parser, which was shipped as part of
+Internet Explorer 5.0, required that every XML namespace prefix used in
+an element type or attribute declaration had to be "declared" in the
+attribute declaration for that element type. This had to be done with a
+fixed xmlns attribute declaration. For example, the following was
+accepted by MSXML and both xmlns:foo attributes were required:</p>
+
+<pre>   &lt;!ELEMENT foo:A (#PCDATA)&gt;
+   &lt;!ATTLIST foo:A
+             xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+   &lt;!ELEMENT foo:B (#PCDATA)&gt;
+   &lt;!ATTLIST foo:B
+             xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+</pre>
+
+<p>MSXML returned an error for the following because the second foo prefix was not "declared":</p>
+
+<pre>   &lt;!ELEMENT foo:A (#PCDATA)&gt;
+   &lt;!ATTLIST foo:A
+             xmlns:foo CDATA #FIXED "http://www.foo.org/"&gt;
+   &lt;!ELEMENT foo:B (#PCDATA)&gt;
+</pre>
+
+<p>The reason for this restriction was so that MSXML could use
+universal names to match element type and attribute declarations to
+elements and attributes during validation. Although this would have
+simplified many of the problems of writing documents that are both
+valid and conform to the XML namespaces recommendation (see <a href="#q7_6">question 7.6</a>),
+some users complained about it because it was not part of the XML
+namespaces recommendation. In response to these complaints, Microsoft
+removed this restriction in later versions, which are now shipping.
+Ironically, the idea was later independently derived as a way to
+resolve the problems of validity and namespaces. However, it has not
+been implemented by anyone.</p>
+
+<h3>9) <a name="s9">SECTION 9</a>: PROCESSING XML NAMESPACES IN XML APPLICATIONS</h3>
+
+<h4><a name="q9_1">9.1)</a> How do applications process documents that use XML namespaces?</h4>
+
+<p>Applications process documents that use XML namespaces in almost
+exactly the same way they process documents that don't use XML
+namespaces. For example, if a namespace-unaware application adds a new
+sales order to a database when it encounters a SalesOrder element, the
+equivalent namespace-aware application does the same. The only
+difference is that the namespace-aware application:</p>
+
+<ul>
+<li><p>Might need to check for xmlns attributes and parse qualified
+names. Whether it does this depends on whether such processing is
+already done by lower-level software, such as a namespace-aware DOM
+implementation.</p></li>
+
+<li><p>Uses universal (two-part) names instead of local (one-part)
+names. For example, the namespace-aware application might add a new
+sales order in response to an
+{http://www.tu-darmstadt.de/ito/sales}SalesOrder element instead of a
+SalesOrder element.</p></li>
+</ul>
+
+<h4><a name="q9_2">9.2)</a> How do I use XML namespaces with SAX 1.0?</h4>
+
+<p>The easiest way to use XML namespaces with SAX 1.0 is to use John Cowan's Namespace SAX Filter (see <a href="http://www.ccil.org/%7Ecowan/XML">http://www.ccil.org/~cowan/XML</a>).
+This is a SAX filter that keeps track of XML namespace declarations,
+parses qualified names, and returns element type and attribute names as
+universal names in the form:</p>
+
+<pre>  <i>URI</i>^<i>local-name</i>
+</pre>
+
+<p>For example:</p>
+
+<pre>  http://www.tu-darmstadt.de/ito/sales^SalesOrder
+</pre>
+
+<p>Your application can then base its processing on these longer names. For example, the code:</p>
+
+<pre>   public void startElement(String elementName, AttributeList attrs)
+      throws SAXException
+   {
+      ...
+      if (elementName.equals("SalesOrder"))
+      {
+         // Add new database record.
+      }
+      ...
+   }
+</pre>
+
+<p>might become:</p>
+
+<pre>   public void startElement(String elementName, AttributeList attrs)
+      throws SAXException
+   {
+      ...
+      if (elementName.equals("http://www.tu-darmstadt.de/sales^SalesOrder"))
+      {
+         // Add new database record.
+      }
+      ...
+   }
+</pre>
+
+<p>or:</p>
+
+<pre>   public void startElement(String elementName, AttributeList attrs)
+      throws SAXException
+   {
+      ...
+      // getURI() and getLocalName() are utility functions to parse universal names.
+
+      if (getURI(elementName).equals("http://www.tu-darmstadt.de/ito/sales"))
+      {
+         if (getLocalName(elementName).equals("SalesOrder"))
+         {
+            // Add new database record.
+         }
+      }
+      ...
+   }
+</pre>
+
+<p>If you do not want to use the Namespace SAX Filter, then you will
+need to do the following in addition to identifying element types and
+attributes by their universal names:</p>
+
+<ul>
+<li><p>In startElement, scan the attributes for XML namespace
+declarations before doing any other processing. You will need to
+maintain a table of current prefix-to-URI mappings (including a null
+prefix for the default XML namespace).</p></li>
+
+<li><p>In startElement and endElement, check whether the element type
+name includes a prefix. If so, use your mappings to map this prefix to
+a URI. Depending on how your software works, you might also check if
+the local part of the qualified name includes any colons, which are
+illegal.</p></li>
+
+<li><p>In startElement, check whether attribute names include a prefix. If so, process as in the previous point.</p></li>
+</ul>
+
+<h4><a name="q9_3">9.3)</a> How do I use XML namespaces with SAX 2.0?</h4>
+
+<p>SAX 2.0 primarily supports XML namespaces through the following methods:</p>
+
+<ul>
+<li><p>startElement and endElement in the ContentHandler interface
+return namespace names (URIs) and local names as well as qualified
+names.</p></li>
+
+<li><p>getValue, getType, and getIndex in the Attributes interface can
+retrieve attribute information by namespace name (URI) and local name
+as well as by qualified name.</p></li>
+</ul>
+
+<p>For example, the namespace-unaware SAX 1.0 code:</p>
+
+<pre>   public void startElement(String elementName, AttributeList attrs)
+      throws SAXException
+   {
+      ...
+      if (elementName.equals("SalesOrder"))
+      {
+         // Add new database record.
+      }
+      ...
+   }
+</pre>
+
+<p>might become:</p>
+
+<pre>   public void startElement(String namespaceURI,
+                            String localName,
+                            String qualifiedName,
+                            Attributes attrs)
+      throws SAXException
+   {
+      ...
+      if (namespaceURI.equals("http://www.tu-darmstadt.de/sales") &amp;&amp;
+          localName.equals("SalesOrder"))
+      {
+         // Add new database record.
+      }
+      ...
+   }
+</pre>
+
+<p>Although the above methods are sufficient for most applications, SAX 2.0 also supports the following:</p>
+
+<ul>
+<li><p>startPrefixMapping and endPrefixMapping in the ContentHandler interface return scope information about individual prefixes.</p></li>
+
+<li><p>getURI, getLocalName, and getQName in the Attributes interface
+return the namespace name (URI), local name, and qualified name of an
+attribute by index.</p></li>
+
+<li><p>The http://xml.org/features/namespaces and
+http://xml.org/features/namespace-prefixes properties allow
+applications to request whether parsers return qualified names and
+xmlns attributes.</p></li>
+
+<li><p>The NamespaceSupport class helps applications track the currently declared namespace prefixes and names (URIs).</p></li>
+</ul>
+
+<p>For complete details, see the SAX 2.0 specification (<a href="http://www.saxproject.org/">http://www.saxproject.org/</a>).</p>
+
+<h4><a name="q9_4">9.4)</a> How do I use XML namespaces with DOM level 1?</h4>
+
+<p>This depends on what DOM level 1 implementation you are using. If
+you are using a namespace-aware DOM implementation, such as those from
+Data Channel (Microsoft), IBM, Oracle, or Sun, then all you need to do
+is use the methods provided by those implementations to retrieve the
+namespace name (URI) and local names. For example, the
+namespace-unaware code:</p>
+
+<pre>  // Check the local name.
+  // getNodeName() is a DOM level 1 method.
+
+  if (elementNode.getNodeName().equals("SalesOrder"))
+  {
+     // Add new database record.
+  }
+</pre>
+
+<p>might become the following namespace-aware code when using Oracle's DOM implementation:</p>
+
+<pre>  // Check the XML namespace name (URI).
+  // getNamespace() and NSElement are Oracle-specific.
+
+  if ((NSElement)elementNode).getNamespace().equals("http://www.tu-darmstadt.de/ito/sales"))
+  {
+
+     // Check the local name.
+     // getLocalName() is Oracle-specific.
+
+     if ((NSElement)elementNode.getLocalName().equals("SalesOrder"))
+     {
+        // Add new database record.
+     }
+  }
+</pre>
+
+<p>Because DOM level 1 does not include XML namespace support, each DOM
+level 1 implementation provides a slightly different interface for
+accessing XML namespace information. Most of these implementations
+include some combination of methods for getting the qualified name,
+namespace name (URI), local name, and prefix. Therefore, if you are
+writing a DOM-neutral application, you will need to define your own XML
+namespace interface and write converters for each DOM implementation
+you support. Fortunately, this is easy to do.</p>
+
+<p>If you are using a namespace-unaware DOM implementation, such as
+Docuverse version 1 or OpenXML version 1 (these may support XML
+namespaces in a later version), you will need to perform namespace
+processing yourself. Although this is largely the same as in a SAX 1.0
+application (see <a href="#q9_2">question 9.2</a>) -- checking for
+xmlns attributes on each Element node and converting qualified names on
+Element and Attr nodes to universal names -- it is potentially more
+difficult to determine what XML namespace declarations are in scope for
+any given node. If your application traverses the DOM tree in order
+from the root, this is fairly easy, as you can maintain prefix-to-URI
+mappings as you go. However, if you access the tree randomly, you may
+want to construct a parallel tree with mapping information before you
+do any other processing or rebuild the DOM tree using prefixes that map
+to known URIs.</p>
+
+<h4><a name="q9_5">9.5)</a> How do I use XML namespaces with DOM level 2?</h4>
+
+<p>DOM level 2 supports XML namespaces through a number of new methods
+and attributes. The most important of these are the namespaceURI and
+localName attributes in the Node interface; these allow applications to
+identify nodes by their namespace name (URI) and local name rather than
+by qualified name. For example, the namespace-unaware code:</p>
+
+<pre>  // Check the local name.
+  // getNodeName() is a DOM level 1 method.
+
+  if (elementNode.getNodeName().equals("SalesOrder"))
+  {
+     // Add new database record.
+  }
+</pre>
+
+<p>might become the following namespace-aware code:</p>
+
+<pre>  // Check the XML namespace name (URI).
+  // getNamespaceURI() is a DOM level 2 method.
+
+  if (elementNode.getNamespaceURI().equals("http://www.tu-darmstadt.de/ito/sales"))
+  {
+
+     // Check the local name.
+     // getLocalName() is a DOM level 2 method.
+
+     if (elementNode.getLocalName().equals("SalesOrder"))
+     {
+        // Add new database record.
+     }
+  }
+</pre>
+
+<p>Note that, unlike SAX 2.0, DOM level 2 treats xmlns attributes as normal attributes.</p>
+
+<p>For complete details, see the DOM level 2 recommendation (<a href="http://www.w3.org/TR/DOM-Level-2/">http://www.w3.org/TR/DOM-Level-2/</a>).</p>
+
+<h4><a name="q9_6">9.6)</a> Can an application process documents that use XML namespaces and documents that don't use XML namespaces?</h4>
+
+<p>Yes.</p>
+
+<p>This is a common situation for generic applications, such as
+editors, browsers, and parsers, that are not wired to understand a
+particular XML language. Such applications simply treat all element
+type and attribute names as qualified names. Those names that are not
+mapped to an XML namespace -- that is, unprefixed element type names in
+the absence of a default XML namespace and unprefixed attribute names
+-- are simply processed as one-part names, such as by using a null XML
+namespace name (URI).</p>
+
+<p>Note that such applications must decide how to treat documents that
+do not conform to the XML namespaces recommendation. For example, what
+should the application do if an element type name contains a colon
+(thus implying the existence of a prefix), but there are no XML
+namespace declarations in the document? The application can choose to
+treat this as an error, or it can treat the document as one that does
+not use XML namespaces, ignore the "error", and continue processing.</p>
+
+<h4><a name="q9_7">9.7)</a> Can an application be both namespace-aware and namespace-unaware?</h4>
+
+<p>Yes.</p>
+
+<p>However, there is generally no reason to do this. The reason is that
+most applications understand a particular XML language, such as one
+used to transfer sales orders between companies. If the element type
+and attribute names in the language belong to an XML namespace, the
+application must be namespace-aware; if not, the application must be
+namespace-unaware. For example, such an application should never need
+to recognize the element type names SalesOrder and
+{http://www.tu-darmstadt.de/ito/sales}SalesOrder.</p>
+
+<p>For a few applications, being both namespace-aware and
+namespace-unaware makes sense. For example, a parser might choose to
+redefine validity in terms of universal names (see myth #9 in<!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=3#myth9">--> <a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth9">"Namespace Myths Exploded"</a>) and have both namespace-aware and namespace-unaware validation modes. However, such applications are uncommon.</p>
+
+<h4><a name="q9_8">9.8)</a> What does a namespace-aware application do when it encounters an error?</h4>
+
+<p>The XML namespaces recommendation does not specify what a
+namespace-aware application does when it encounters a document that
+does not conform to the recommendation. Therefore, the behavior is
+application-dependent. For example, the application could stop
+processing, post an error to a log and continue processing, or ignore
+the error.</p>
+
+<h2><a name="p3">PART III</a>: NAMES, PREFIXES, AND URIs</h2>
+
+<h3>10) <a name="s10">SECTION 10</a>: NAMES</h3>
+
+<h4><a name="q10_1">10.1)</a> What is a qualified name?</h4>
+
+<p>A <i>qualified name</i> is a name of the following form. It consists of an optional <i>prefix</i> and colon, followed by the <i>local part</i>, which is sometimes known as a <i>local name</i>.</p>
+
+<pre>  <i>prefix</i>:<i>local-part</i>
+        --OR--
+  <i>local-part</i>
+</pre>
+
+<p>For example, both of the following are qualified names. The first
+name has a prefix of serv; the second name does not have a prefix. For
+both names, the local part (local name) is Address.</p>
+
+<pre>  serv:Address
+  Address
+</pre>
+
+<p>In most circumstances, qualified names are mapped to universal names. For more information, see <a href="#q10_5">question 10.5</a>.
+
+</p><h4><a name="q10_2">10.2)</a> What characters are allowed in a qualified name?</h4>
+
+<p>The prefix can contain any character that is allowed in the <a href="http://www.w3.org/TR/REC-xml#NT-Name">Name [5]</a>
+production in XML 1.0 except a colon. The same is true of the local
+name. Thus, there can be at most one colon in a qualified name -- the
+colon used to separate the prefix from the local name.</p>
+
+<h4><a name="q10_3">10.3)</a> Where can qualified names appear?</h4>
+
+<p>Qualified names can appear anywhere an element type or attribute
+name can appear: in start and end tags, as the document element type,
+and in element type and attribute declarations in the DTD. For example:</p>
+
+<pre>  &lt;!DOCTYPE foo:A [
+     &lt;!ELEMENT foo:A (foo:B)&gt;
+     &lt;!ATTLIST foo:A
+               foo:C CDATA #IMPLIED&gt;
+     &lt;!ELEMENT foo:B (#PCDATA)&gt;
+  ]&gt;
+  &lt;foo:A xmlns:foo="http://www.foo.org/" foo:C="bar"&gt;
+     &lt;foo:B&gt;abcd&lt;/foo:B&gt;
+  &lt;foo:A&gt;
+</pre>
+
+<p>Qualified names cannot appear as entity names, notation names, or processing instruction targets.</p>
+
+<h4><a name="q10_4">10.4)</a> Can qualified names be used in attribute values?</h4>
+
+<p>Yes, but they have no special significance. That is, they are not
+necessarily recognized as such and mapped to universal names. For
+example, the value of the C attribute in the following is the string
+"foo:D", not the universal name {http://www.foo.org/}D.</p>
+
+<pre>  &lt;foo:A xmlns:foo="http://www.foo.org/"&gt;
+     &lt;foo:B C="foo:D"/&gt;
+  &lt;foo:A&gt;
+</pre>
+
+<p>In spite of this, there is nothing to stop an application from
+recognizing a qualified name in an attribute value and processing it as
+such. This is being done in various technologies today. For example, in
+the following XML Schemas definition, the attribute value xsd:string
+identifies the type of the foo attribute as the universal name
+{http://www.w3.org/1999/XMLSchema}string.</p>
+
+<pre>   &lt;xsd:attribute name="foo" type="xsd:string" /&gt;
+</pre>
+
+<p>There are two potential problems with this. First, the application
+must be able to retrieve the prefix mappings currently in effect.
+Fortunately, both SAX 2.0 and DOM level 2 support this capability.
+Second, any general purpose transformation tool, such as one that
+writes an XML document in canonical form and changes namespace prefixes
+in the process, will not recognize qualified names in attribute values
+and therefore not transform them correctly. Although this may be solved
+in the future by the introduction of the QName (qualified name) data
+type in XML Schemas, it is a problem today.</p>
+
+<h4><a name="q10_5">10.5)</a> How are qualified names mapped to names in XML namespaces?</h4>
+
+<p>If a qualified name in the body of a document (as opposed to the
+DTD) includes a prefix, then that prefix is used to map the local part
+of the qualified name to a <i>universal name</i> -- that is, a name in an XML namespace. (Note that the prefix must be in scope -- see <a href="#s6">section 6</a>.)
+For example, in the following, the prefix foo is used to map the local
+names A, B, and C to names in the http://www.foo.org/ namespace:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;foo:A xmlns:foo="http://www.foo.org/" foo:C="bar"&gt;
+     &lt;foo:B&gt;abcd&lt;/foo:B&gt;
+  &lt;foo:A&gt;
+</pre>
+
+<p>If a qualified name in the body of a document does not include a
+prefix and a default XML namespace is in scope then one of two things
+happens. If the name is used as an element tag, it is mapped to a name
+in the default XML namespace. If it is used as an attribute name, it is
+not in any XML namespace (see myth #4 in<!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=2#myth4">--> <a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth4">"Namespace Myths Exploded"</a>). For example, in the following, A and B are in the http://www.foo.org/ namespace and C is not in any XML namespace:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;A xmlns="http://www.foo.org/" C="bar"&gt;
+     &lt;B&gt;abcd&lt;/B&gt;
+  &lt;A&gt;
+</pre>
+
+<p>If a qualified name in the body of a document does not include a
+prefix and no default XML namespace is in scope, then that name is not
+in any XML namespace. For example, in the following, A, B, and C are
+not in any XML namespace:</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;A C="bar"&gt;
+     &lt;B&gt;abcd&lt;/B&gt;
+  &lt;A&gt;
+</pre>
+
+<p>Qualified names in the DTD are never mapped to names in an XML
+namespace because they are never in the scope of an XML namespace
+declaration. (For more information, see <a href="#q7_2">question 7.2</a>.)</p>
+
+<h4><a name="q10_6">10.6)</a> What is a prefixed name?</h4>
+
+<p>A prefixed name is a qualified name (see <a href="#q10_1">question 10.1</a>) that contains a prefix.</p>
+
+<h4><a name="q10_7">10.7)</a> What is an unprefixed name?</h4>
+
+<p>An unprefixed name is a qualified name (see <a href="#q10_1">question 10.1</a>) that does not contain a prefix.</p>
+
+<h4><a name="q10_8">10.8)</a> Are unprefixed names in an XML namespace?</h4>
+
+<p>Only if they are used in the body of a document (as opposed to the
+DTD) as an element tag and a default XML namespace is in scope. For
+more information, see <a href="#q5_2">question 5.2</a>.</p>
+
+<h4><a name="q10_9">10.9)</a> What is a local name?</h4>
+
+<p>This is another term for the local part of a qualified name. For more information, see <a href="#q10_1">question 10.1</a>.</p>
+
+<h4><a name="q10_10">10.10)</a> What is a namespace name?</h4>
+
+<p>This is the name used to identify a namespace. It is a URI. For more information, see <a href="#q12_2">question 12.2</a>.</p>
+
+<h4><a name="q10_11">10.11)</a> What is a universal name?</h4>
+
+<p>A <i>universal name</i> is a two part name consisting of an XML
+namespace name (URI) and a local name. For example, in the following,
+the universal name is the namespace name
+"http://www.tu-darmstadt.de/ito/servers" plus the local name "Address":</p>
+
+<pre>  &lt;serv:Address xmlns:serv="http://www.tu-darmstadt.de/ito/servers"&gt;123.45.67.8&lt;/serv:Address&gt;
+</pre>
+
+<p>The ability to specify universal names is the only function of XML namespaces.</p>
+
+<h4><a name="q10_12">10.12)</a> How are universal names represented?</h4>
+
+<p>There is no standard way to represent a universal name. However, three representations are common.</p>
+
+<p>The first representation keeps the XML namespace name (URI) and the
+local name separate. For example, many DOM level 1 implementations have
+different methods for returning the XML namespace name (URI) and the
+local name of an element or attribute node.</p>
+
+<p>The second representation concatenates the namespace name (URI) and
+the local name with caret (^). The result is a universally unique (see <a href="#q10_12">question 10.12</a>) name, since carets are not allowed in URIs or local names. This is the method used by John Cowan's Namespace SAX Filter (see <a href="#q9_2">question 9.2</a>).
+For example, the universal name that has the URI
+http://www.tu-darmstadt.de/ito/servers and the local name Address would
+be represented as:</p>
+
+<pre>  http://www.tu-darmstadt.de/ito/servers^Address
+</pre>
+
+<p>The third representation, which we use in this FAQ, was suggested by James Clark in his XML Namespaces paper (see <a href="#q14_1">question 14.1</a>).
+It places the XML namespace name (URI) in braces and concatenates this
+with the local name. This notation is suggested only for documentation
+and I am aware of no code that uses it. For example, the above name
+would be represented as:</p>
+
+<pre>  {http://www.tu-darmstadt.de/ito/servers}Address
+</pre>
+
+<h4><a name="q10_13">10.13)</a> Are universal names universally unique?</h4>
+
+<p>No, but it is reasonable to assume they are.</p>
+
+<p>Universal element type and attribute names are not guaranteed to be
+universally unique -- that is, unique within the space of all XML
+documents -- because it is possible for two different people, each
+defining their own XML namespace, to use the same URI and the same
+element type or attribute name. However, this occurs only if:</p>
+
+<ul>
+<li><p>One or both people use a URI that is not under their control,
+such as somebody outside Netscape using the URI
+http://www.netscape.com/, or</p></li>
+
+<li><p>Both people have control over a URI and both use it.</p></li>
+</ul>
+
+<p>The first case means somebody is cheating when assigning URIs (a
+process governed by trust) and the second case means that two people
+within an organization are not paying attention to each other's work.
+For widely published element type and attribute names, neither case is
+very likely. Thus, it is reasonable to assume that universal names are
+universally unique. (Since both cases are possible, applications that
+present security risks should be careful about assuming that universal
+names are universally unique.)</p>
+
+<p>For information about the ability of universal names to uniquely
+identify element types and attributes (as opposed to the names
+themselves being unique), see myth #2 in<!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=2#myth2">--> <a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth2">"Namespace Myths Exploded"</a>.</p>
+
+<h3>11) <a name="s11">SECTION 11</a>: XML NAMESPACE PREFIXES</h3>
+
+<h4><a name="q11_1">11.1)</a> What is an XML namespace prefix?</h4>
+
+<p>An XML namespace prefix is a prefix used to specify that a local
+element type or attribute name is in a particular XML namespace. For
+example, in the following, the serv prefix specifies that the Address
+element type name is in the http://www.tu-darmstadt.de/ito/addresses
+namespace:</p>
+
+<pre>  &lt;serv:Addresses xmlns:serv="http://www.tu-darmstadt.de/ito/addresses"&gt;
+</pre>
+
+<h4><a name="q11_2">11.2)</a> What characters are allowed in an XML namespace prefix?</h4>
+
+<p>The prefix can contain any character that is allowed in the <a href="http://www.w3.org/TR/REC-xml#NT-Name">Name [5]</a> production in XML 1.0 except a colon.</p>
+
+<h4><a name="q11_3">11.3)</a> Are prefixes significant?</h4>
+
+<p>No.</p>
+
+<p>For example, the following are equivalent:</p>
+
+<pre>  &lt;serv:Addresses xmlns:serv="http://www.tu-darmstadt.de/ito/addresses"&gt;
+</pre>
+
+<p>and</p>
+
+<pre>  &lt;foo:Addresses xmlns:foo="http://www.tu-darmstadt.de/ito/addresses"&gt;
+</pre>
+
+<p>However, prefixes provide a visual cue to readers. Because of this,
+software (especially editors) should consider preserving prefixes. For
+example, this is much easier to read:</p>
+
+<pre>  &lt;xsl:stylesheet version="1.0"
+                  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:html="http://www.w3.org/TR/xhtml1/strict"&gt;
+  &lt;xsl:template match="/"&gt;
+     &lt;html:html&gt;
+        &lt;html:head&gt;&lt;html:title&gt;Title&lt;/html:title&gt;&lt;/html:head&gt;
+        &lt;html:body&gt;
+           &lt;xsl:apply-templates/&gt;
+        &lt;/html:body&gt;
+  &lt;xsl:template&gt;
+  ...
+  &lt;/xsl:stylesheet&gt;
+</pre>
+
+<p>than this:</p>
+
+<pre>  &lt;aaa:stylesheet version="1.0"
+                  xmlns:aaa="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:bbb="http://www.w3.org/TR/xhtml1/strict"&gt;
+  &lt;aaa:template match="/"&gt;
+     &lt;bbb:html&gt;
+        &lt;bbb:head&gt;&lt;bbb:title&gt;Title&lt;/bbb:title&gt;&lt;/bbb:head&gt;
+        &lt;bbb:body&gt;
+           &lt;aaa:apply-templates/&gt;
+        &lt;/bbb:body&gt;
+  &lt;aaa:template&gt;
+  ...
+  &lt;/aaa:stylesheet&gt;
+</pre>
+
+<p>or (much worse yet) this:</p>
+
+<pre>  &lt;html:stylesheet version="1.0"
+                  xmlns:html="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:xsl="http://www.w3.org/TR/xhtml1/strict"&gt;
+  &lt;html:template match="/"&gt;
+     &lt;xsl:html&gt;
+        &lt;xsl:head&gt;&lt;xsl:title&gt;Title&lt;/xsl:title&gt;&lt;/xsl:head&gt;
+        &lt;xsl:body&gt;
+           &lt;html:apply-templates/&gt;
+        &lt;/xsl:body&gt;
+  &lt;html:template&gt;
+  ...
+  &lt;/html:stylesheet&gt;
+</pre>
+
+<p>In spite of this, people are likely to read significance into
+prefixes, so it is a good idea to use prefixes appropriate to their XML
+namespace, such as xslt for the XSLT namespace.</p>
+
+<p>Finally, although prefixes are not significant in element and
+attribute names, they may be significant when used elsewhere in an XML
+document, such as in a DTD (see <a href="#q7_6">question 7.6</a>) or
+an attribute value. Because such usage is common -- for example, XML
+Schemas uses qualified names in attribute values -- it is tempting to
+think that it is defined by the XML namespaces recommendation. This is
+not the case: the XML namespaces recommendation only defines the use of
+prefixes in element and attribute names. The use of prefixes elsewhere
+in an XML document is defined outside the XML namespaces recommendation
+and is entirely the responsibility of the defining application. For
+more information, see <a href="#q10_4">question 10.4</a>.</p>
+
+<h4><a name="q11_4">11.4)</a> Can I use the same prefix for more than one XML namespace?</h4>
+
+<p>Yes.</p>
+
+<p>For example, in the following, B is in the http://www.foo.org/ namespace and C is in the http://www.bar.org/ namespace:</p>
+
+<pre>  &lt;A&gt;
+     &lt;foo:B xmlns:foo="http://www.foo.org/"&gt;abc&lt;/foo:B&gt;
+     &lt;foo:C xmlns:foo="http://www.bar.org/"&gt;abc&lt;/foo:C&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>Remember, however, that the prefix in an XML namespace declaration
+overrides the same prefix if that prefix is declared on an ancestor.
+For example, in the following, C is in the http://www.bar.org/
+namespace, not the http://www.foo.org/ namespace:</p>
+
+<pre>  &lt;A&gt;
+     &lt;foo:B xmlns:foo="http://www.foo.org/"&gt;
+        &lt;foo:C xmlns:foo="http://www.bar.org/"&gt;abc&lt;/foo:C&gt;
+     &lt;/foo:B&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>In general, it is a good idea to use a prefix for only one XML
+namespace, as this reduces confusion when reading the document. In
+spite of this, there is a very real possibility that the same prefix
+will be used for multiple XML namespaces when combining fragments from
+different documents. For more information, see <a href="#q4_9">question 4.9</a>.</p>
+
+<h4><a name="q11_5">11.5)</a> Can I use more than one prefix for the same XML namespace?</h4>
+
+<p>Yes.</p>
+
+<p>For example, in the following, both B and C are in the http://www.foo.org/ namespace:</p>
+
+<pre>  &lt;A xmlns:foo="http://www.foo.org/"
+     xmlns:bar="http://www.foo.org/"&gt;
+     &lt;foo:B&gt;abc&lt;/foo:B&gt;
+     &lt;bar:C&gt;abc&lt;/bar:C&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>In general, it is a good idea to use only one prefix for an XML namespace, as this reduces confusion when reading the document.</p>
+
+<h4><a name="q11_6">11.6)</a> How are prefixes declared?</h4>
+
+<p>Prefixes are declared in an XML namespace declaration (xmlns attribute). For more information, see <a href="#q4_1">question 4.1</a>.</p>
+
+<h4><a name="q11_7">11.7)</a> Can I undeclare a prefix -- that is, dissociate a prefix from an XML namespace?</h4>
+
+<p>No.</p>
+
+<p>You can override a prefix (see <a href="#q4_5">question 4.5</a>) or the XML namespace declaration that declares the prefix can go out of scope (see <a href="#q6_4">question 6.4</a>), but you can't undeclare the prefix. (Note that you can undeclare the default XML namespace; for more information, see <a href="#q4_8">question 4.8</a>.)</p>
+
+<h4><a name="q11_8">11.8)</a> What happens if I use a prefix that is not declared?</h4>
+
+<p>This results in a namespace error. For example, the following document does not conform to the XML namespaces recommendation.</p>
+
+<pre>  &lt;?xml version="1.0" ?&gt;
+  &lt;foo:A /&gt;
+</pre>
+
+<p>However, the XML namespaces recommendation does not specify what a
+namespace-aware application does when it encounters a non-conformant
+document, so the behavior is application-dependent. For example, the
+application could stop processing, post an error to a log and continue
+processing, or ignore the error.</p>
+
+<h4><a name="q11_9">11.9)</a> What happens if there is no prefix on an element type name?</h4>
+
+<p>If a default XML namespace declaration is in scope, then the element
+type name is in the default XML namespace. Otherwise, the element type
+name is not in any XML namespace. For example, in the following, B and
+C are in the http://www.foo.org/ namespace and A is not in any XML
+namespace:</p>
+
+<pre>  &lt;A&gt;
+     &lt;B xmlns="http://www.foo.org/"&gt;
+        &lt;C&gt;abc&lt;/C&gt;
+     &lt;/B&gt;
+  &lt;/A&gt;
+</pre>
+
+<h4><a name="q11_10">11.10)</a> What happens if there is no prefix on an attribute name?</h4>
+
+<p>The attribute name is not in any XML namespace. That is, the default XML namespace <b>does not</b> apply to unprefixed attribute names.</p>
+
+<p>For more information, see myth #4 in <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html?page=2#myth4">--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm#myth4">"Namespace Myths Exploded"</a>.</p>
+
+<h3>12) <a name="s12">SECTION 12</a>: XML NAMESPACE NAMES (URIs)</h3>
+
+<h4><a name="q12_1">12.1)</a> What is an XML namespace URI?</h4>
+
+<p>Technically, the term <i>namespace URI</i> is never defined in the
+XML namespaces recommendation. In practice, this is the term commonly
+used to denote the URI used as an XML namespace name. That is, it is a
+synonym for the term <i>namespace name</i>. Because of the widespread use of this term, we tend to use the term "namespace name (URI)" in this FAQ.</p>
+
+<p>Note: Version 1.1 of the XML namespaces recommendation uses IRIs
+(Internationalized Resource Identifiers) instead of URIs. However,
+because version 1.1 is not yet a full recommendation [February, 2003]
+and because the <a href="http://www.w3.org/International/iri-edit/draft-duerst-iri-02.txt">IRI RFC</a> is not yet complete, this document continues to refer to URIs instead of IRIs.</p>
+
+<h4><a name="q12_2">12.2)</a> What is an XML namespace name?</h4>
+
+<p>An XML namespace name is a URI that uniquely identifies the
+namespace. URIs are used because they are widely understood and well
+documented. Because people may only allocate URIs under their control,
+it is easy to ensure that no two XML namespaces are identified by the
+same URI.</p>
+
+<h4><a name="q12_3">12.3)</a> What does the URI used as an XML namespace name point to?</h4>
+
+<p>The URI used as an XML namespace name is simply an identifier. It is
+not guaranteed to point to anything and, in general, it is a bad idea
+to assume that it does. This point causes a <i>lot</i> of confusion, so we'll repeat it here:</p>
+
+<p>&nbsp;&nbsp;&nbsp;<b>URIs USED AS XML NAMESPACE NAMES ARE JUST<br>
+&nbsp;&nbsp;&nbsp;IDENTIFIERS. THEY ARE NOT GUARANTEED TO POINT<br>
+&nbsp;&nbsp;&nbsp;TO ANYTHING.</b></p>
+
+<p>While this might be confusing when URLs are used as namespace names,
+it is obvious when other types of URIs are used as namespace names. For
+example, the following namespace declaration uses an <a href="http://www.ietf.org/rfc/rfc3187.txt?number=3187">ISBN URN</a>:</p>
+
+<pre>   xmlns:xbe="urn:ISBN:0-7897-2504-5"
+</pre>
+
+<p>and the following namespace declaration uses a <a href="http://www.ietf.org/internet-drafts/draft-mealling-uuid-urn-03.txt">UUID URN</a>:</p>
+
+<pre>   xmlns:foo="urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
+</pre>
+
+<p>Clearly, neither namespace name points to anything on the Web.</p>
+
+<p><b>NOTE:</b> Namespace URIs that are URLs may point to RDDL
+documents, although this does not appear to be widely implemented. For
+details, see the next question.</p>
+
+<p><b>NOTE:</b> An early version of the W3C's XML Schemas used
+namespace URIs to point to an XML Schema document containing the
+definitions of the element types and attributes named in the namespace.
+However, this proved very controversial and the idea has been withdrawn.</p>
+
+<h4><a name="q12_4">12.4)</a> Can I resolve the URI used as an XML namespace name?</h4>
+
+<p>Yes.</p>
+
+<p>You can also eat a tractor, but that doesn't mean it's a good idea.
+The URIs used as XML namespace names are not guaranteed to point to
+anything, so there is generally no reason to resolve them. Furthermore,
+there is nothing in the processing of XML namespaces that requires you
+to resolve these URIs. Finally, as was noted in the previous question,
+many types of namespace URIs are unresolvable on the Web.</p>
+
+<p>That said, some people have advocated placing RDDL (Resource
+Directory Description Language, pronounced "riddle") documents at the
+locations pointed to by namespace URIs. A RDDL document "provides a
+text description of some class of resources and of individual resources
+related to that class", including such things as a human-readable
+description of what the namespace describes and links to resources such
+as schemas (in a variety of languages), stylesheets, and code. RDDL
+documents apparently are being used, although it is not clear how
+widely.</p>
+
+<p>For more information about RDDL and the ideas behind it, see:</p>
+
+<ul>
+<li><p><a href="http://www.rddl.org/">Resource Directory Description Language</a></p></li>
+<li><p><a href="http://xml.oreilly.com/news/xmlnut2_0201.html">RDDL Me This: What Does a Namespace URL Locate?</a></p></li>
+<li><p><a href="http://www.textuality.com/tag/Issue8.html">Architectural Theses on Namespaces and Namespace Documents</a></p></li>
+</ul>
+
+<h4><a name="q12_5">12.5)</a> Can I use a relative URI as a namespace name?</h4>
+
+<p>Yes. However, such usage is deprecated, so you should <b>never</b> do it.</p>
+
+<p>The original XML namespaces recommendation does not explicitly
+disallow the use of relative URIs as namespace names. Instead, it
+states that two namespace names are identical if their URIs match
+character for character. It then notes that non-identical URIs might be
+functionally equivalent, such as when they differ only in case.
+Combined with the URI specification (RFC2396), which states that
+relative URIs take on the base URI of their containing document, this
+provided a loophole with which to use relative URIs.</p>
+
+<p>When this was discovered more than a year after the recommendation
+was released it proved hugely controversial. For example, some people
+wanted to use relative URIs as namespace names so that elements and
+attributes would have different XML namespace names (URIs) depending on
+what document they were in. The objection to this was that it would
+undermine the purpose of XML namespaces. That is, XML namespaces would
+no longer provide universally unique names.</p>
+
+<p>After more than two months of discussion, it was decided that
+relative URIs are not expanded when used as namespace names and that
+their use was deprecated. That is, suppose that the following document
+has a URI of "http://www.foo.org/xml/relativeExample.xml".</p>
+
+<pre>  &lt;A xmlns:foo="../relativeURI"&gt;
+     &lt;foo:B&gt;abc&lt;/foo:B&gt;
+     &lt;bar:C&gt;abc&lt;/bar:C&gt;
+  &lt;/A&gt;
+</pre>
+
+<p>Although the <i>URI</i> "../relativeURI" does expand to the URI "http://www.foo.org/relativeURI", the <i>name</i> of the XML namespace associated with the foo prefix is "../relativeURI", not the expanded URI.</p>
+
+<p>It was also decided that:</p>
+
+<ul>
+<li><p>The infoset recommendation does not define an infoset for documents that use relative URIs as XML namespace names.</p></li>
+<li><p>The value of the namespaceURI attribute of the Node interface in the DOM is undefined if the URI is relative.</p></li>
+<li><p>The return value of the namespace-uri() function in XPath is undefined if the URI is relative.</p></li>
+<li><p>All new W3C recommendations should include a statement saying
+that they do not apply to XML documents that use relative URIs as XML
+namespace names.</p></li>
+</ul>
+
+<p>For the archives of the mailing list discussing the use of relative URIs as namespace names, see <a href="http://lists.w3.org/Archives/Public/xml-uri/">http://lists.w3.org/Archives/Public/xml-uri/</a>. For the results of the W3C XML Plenary Ballot on the use of relative URIs in XML namespace names, see <a href="http://www.w3.org/2000/09/xppa">http://www.w3.org/2000/09/xppa</a>.</p>
+
+<h2><a name="p4">PART IV</a>: MISCELLANEOUS</h2>
+
+<h3>13) <a name="s13">SECTION 13</a>: POLITICS AND REVOLUTIONS</h3>
+
+<h4><a name="q13_1">13.1)</a> Why are XML namespaces so hard to understand and use?</h4>
+
+<p>Actually, they aren't. When trying to understand XML namespaces, all you need to do is remember one thing:</p>
+
+<ul>
+<li>XML namespaces provide a two-part naming system for element types and attributes.</li>
+</ul>
+
+<p>That's it. They don't do anything else and what little complexity
+there is comes from the flexibility of declaration and scoping rules.
+You can minimize this complexity by doing the following:</p>
+
+<ul>
+<li>Declare all XML namespaces on the root element.</li>
+<li>Use one prefix per XML namespace.</li>
+</ul>
+
+<p>Processing XML namespaces isn't that hard either. In a SAX 1.0
+application, you can use John Cowan's Namespace SAX Filter to return
+universal names; SAX 2.0 does this for you. In a DOM level 1
+application, you can usually ask the DOM implementation for namespace
+information; DOM level 2 always provides this information. If you do
+your own processing, all you need to remember is to keep the
+prefix-to-URI mappings as part of your state, scan the attributes for
+xmlns attributes before doing anything else, and scan element type and
+attribute names for prefixes.</p>
+
+<h4><a name="q13_2">13.2)</a> Are there any alternatives to XML namespaces?</h4>
+
+<p>Yes. You could resolve name clashes by simply renaming the offending
+element types or attributes and then, during processing, using
+architectural forms to transform them to names that are recognizeable
+by different modules in the application. Although you may have to
+rename some element types or attributes, you won't have to change your
+application modules. A discussion of architectural forms is beyond the
+scope of this paper. For more information, see <a href="http://www.oasis-open.org/cover/topics.html#archForms">Architectural Forms and SGML/XML Architectures</a> on Robin Cover's XML Cover Pages.</p>
+
+<p>As to the actual syntax used by XML namespaces, the idea of
+declaring XML namespace prefixes in a processing instruction at the
+start of an XML document is occasionally raised. Processing
+instructions were used in an early draft of the XML namespaces
+specification and have the advantage of simplicity (see <a href="#q4_9">question 4.9</a>).
+They were later replaced with the more flexible xmlns attributes.
+Although you might be tempted to strike out on your own and use
+processing instructions or some other strategy, this is probably a bad
+idea, although not necessarily for technical reasons. The real problem
+is that XML namespaces are already widely used and supported, so any
+XML documents you produce will be non-standard and non-portable.</p>
+
+<h4><a name="q13_3">13.3)</a> How controversial are XML namespaces?</h4>
+
+<p>The need for XML namespaces and the basic idea that a two-part
+naming system (or something similar) is needed is not controversial.
+However, the design of XML namespaces -- that is, the way XML
+namespaces are declared and used in an XML document, as well the
+confusion discussed in<!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html">--> <a href="http://www.rpbourret.com/xml/NamespaceMyths.htm">"Namespace Myths Exploded"</a>
+-- has, at times, been very controversial. (If you want to see just how
+controversial, go to the archives of the XML-DEV mailing list and
+search on the word "namespace".) Although XML namespaces still have
+some very vocal detractors, most people have accepted and are using
+them. Furthermore, most new XML tools and technologies use them, a
+state of affairs that is only likely to increase.</p>
+
+<h3>14) <a name="s14">SECTION 14</a>: XML NAMESPACE RESOURCES</h3>
+
+<h4><a name="q14_1">14.1)</a> What resources are available for learning about XML namespaces?</h4>
+
+<p>Recommendations and other official stuff:</p>
+
+<ul>
+<li><p>Namespaces in XML (W3C Recommendation): <a href="http://www.w3.org/TR/REC-xml-names">http://www.w3.org/TR/REC-xml-names</a></p></li>
+
+<li><p>Namespaces in XML 1.1 (W3C Candidate Recommendation): <a href="http://www.w3.org/TR/xml-names11/">http://www.w3.org/TR/xml-names11/</a></p></li>
+
+<li><p>Namespaces in XML (auf Deutsch): <a href="http://www.schumacher-netz.de/TR/1999/REC-xml-names-19990114-de.html">http://www.schumacher-netz.de/TR/1999/REC-xml-names-19990114-de.html</a></p></li>
+
+<li><p>Results of W3C XML Plenary Ballot on Relative URI References in Namespace Declarations: <a href="http://www.w3.org/2000/09/xppa">http://www.w3.org/2000/09/xppa</a></p></li>
+
+</ul>
+
+<p>Articles about XML namespaces:</p>
+
+<ul>
+
+<li><p>Namespace Myths Exploded, by Ronald Bourret: <!--<a href="http://www.xml.com/pub/a/2000/03/08/namespaces/index.html">http://www.xml.com/pub/a/2000/03/08/namespaces/index.html</a>--><a href="http://www.rpbourret.com/xml/NamespaceMyths.htm">http://www.rpbourret.com/xml/NamespaceMyths.htm</a></p></li>
+
+<li><p>XML Namespaces by Example, by Tim Bray: <a href="http://www.xml.com/pub/1999/01/namespaces.html">http://www.xml.com/pub/1999/01/namespaces.html</a></p></li>
+
+<li><p>XML Namespaces, by James Clark: <a href="http://www.jclark.com/xml/xmlns.htm">http://www.jclark.com/xml/xmlns.htm</a></p></li>
+
+<li><p>Plan to use XML Namespaces, Parts 1 and 2, by David Marston: <a href="http://www-106.ibm.com/developerworks/xml/library/x-nmspace.html">http://www-106.ibm.com/developerworks/xml/library/x-nmspace.html</a><br>
+<a href="http://www-106.ibm.com/developerworks/library/x-nmspace2.html">http://www-106.ibm.com/developerworks/library/x-nmspace2.html</a></p></li>
+
+<li><p>19 Short Questions about Namespaces (with Answers), by David Megginson: <a href="http://www.megginson.com/docs/namespaces/namespace-questions.html">http://www.megginson.com/docs/namespaces/namespace-questions.html</a></p></li>
+
+<li><p>Namespace Nuances, by John E. Simpson: <a href="http://www.xml.com/pub/a/2001/07/05/namespaces.html">http://www.xml.com/pub/a/2001/07/05/namespaces.html</a></p></li>
+
+<li><p>Computers : Data Formats : Markup Languages : XML : Namespaces, by the Open Directory Project: <a href="http://dir.google.com/Top/Computers/Data_Formats/Markup_Languages/XML/Namespaces/">http://dir.google.com/Top/Computers/Data_Formats/Markup_Languages/XML/Namespaces/</a><br>A list of articles (including some of those above) about XML namespaces.</p></li>
+
+</ul>
+
+<p>More links are welcome.</p>
+
+<h4><a name="q14_2">14.2)</a> What utilities are available for working with XML namespaces?</h4>
+
+<p>Virtually all commercial XML software now supports XML namespaces.</p>
+
+<p>The following are dedicated utilities for working with XML namespaces:</p>
+
+<ul>
+<li><p><a href="http://www.mathematics21.org/misc/xmlclean/">XML Cleaner</a> is a "command line utility to filter and validate XML files" that also removes superfluous namespace declarations.</p></li>
+
+</ul>
+
+<h3>15) <a name="s15">SECTION 15</a>: COMMENTS, COMPLAINTS, AND SUGGESTIONS</h3>
+
+<p>If you have comments, complaints, or suggestions for new questions, you can mail them to me (Ronald Bourret) at:
+<br><br>
+&nbsp;&nbsp;&nbsp;rpbourret@rpbourret.com<br></p>
+
+<p>Thanks to Juergen Auer, Adrian Boyko, Tim Bray, Derek Denny-Brown,
+Bob DuCharme, Sam Hunting, Madhav Lakkapragada, Andrew Layman, Gustaf
+Liljegren, Christopher Lott, Marc McDonald, Anders Møller, Jim Palmer,
+Ganesan Radhakrishnan, Arjun Ray, Aron Roberts, Wayne Steele, and
+Richard Tobin for their input.</p>
+
+</body>
+</html>

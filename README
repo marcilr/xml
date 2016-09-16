@@ -1,0 +1,26 @@
+README
+Created Fri Aug 28 11:18:30 AKDT 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+NamespacesFAQ.html
+  XML Namespaces FAQ, Maintained by Ronald Bourret.
+  http://www.rpbourret.com/xml/NamespacesFAQ.htm
+
+XMLDataBinding.html
+  XML Data Binding Resources page recommended by Jason G.
+  XML Namespaces FAQ, Maintained by Ronald Bourret.
+  http://www.rpbourret.com/xml/NamespacesFAQ.htm
+
+XML_Data_Binding_Research.eml
+  Email form Jason G. recommending XML Data Binding page:
+
+  I found this paper on the web by a guy who has summarized XML
+  serialization and data binding, different approaches, pros and cons,
+  etc. very succinctly. He then follows up with links to various open and
+  closed tools/libs/products that can help get the job done.
+
+  It's available at:
+  http://www.rpbourret.com/xml/XMLDataBinding.htm

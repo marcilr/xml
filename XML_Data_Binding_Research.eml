@@ -1,0 +1,38 @@
+Return-path: <jason_guild@dnr.state.ak.us>
+Received: from [204.89.222.71] (localhost [127.0.0.1])
+ by ancmail1.state.ak.us (iPlanet Messaging Server 5.2 HotFix 2.04 (built Feb
+ 8 2005)) with ESMTP id <0IK700AYUM6VA2@ancmail1.state.ak.us> for
+ raymond_marcil@dnr.state.ak.us; Mon, 25 Jul 2005 16:47:19 -0800 (AKDT)
+Date: Mon, 25 Jul 2005 16:47:18 -0800
+From: "Jason A. Guild" <jason_guild@dnr.state.ak.us>
+Subject: XML Data Binding Research
+To: raymond_marcil <raymond_marcil@dnr.state.ak.us>
+Message-id: <42E58816.6080901@dnr.state.ak.us>
+MIME-version: 1.0
+Content-type: text/plain; format=flowed; charset=us-ascii
+Content-transfer-encoding: 7bit
+X-Accept-Language: en-us, en
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.7) Gecko/20050414
+Original-recipient: rfc822;raymond_marcil@dnr.state.ak.us
+
+Ray:
+
+I found this paper on the web by a guy who has summarized XML 
+serialization and data binding, different approaches, pros and cons, 
+etc. very succinctly. He then follows up with links to various open and 
+closed tools/libs/products that can help get the job done.
+
+It's available at:
+http://www.rpbourret.com/xml/XMLDataBinding.htm
+
+-- 
+
+Jason A. Guild
+Analyst / Programmer IV
+State of Alaska Dept. Of Natural Resources
+Division of Support Services
+Land Records Information Section
+550 W. 7th Ave. Suite 706
+Anchorage, AK 99501
+(907) 269-8695
+jason_guild@dnr.state.ak.us
