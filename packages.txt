@@ -1,0 +1,18 @@
+packages.txt
+Created Tue May  7 09:45:25 AKDT 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+XML packages
+
+galax-doc - XQuery implementation with static typing - documentation
+galax-extra - XQuery implementation with static typing - utilities
+galax - XQuery implementation with static typing - command line front-ends
+galaxd - XQuery implementation with static typing - network servers
+xml2 - Convert between XML, HTML, CSV and a line-oriented format
+xmlstarlet - command line XML toolkit
+xmlto - XML-to-any converter
+        xmlto - apply an XSL stylesheet to an XML document
+xmltoman - simple XML to man converter
+xqilla - XQuery and XPath 2.0 command line interpreter
+

@@ -1,0 +1,46 @@
+README
+Created Wed Jul 27 13:36:08 AKDT 2005
+by Raymond E. Marcil
+
+
+Libraries:
+=========
+libnxml 0.11 (from freshmeat)
+  nXML is a C library for parsing, writing, and creating
+  XML 1.0 and 1.1 files or streams. It supports UTF-8,
+  UTF-16be and UTF-16le, UCS-4 (1234, 4321, 2143, 2312).
+
+  This release updates the nxml.pc file for a major
+  compatibility issue with pkg-config.
+
+website:  http://www.ippolita.net/cgi-bin/cvsweb/
+download: http://autistici.org/bakunin/libnxml/libnxml-0.11.tar.gz
+
+
+Filelist
+========
+xml/XMLDataBinding.html
+  XML Data Binding Resources
+  by Ronald Bourret
+  Summarized XML serialization and data binding,
+  different approaches, pros and cons, etc. very
+  succinctly. Another link from Jason G.
+  http://www.rpbourret.com/xml/XMLDataBinding.htm
+
+xml/NamespacesFAQ.html
+  XML Namespaces FAQ
+  Maintained by Ronald Bourret
+  http://www.rpbourret.com/xml/NamespacesFAQ.htm
+
+
+Links
+=====
+XML
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/XML
+
+Thinking XML: The XML decade
+Thoughts on IBM Systems Journal's retrospective
+of XML at ten years (or so)
+http://www-128.ibm.com/developerworks/library/\
+  x-think38.html?ca=dgr-lnxw01XMLDecade
