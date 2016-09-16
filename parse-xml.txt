@@ -1,0 +1,22 @@
+parse-xml.txt
+Created Tue Oct 29 13:31:38 AKDT 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Packages
+========
+xmlstarlet - command line XML toolkit
+
+
+Links
+=====
+How to parse XML in Bash?
+http://stackoverflow.com/questions/893585/how-to-parse-xml-in-bash
+
+XMLStarlet
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/XMLStarlet
+
+XMLStarlet Command Line XML Toolkit
+http://xmlstar.sourceforge.net/
+

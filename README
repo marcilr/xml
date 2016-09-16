@@ -1,0 +1,22 @@
+README
+Created Fri Aug 28 11:04:42 AKDT 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+links.txt
+  Syntax related links
+
+parse-xml.txt
+  Parse xml with xmlstarlet
+
+syntax.txt
+  Syntax
+
+xml-schema.txt
+  XML Schema info
+
+xmlstarlet.txt
+  xmlstarlet - command line XML toolkit
+

@@ -1,0 +1,56 @@
+xmlstarlet.txt
+Created Mon Apr  3 11:14:49 AKDT 2006
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+xmlstarlet - command line XML toolkit
+
+
+The toolkit I like for to query/edit/check/transform XML documents is XMLStarlet.
+
+XMLStarlet Toolkit: Transform XML document(s) using XSLT
+Usage: xml tr [<options>] <xsl-file> {-p|-s <name>=<value>} [<xml-file>...]
+
+
+XMLStarlet is a set of command line utilities (tools) which can be used to transform, query,
+validate, and edit XML documents and files using simple set of shell commands in similar way it is
+done for plain text files using UNIX grep, sed, awk, diff, patch, join, etc commands.
+
+This set of command line utilities can be used by those who deal with many XML documents on UNIX
+shell command prompt as well as for automated XML processing with shell scripts.
+
+The toolkit's feature set includes options to:
+
+o Check or validate XML files (simple well-formedness check, DTD, XSD, RelaxNG)
+o Calculate values of XPath expressions on XML files (such as running sums, etc)
+o Search XML files for matches to given XPath expressions
+o Apply XSLT stylesheets to XML documents (including EXSLT support, and passing parameters to
+  stylesheets)
+o Query XML documents (ex. query for value of some elements of attributes, sorting, etc)
+o Modify or edit XML documents (ex. delete some elements)
+o Format or "beautify" XML documents (as changing indentation, etc)
+o Fetch XML documents using http:// or ftp:// URLs
+o Browse tree structure of XML documents (in similar way to 'ls' command for directories)
+o Include one XML document into another using XInclude
+o XML c14n canonicalization
+o Escape/unescape special XML characters in input text
+o Print directory as XML document
+o Convert XML into PYX format (based on ESIS - ISO 8879), and vice versa
+
+debian.org/
+
+
+Links
+=====
+Package: xmlstarlet (1.0.2-1) command line XML toolkit
+http://packages.debian.org/squeeze/xmlstarlet
+
+XMLStarlet
+http://xmlstar.sourceforge.net/
+
+XMLStarlet Command Line XML Toolkit Overview
+http://xmlstar.sourceforge.net/overview.php
+
+XMLStarlet User's Guide
+http://xmlstar.sourceforge.net/doc/xmlstarlet.txt
+

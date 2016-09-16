@@ -1,0 +1,38 @@
+xml-schema.txt
+Created Sun Aug 21 13:36:22 AKDT 2011
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+XML Schema
+==========
+* defines elements that can appear in a document
+* defines attributes that can appear in a document
+* defines which elements are child elements
+* defines the order of child elements
+* defines the number of child elements
+* defines whether an element is empty or can include text
+* defines data types for elements and attributes
+* defines default and fixed values for elements and attributes
+
+
+XML Schemas are the Successors of DTDs
+======================================
+We think that very soon XML Schemas will be used in most Web
+applications as a replacement for DTDs. Here are some reasons:
+* XML Schemas are extensible to future additions
+* XML Schemas are richer and more useful than DTDs
+* XML Schemas are written in XML
+* XML Schemas support data types
+
+
+w3schools.com/
+
+
+Links
+=====
+XML Schema Tutorial
+XML Schema is an XML based alternative to DTD.
+In our Schema tutorial, you will learn what an XML Schema is, how
+XML Schema will replace DTD, and how to use the XML Schema language
+in your applications. 
+http://www.w3schools.com/schema/default.asp
