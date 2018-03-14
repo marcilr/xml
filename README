@@ -19,6 +19,14 @@ download: http://autistici.org/bakunin/libnxml/libnxml-0.11.tar.gz
 
 Filelist
 ========
+xml.txt
+  Extensible Markup Language (XML) is a markup language that defines a set of
+  rules for encoding documents in a format that is both human-readable and
+  machine-readable.  It is defined in the XML 1.0 Specification[2] produced by
+  the W3C, and several other related specifications,[3] all free open
+  standards.[4]
+  https://en.wikipedia.org/wiki/XML
+
 xml/XMLDataBinding.html
   XML Data Binding Resources
   by Ronald Bourret
