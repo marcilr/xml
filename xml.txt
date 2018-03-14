@@ -1,0 +1,31 @@
+xml.txt
+Created Wed Mar 14 09:13:54 AKDT 2018
+Copyright (C) 2018 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Extensible Markup Language (XML) is a markup language that defines a set of
+rules for encoding documents in a format that is both human-readable and
+machine-readable.  It is defined in the XML 1.0 Specification[2] produced by
+the W3C, and several other related specifications,[3] all free open
+standards.[4]
+
+
+
+Links
+=====
+[1] "XML Media Types, RFC 7303". Internet Engineering Task Force. July 2014.
+     http://www.rfc-editor.org/rfc/rfc7303.txt
+
+[2] "XML 1.0 Specification". World Wide Web Consortium. Retrieved 2010-08-22.
+     http://www.w3.org/TR/REC-xml
+
+[3] "XML and Semantic Web W3C Standards Timeline" (PDF). 2012-02-04.
+     http://www.dblab.ntua.gr/~bikakis/XML%20and%20Semantic%20Web%\
+     20W3C%20Standards%20Timeline-History.pdf
+
+[4] "W3C DOCUMENT LICENSE"
+    http://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231
+
+XML
+From Wikipedia, the free encyclopedia
+https://en.wikipedia.org/wiki/XML  
