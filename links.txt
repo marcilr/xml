@@ -1,0 +1,14 @@
+links.txt
+Created Thu Feb 14 11:23:11 AKST 2019
+Copyright (C) 2019 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+xml related links
+
+
+Links
+=====
+XML Validator
+Code Beautify
+Fine xml beautifier
+https://codebeautify.org/xmlvalidator
